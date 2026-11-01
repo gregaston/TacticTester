@@ -1,30 +1,40 @@
-import type { HeatBlob } from "../tactics/heat";
-import { PITCH_VIEW, toView } from "./view";
+import { useMemo } from "react";
+import { HEAT_COLS, HEAT_ROWS, heatColor } from "../tactics/heat";
+import { PITCH_VIEW } from "./view";
 
-export function Heatmap({ blobs }: { blobs: HeatBlob[] }) {
+export function Heatmap({ field }: { field: Float32Array }) {
+  const href = useMemo(() => paint(field), [field]);
+  if (!href) return null;
   return (
-    <g className="heat" aria-hidden="true">
-      <defs>
-        <radialGradient id="pitch-heat" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#ffe7a3" stopOpacity="1" />
-          <stop offset="42%" stopColor="#f2b436" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#e39b2b" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      {blobs.map((blob, index) => {
-        const { x, y } = toView(blob);
-        const radius = (blob.r / 100) * PITCH_VIEW.width;
-        return (
-          <circle
-            key={`${index}-${blob.x.toFixed(2)}-${blob.y.toFixed(2)}`}
-            cx={x}
-            cy={y}
-            r={radius}
-            fill="url(#pitch-heat)"
-            opacity={blob.opacity}
-          />
-        );
-      })}
-    </g>
+    <image
+      className="heat"
+      href={href}
+      x="0"
+      y="0"
+      width={PITCH_VIEW.width}
+      height={PITCH_VIEW.height}
+      preserveAspectRatio="none"
+    />
   );
+}
+
+function paint(field: Float32Array): string {
+  if (typeof document === "undefined") return "";
+  const canvas = document.createElement("canvas");
+  canvas.width = HEAT_COLS;
+  canvas.height = HEAT_ROWS;
+  const context = canvas.getContext("2d");
+  if (!context) return "";
+  const image = context.createImageData(HEAT_COLS, HEAT_ROWS);
+  const pixels = image.data;
+  for (let i = 0; i < field.length; i += 1) {
+    const color = heatColor(field[i]);
+    const offset = i * 4;
+    pixels[offset] = color.r;
+    pixels[offset + 1] = color.g;
+    pixels[offset + 2] = color.b;
+    pixels[offset + 3] = color.a;
+  }
+  context.putImageData(image, 0, 0);
+  return canvas.toDataURL();
 }

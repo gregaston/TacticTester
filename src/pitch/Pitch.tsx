@@ -1,5 +1,4 @@
 import { useEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
-import type { HeatBlob } from "../tactics/heat";
 import type { PlayerLabel, SquadLabels } from "../tactics/positions";
 import type { Duty } from "../tactics/roles";
 import type { PitchPoint, Player } from "../tactics/types";
@@ -21,7 +20,7 @@ type PitchProps = {
   players: Player[];
   labels: SquadLabels;
   faces: Record<string, TokenFace>;
-  heat: HeatBlob[];
+  heat: Float32Array;
   engagementY: number;
   defensiveY: number;
   selectedId: string | null;
@@ -106,9 +105,9 @@ export function Pitch({
 
   return (
     <div className="pitch" ref={surface}>
-      <svg viewBox="0 0 68 105" role="img" aria-label="Tactics pitch. The shade shows where players arrive.">
+      <svg viewBox="0 0 68 105" role="img" aria-label="Tactics pitch. The shade shows where players spend the match.">
         <Grass />
-        <Heatmap blobs={heat} />
+        <Heatmap field={heat} />
         <Markings />
         <BlockGuides engagementY={engagementY} defensiveY={defensiveY} />
         {players.map((player) => {

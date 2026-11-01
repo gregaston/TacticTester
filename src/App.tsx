@@ -28,7 +28,7 @@ import {
 } from "./tactics/instructions";
 import { labelSquad } from "./tactics/positions";
 import { arrivalNote } from "./tactics/arrival";
-import { heatBlobs, heatSpread, influencedPoint } from "./tactics/heat";
+import { heatField, influencedPoint } from "./tactics/heat";
 import { decodeTactic, encodeTactic, loadTactic, saveTactic, type SavedTactic } from "./tactics/persist";
 import { effectFor, roleMark, roleName, rolesFor, type Duty, type RoleId } from "./tactics/roles";
 import { TEMPLATES } from "./tactics/templates";
@@ -168,9 +168,9 @@ export function App() {
     const line = placed.byId[player.id]?.line;
     return line ? { ...player, ...shiftedPoint(player, line, defensiveY, engagementY) } : player;
   });
-  const spread = heatSpread(instructions);
   const faces: Record<string, TokenFace> = {};
-  const heat = visualPlayers.flatMap((player) => {
+  const heatPlayers = [];
+  for (const player of visualPlayers) {
     const label = labels.byId[player.id];
     const choice = resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]);
     faces[player.id] = {
@@ -178,11 +178,16 @@ export function App() {
       roleName: roleName(choice.roleId),
       duty: choice.duty,
     };
-    if (board.selectedId && player.id !== board.selectedId) return [];
-    const effect = effectFor(choice.roleId, dutyNudge(choice.duty, instructions.mentality));
-    const arrival = influencedPoint(player, label.line, effect, instructions);
-    return heatBlobs(player, arrival, spread, player.id === board.selectedId);
-  });
+    if (board.selectedId && player.id !== board.selectedId) continue;
+    heatPlayers.push({
+      x: player.x,
+      y: player.y,
+      line: label.line,
+      roleId: choice.roleId,
+      duty: dutyNudge(choice.duty, instructions.mentality),
+    });
+  }
+  const heat = heatField(heatPlayers, instructions, { defensiveY, engagementY });
   const summary = shapeSummary(featuresFromPlayers(storedDisplay));
   const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
   const profilePlayers = playersFromBoard(board.players, placed, setups).map((player) => ({
@@ -419,7 +424,7 @@ export function App() {
         <InfoBanner>
           Drag players to change position. Select players to change role. Tap a selected player again to clear
           them. The lines beside the pitch set engagement and the defensive line, and the shade shows where
-          players arrive.
+          players spend the match.
         </InfoBanner>
         {selected && roleId ? (
           <RoleSheet
