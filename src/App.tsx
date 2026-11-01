@@ -4,13 +4,26 @@ import { formatSeason, shapeSummary } from "./compare/format";
 import { rankSides } from "./compare/nearest";
 import { loadShapeLibrary } from "./data/shape-library";
 import { loadStyleLibrary } from "./data/style-library";
+import { LineSlider } from "./pitch/LineSlider";
 import { Pitch, type TokenFace } from "./pitch/Pitch";
+import {
+  DEFENSIVE_STOPS,
+  ENGAGEMENT_STOPS,
+  defensiveAnchor,
+  engagementAnchor,
+  nearestDefensive,
+  nearestEngagement,
+  shiftedPoint,
+  unshiftedPoint,
+} from "./tactics/block";
 import { chooseTemplate, createBoard, movePlayer, selectPlayer, type BoardState } from "./tactics/board";
 import {
   DEFAULT_INSTRUCTIONS,
   dutyNudge,
   instructionNotes,
   readInstructions,
+  type Engagement,
+  type LineHeight,
   type TeamInstructions,
 } from "./tactics/instructions";
 import { labelSquad } from "./tactics/positions";
@@ -55,16 +68,6 @@ const WIDTH: InstructionChoice<TeamInstructions["width"]>[] = [
   { value: "narrower", label: "Narrower" },
   { value: "standard", label: "Standard" },
   { value: "wider", label: "Wider" },
-];
-const LINE: InstructionChoice<TeamInstructions["defensiveLine"]>[] = [
-  { value: "deeper", label: "Deeper" },
-  { value: "standard", label: "Standard" },
-  { value: "higher", label: "Higher" },
-];
-const ENGAGEMENT: InstructionChoice<TeamInstructions["engagement"]>[] = [
-  { value: "lower", label: "Lower" },
-  { value: "standard", label: "Standard" },
-  { value: "higher", label: "Higher" },
 ];
 const PRESSING: InstructionChoice<TeamInstructions["pressing"]>[] = [
   { value: "less", label: "Less" },
@@ -123,6 +126,7 @@ export function App() {
   const [opening] = useState(openingFromLocation);
   const [board, setBoard] = useState(() => opening?.board ?? createBoard());
   const [preview, setPreview] = useState<Player | null>(null);
+  const [lineLive, setLineLive] = useState<{ kind: "engagement" | "defensive"; y: number } | null>(null);
   const [setups, setSetups] = useState<Record<string, PlayerSetup>>(() => opening?.setups ?? {});
   const [instructions, setInstructions] = useState<TeamInstructions>(
     () => opening?.instructions ?? DEFAULT_INSTRUCTIONS,
@@ -135,14 +139,38 @@ export function App() {
   const styleWatch = useRef<{ nearestId: string | null; setupsKey: string } | null>(null);
   const [pinnedId] = useState(() => new URLSearchParams(window.location.search).get("side"));
 
-  const display = preview
-    ? board.players.map((player) => (player.id === preview.id ? preview : player))
+  const defensiveY =
+    lineLive?.kind === "defensive" ? lineLive.y : defensiveAnchor(instructions.defensiveLine);
+  const engagementY =
+    lineLive?.kind === "engagement" ? lineLive.y : engagementAnchor(instructions.engagement);
+  const engagementStop =
+    ENGAGEMENT_STOPS.find(
+      (stop) =>
+        stop.value ===
+        (lineLive?.kind === "engagement" ? nearestEngagement(lineLive.y) : instructions.engagement),
+    ) ?? ENGAGEMENT_STOPS[1];
+  const defensiveStop =
+    DEFENSIVE_STOPS.find(
+      (stop) =>
+        stop.value ===
+        (lineLive?.kind === "defensive" ? nearestDefensive(lineLive.y) : instructions.defensiveLine),
+    ) ?? DEFENSIVE_STOPS[1];
+  const previewStored = preview
+    ? { id: preview.id, ...unshiftedPoint(preview, defensiveY, engagementY) }
+    : null;
+  const storedDisplay = previewStored
+    ? board.players.map((player) => (player.id === previewStored.id ? previewStored : player))
     : board.players;
-  const labels = labelSquad(display);
+  const labels = labelSquad(storedDisplay);
   const placed = labelSquad(board.players);
+  const visualPlayers = board.players.map((player) => {
+    if (preview && player.id === preview.id) return preview;
+    const line = placed.byId[player.id]?.line;
+    return line ? { ...player, ...shiftedPoint(player, line, defensiveY, engagementY) } : player;
+  });
   const spread = heatSpread(instructions);
   const faces: Record<string, TokenFace> = {};
-  const heat = display.flatMap((player) => {
+  const heat = visualPlayers.flatMap((player) => {
     const label = labels.byId[player.id];
     const choice = resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]);
     faces[player.id] = {
@@ -155,7 +183,7 @@ export function App() {
     const arrival = influencedPoint(player, label.line, effect, instructions);
     return heatBlobs(player, arrival, spread, player.id === board.selectedId);
   });
-  const summary = shapeSummary(featuresFromPlayers(display));
+  const summary = shapeSummary(featuresFromPlayers(storedDisplay));
   const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
   const profilePlayers = playersFromBoard(board.players, placed, setups).map((player) => ({
     ...player,
@@ -198,7 +226,37 @@ export function App() {
 
   function commit(id: string, point: PitchPoint) {
     setPreview(null);
-    setBoard((state) => movePlayer(state, id, point));
+    setBoard((state) => {
+      const current = state.players.find((player) => player.id === id);
+      const line = current ? labelSquad(state.players).byId[id]?.line : undefined;
+      if (current && line) {
+        const displayed = shiftedPoint(current, line, defensiveY, engagementY);
+        if (Math.hypot(point.x - displayed.x, point.y - displayed.y) < 1.5) return state;
+      }
+      return movePlayer(state, id, unshiftedPoint(point, defensiveY, engagementY));
+    });
+  }
+
+  function liveLine(kind: "engagement" | "defensive", y: number) {
+    setLineLive({ kind, y });
+  }
+
+  function commitLine(kind: "engagement" | "defensive", y: number) {
+    setLineLive(null);
+    setInstructions((current) =>
+      kind === "defensive"
+        ? { ...current, defensiveLine: nearestDefensive(y) }
+        : { ...current, engagement: nearestEngagement(y) },
+    );
+  }
+
+  function selectLine(kind: "engagement" | "defensive", value: Engagement | LineHeight) {
+    setLineLive(null);
+    setInstructions((current) =>
+      kind === "defensive"
+        ? { ...current, defensiveLine: value as LineHeight }
+        : { ...current, engagement: value as Engagement },
+    );
   }
 
   const roleChoices = selected ? rolesFor(selected.line, WIDE_CODES.has(selected.code)) : [];
@@ -207,7 +265,7 @@ export function App() {
     roleChoices.find((role) => role.id === stored?.roleId)?.id ?? roleChoices[0]?.id ?? null;
   const duty = stored?.duty ?? "support";
   const nudgedDuty = dutyNudge(duty, instructions.mentality);
-  const selectedPlayer = board.players.find((player) => player.id === board.selectedId) ?? null;
+  const selectedPlayer = visualPlayers.find((player) => player.id === board.selectedId) ?? null;
   const arrivalLine =
     selectedPlayer && roleId && selected
       ? arrivalNote(
@@ -312,23 +370,56 @@ export function App() {
             ) : null}
           </span>
         </section>
-        <Pitch
-          players={display}
-          labels={labels}
-          faces={faces}
-          heat={heat}
-          selectedId={board.selectedId}
-          onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
-          onDeselect={() => {
-            setPreview(null);
-            setBoard((state) => selectPlayer(state, null));
-          }}
-          onPreview={(id, point) => setPreview({ id, ...point })}
-          onCommit={commit}
-        />
+        <div className="pitch-frame">
+          <div className="pitch-rail is-attack">
+            <LineSlider
+              name="Engagement"
+              mark="Eng"
+              half="attack"
+              y={engagementY}
+              face={engagementStop.face}
+              valueText={engagementStop.label}
+              stops={ENGAGEMENT_STOPS}
+              onLive={(y) => liveLine("engagement", y)}
+              onCommit={(y) => commitLine("engagement", y)}
+              onSelect={(value) => selectLine("engagement", value as Engagement)}
+            />
+          </div>
+          <Pitch
+            players={visualPlayers}
+            labels={labels}
+            faces={faces}
+            heat={heat}
+            engagementY={engagementY}
+            defensiveY={defensiveY}
+            selectedId={board.selectedId}
+            onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
+            onDeselect={() => {
+              setPreview(null);
+              setBoard((state) => selectPlayer(state, null));
+            }}
+            onPreview={(id, point) => setPreview({ id, ...point })}
+            onCommit={commit}
+          />
+          <div className="pitch-rail is-defend">
+            <LineSlider
+              name="Defensive line"
+              mark="Line"
+              half="defend"
+              y={defensiveY}
+              face={defensiveStop.face}
+              valueText={defensiveStop.label}
+              stops={DEFENSIVE_STOPS}
+              onLive={(y) => liveLine("defensive", y)}
+              onCommit={(y) => commitLine("defensive", y)}
+              onSelect={(value) => selectLine("defensive", value as LineHeight)}
+            />
+          </div>
+        </div>
         <InfoBanner>
           Drag players to change position. Select players to change role. Tap a selected player again to clear
-          them. The shade shows where players arrive.
+          them. The lines beside the pitch set engagement and the defensive line, and the shade shows where
+          players arrive.
         </InfoBanner>
         {selected && roleId ? (
           <RoleSheet
@@ -345,8 +436,6 @@ export function App() {
           passing={PASSING}
           tempo={TEMPO}
           width={WIDTH}
-          defensiveLine={LINE}
-          engagement={ENGAGEMENT}
           pressing={PRESSING}
           mentality={MENTALITY}
           transition={TRANSITION}

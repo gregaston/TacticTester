@@ -32,15 +32,12 @@ describe("influencedPoint", () => {
     expect(overlap.x).toBeLessThan(underlap.x);
   });
 
-  it("lifts the back line more than the forwards when the line steps up", () => {
+  it("leaves the defensive line and engagement to move the slot itself", () => {
     const role = { x: 0, y: 0, pressing: 0.2 };
-    const higher = instructions({ defensiveLine: "higher" });
-    const back = influencedPoint({ x: 50, y: 24 }, "DEF", role, higher).y;
-    const backBase = influencedPoint({ x: 50, y: 24 }, "DEF", role, DEFAULT_INSTRUCTIONS).y;
-    const front = influencedPoint({ x: 50, y: 86 }, "ST", role, higher).y;
-    const frontBase = influencedPoint({ x: 50, y: 86 }, "ST", role, DEFAULT_INSTRUCTIONS).y;
-    expect(back - backBase).toBeGreaterThan(front - frontBase);
-    expect(front).toBeGreaterThan(frontBase);
+    const slot = { x: 50, y: 24 };
+    const base = influencedPoint(slot, "DEF", role, DEFAULT_INSTRUCTIONS).y;
+    expect(influencedPoint(slot, "DEF", role, instructions({ defensiveLine: "higher" })).y).toBe(base);
+    expect(influencedPoint(slot, "DEF", role, instructions({ engagement: "higher" })).y).toBe(base);
   });
 
   it("moves a hunter further up than a calm player when the press steps up", () => {

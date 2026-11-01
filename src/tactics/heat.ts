@@ -1,27 +1,18 @@
 import { arrivalPoint } from "./arrival";
-import { applyInstructions, type TeamInstructions } from "./instructions";
+import { applyInstructions, pressNudge, type TeamInstructions } from "./instructions";
 import type { Line, PitchPoint } from "./types";
 
 /**
  * Where a player tends to be, from the slot, the role, and the team instructions.
  *
+ * The slot is already where the defensive line and engagement have placed them.
  * The role arrival is the same point the role sheet describes. Width and
  * overlap push that point out from the centre, in proportion to how wide the
- * slot already is. The defensive line lifts the whole side, the back line
- * most. Pressing and shooting then lean each player by how much their role
- * hunts the ball or the shot. Passing and tempo change the size of the shade,
- * so a change of instructions moves every player's shade.
+ * slot already is. Pressing and shooting then lean each player by how much
+ * their role hunts the ball or the shot. Passing and tempo change the size of
+ * the shade, so a change of instructions moves every player's shade.
  */
 export type ArrivalEffect = { x: number; y: number; pressing: number };
-
-const LINE_LIFT: Record<Line, number> = {
-  GK: 0.45,
-  DEF: 1,
-  DM: 0.75,
-  CM: 0.45,
-  AM: 0.25,
-  ST: 0.15,
-};
 
 const SHOT_LIFT: Record<Line, number> = {
   GK: 0,
@@ -46,13 +37,11 @@ export function influencedPoint(
   const team = applyInstructions(instructions);
   const arrived = arrivalPoint(slot, role);
   const flank = (slot.x - 50) / WIDTH_CHANNEL;
-  const pressDelta = team.pressHeight - 50;
   return {
     x: clamp(arrived.x + team.width * flank),
     y: clamp(
       arrived.y +
-        team.defensiveLine * LINE_LIFT[line] +
-        pressDelta * role.pressing * PRESS_PULL +
+        pressNudge(instructions) * role.pressing * PRESS_PULL +
         (team.shotVolume - 1) * SHOT_STEP * SHOT_LIFT[line],
     ),
   };

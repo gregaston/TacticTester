@@ -143,6 +143,15 @@ export function dutyNudge(duty: Duty, mentality: Mentality): Duty {
   return DUTY_ORDER[next];
 }
 
+/** Press, mentality, and transition only. The two pitch lines move players themselves. */
+export function pressNudge(instructions: TeamInstructions): number {
+  return (
+    PRESS_SHIFT[instructions.pressing] +
+    MENTALITY_PRESS[instructions.mentality] +
+    TRANSITION_PRESS[instructions.transition]
+  );
+}
+
 export function applyInstructions(instructions: TeamInstructions): InstructionEffect {
   const defensiveLine = LINE_SHIFT[instructions.defensiveLine];
   return {

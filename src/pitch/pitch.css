@@ -1,8 +1,70 @@
-.pitch {
-  height: 50vh;
-  aspect-ratio: 68 / 105;
-  max-width: calc(100% - 32px);
+.pitch-frame {
+  display: grid;
+  grid-template-columns: 44px minmax(0, auto) 44px;
+  justify-content: center;
+  align-items: stretch;
+  gap: 4px;
+  width: fit-content;
+  max-width: 100%;
   margin: 12px auto 0;
+}
+
+.pitch-rail {
+  position: relative;
+  min-width: 44px;
+}
+
+.line-slider {
+  position: absolute;
+  left: 0;
+  width: 44px;
+  touch-action: none;
+  user-select: none;
+}
+
+.pitch-rail.is-attack .line-slider {
+  top: 0;
+  height: 50%;
+}
+
+.pitch-rail.is-defend .line-slider {
+  bottom: 0;
+  height: 50%;
+}
+
+.line-handle {
+  position: absolute;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  transform: translateY(-50%);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.pitch-rail.is-attack .line-handle {
+  box-shadow: var(--shadow-accent);
+}
+
+.pitch {
+  width: min(calc(50vh * 68 / 105), calc(100vw - 116px), calc(var(--page) - 116px));
+  height: auto;
+  aspect-ratio: 68 / 105;
+  margin: 0;
+  max-width: none;
   overflow: hidden;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -24,8 +86,20 @@
 }
 
 .heat,
-.grass {
+.grass,
+.block-guides {
   pointer-events: none;
+}
+
+.guide-engage {
+  stroke: #f2c14a;
+  stroke-width: 0.6;
+  stroke-dasharray: 1.7 1.05;
+}
+
+.guide-defence {
+  stroke: rgba(255, 255, 255, 0.95);
+  stroke-width: 0.65;
 }
 
 .token {

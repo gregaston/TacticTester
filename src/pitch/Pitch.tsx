@@ -3,6 +3,7 @@ import type { HeatBlob } from "../tactics/heat";
 import type { PlayerLabel, SquadLabels } from "../tactics/positions";
 import type { Duty } from "../tactics/roles";
 import type { PitchPoint, Player } from "../tactics/types";
+import { BlockGuides } from "./BlockGuides";
 import { Grass } from "./Grass";
 import { Heatmap } from "./Heatmap";
 import { Markings } from "./Markings";
@@ -21,6 +22,8 @@ type PitchProps = {
   labels: SquadLabels;
   faces: Record<string, TokenFace>;
   heat: HeatBlob[];
+  engagementY: number;
+  defensiveY: number;
   selectedId: string | null;
   onSelect: (id: string) => void;
   onDeselect: () => void;
@@ -33,6 +36,8 @@ export function Pitch({
   labels,
   faces,
   heat,
+  engagementY,
+  defensiveY,
   selectedId,
   onSelect,
   onDeselect,
@@ -105,6 +110,7 @@ export function Pitch({
         <Grass />
         <Heatmap blobs={heat} />
         <Markings />
+        <BlockGuides engagementY={engagementY} defensiveY={defensiveY} />
         {players.map((player) => {
           const face = faces[player.id];
           return (

@@ -8,8 +8,6 @@ export type InstructionSheetProps = {
   passing: InstructionChoice<TeamInstructions["passing"]>[];
   tempo: InstructionChoice<TeamInstructions["tempo"]>[];
   width: InstructionChoice<TeamInstructions["width"]>[];
-  defensiveLine: InstructionChoice<TeamInstructions["defensiveLine"]>[];
-  engagement: InstructionChoice<TeamInstructions["engagement"]>[];
   pressing: InstructionChoice<TeamInstructions["pressing"]>[];
   mentality: InstructionChoice<TeamInstructions["mentality"]>[];
   transition: InstructionChoice<TeamInstructions["transition"]>[];
@@ -27,8 +25,6 @@ export function InstructionSheet({
   passing,
   tempo,
   width,
-  defensiveLine,
-  engagement,
   pressing,
   mentality,
   transition,
@@ -102,20 +98,6 @@ export function InstructionSheet({
         controlsId={`${baseId}-out-of-possession`}
         onToggle={() => setOutOfPossessionOpen((open) => !open)}
       >
-        <Segment
-          label="Defensive line"
-          labelId={`${baseId}-line`}
-          options={defensiveLine}
-          selected={value.defensiveLine}
-          onSelect={(next) => update("defensiveLine", next)}
-        />
-        <Segment
-          label="Engagement"
-          labelId={`${baseId}-engagement`}
-          options={engagement}
-          selected={value.engagement}
-          onSelect={(next) => update("engagement", next)}
-        />
         <Segment
           label="Pressing"
           labelId={`${baseId}-pressing`}
