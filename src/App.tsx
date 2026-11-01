@@ -5,7 +5,7 @@ import { rankSides } from "./compare/nearest";
 import { loadShapeLibrary } from "./data/shape-library";
 import { loadStyleLibrary } from "./data/style-library";
 import { Pitch } from "./pitch/Pitch";
-import { chooseTemplate, createBoard, movePlayer, selectPlayer, setFreePlacement, type BoardState } from "./tactics/board";
+import { chooseTemplate, createBoard, movePlayer, selectPlayer, type BoardState } from "./tactics/board";
 import {
   DEFAULT_INSTRUCTIONS,
   dutyNudge,
@@ -109,7 +109,6 @@ function openingFromLocation(): {
   return {
     board: {
       players: saved.players.map((player) => ({ id: player.id, x: player.x, y: player.y })),
-      freePlacement: saved.freePlacement,
       selectedId: null,
       templateId,
     },
@@ -225,7 +224,7 @@ export function App() {
       version: 1,
       players: board.players.map((player) => ({ id: player.id, x: player.x, y: player.y })),
       templateId: board.templateId,
-      freePlacement: board.freePlacement,
+      freePlacement: false,
       setups,
       instructions,
     };
@@ -285,12 +284,10 @@ export function App() {
       <main className="sheet">
         <TemplateBar
           activeId={board.templateId}
-          freePlacement={board.freePlacement}
           onTemplate={(id) => {
             setPreview(null);
             setBoard((state) => chooseTemplate(state, id));
           }}
-          onFreePlacement={(free) => setBoard((state) => setFreePlacement(state, free))}
         />
         <p className={selectionIsName ? "selection is-name" : "selection"}>
           {labels.keeperInferred

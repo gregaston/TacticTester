@@ -6,12 +6,8 @@ export const LINE_Y = [8, 24, 40, 54, 69, 86] as const;
 const SNAP_DISTANCE = 7;
 const MIN_SEPARATION = 7;
 
-export function snapPoint(
-  point: PitchPoint,
-  others: PitchPoint[],
-  free: boolean,
-): PitchPoint {
-  const snapped = free ? point : nearestIntersection(point) ?? point;
+export function snapPoint(point: PitchPoint, others: PitchPoint[]): PitchPoint {
+  const snapped = nearestIntersection(point) ?? point;
   return separate(clamp(snapped), others);
 }
 

@@ -3,17 +3,10 @@ import { TEMPLATES } from "../tactics/templates";
 
 type TemplateBarProps = {
   activeId: string | null;
-  freePlacement: boolean;
   onTemplate: (id: string) => void;
-  onFreePlacement: (free: boolean) => void;
 };
 
-export function TemplateBar({
-  activeId,
-  freePlacement,
-  onTemplate,
-  onFreePlacement,
-}: TemplateBarProps) {
+export function TemplateBar({ activeId, onTemplate }: TemplateBarProps) {
   const [open, setOpen] = useState(false);
   const active = TEMPLATES.find((template) => template.id === activeId);
 
@@ -43,14 +36,6 @@ export function TemplateBar({
           ))}
         </div>
       ) : null}
-      <label className="free">
-        <input
-          type="checkbox"
-          checked={freePlacement}
-          onChange={(event) => onFreePlacement(event.target.checked)}
-        />
-        Free placement
-      </label>
     </div>
   );
 }

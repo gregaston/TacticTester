@@ -4,7 +4,6 @@ import { TEMPLATES, templateById, type TacticTemplate } from "./templates";
 
 export type BoardState = {
   players: Player[];
-  freePlacement: boolean;
   selectedId: string | null;
   templateId: string | null;
 };
@@ -13,7 +12,6 @@ export function createBoard(templateId = "4-4-2"): BoardState {
   const template = templateById(templateId);
   return {
     players: template.players.map((player) => ({ ...player })),
-    freePlacement: false,
     selectedId: null,
     templateId: template.id,
   };
@@ -21,7 +19,7 @@ export function createBoard(templateId = "4-4-2"): BoardState {
 
 export function movePlayer(state: BoardState, id: string, point: PitchPoint): BoardState {
   const others = state.players.filter((player) => player.id !== id);
-  const next = snapPoint(point, others, state.freePlacement);
+  const next = snapPoint(point, others);
   return {
     ...state,
     selectedId: id,
@@ -38,10 +36,6 @@ export function chooseTemplate(state: BoardState, templateId: string): BoardStat
     selectedId: null,
     players: template.players.map((player) => ({ ...player })),
   };
-}
-
-export function setFreePlacement(state: BoardState, freePlacement: boolean): BoardState {
-  return { ...state, freePlacement };
 }
 
 export function selectPlayer(state: BoardState, id: string | null): BoardState {

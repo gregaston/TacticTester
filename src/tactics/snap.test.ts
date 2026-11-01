@@ -9,7 +9,7 @@ describe("snap", () => {
 
   it("leaves a point alone when no intersection is close", () => {
     expect(nearestIntersection({ x: 3, y: 3 })).toBeNull();
-    expect(snapPoint({ x: 3, y: 3 }, [], false)).toEqual({ x: 3, y: 3 });
+    expect(snapPoint({ x: 3, y: 3 }, [])).toEqual({ x: 3, y: 3 });
   });
 
   it("pushes overlapping players apart", () => {
@@ -18,8 +18,7 @@ describe("snap", () => {
   });
 
   it("snaps a released player on the board", () => {
-    const board = createBoard();
-    const next = movePlayer(board, "p11", { x: 52, y: 84 });
+    const next = movePlayer(createBoard(), "p11", { x: 52, y: 84 });
     const player = next.players.find((item) => item.id === "p11");
     expect(player).toMatchObject({ x: 50, y: 86 });
     expect(next.templateId).toBeNull();
@@ -30,12 +29,5 @@ describe("snap", () => {
     const next = chooseTemplate(moved, "4-3-3");
     expect(next.selectedId).toBeNull();
     expect(next.templateId).toBe("4-3-3");
-  });
-
-  it("keeps the raw point when free placement is on", () => {
-    const board = { ...createBoard(), freePlacement: true };
-    const next = movePlayer(board, "p11", { x: 48, y: 80 });
-    const player = next.players.find((item) => item.id === "p11");
-    expect(player).toMatchObject({ x: 48, y: 80 });
   });
 });
