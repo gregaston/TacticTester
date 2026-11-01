@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { closestMatch } from "./compare/closest";
 import { featuresFromPlayers } from "./compare/features";
 import { formatSeason, shapeSummary } from "./compare/format";
-import { rankSides } from "./compare/nearest";
+import { loadSeasonRecords } from "./data/records";
 import { loadShapeLibrary } from "./data/shape-library";
 import { loadStyleLibrary } from "./data/style-library";
 import { LineSlider } from "./pitch/LineSlider";
@@ -36,15 +37,14 @@ import type { PitchPoint, Player } from "./tactics/types";
 import { testTactic, type Battery } from "./testing/battery";
 import { SITUATIONS } from "./testing/corners";
 import { liveSample, styleShiftNote } from "./testing/live";
-import { playersFromBoard, readStyle, resolveRole, STYLE_NOTE, WIDE_CODES } from "./testing/profile";
+import { playersFromBoard, readStyle, resolveRole, WIDE_CODES } from "./testing/profile";
 import type { Situation } from "./testing/sample";
 import { InfoBanner } from "./ui/InfoBanner";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { KeepBar } from "./ui/KeepBar";
 import { MatchReport } from "./ui/MatchReport";
-import { NearestSide } from "./ui/NearestSide";
+import { ClosestSide } from "./ui/ClosestSide";
 import { RoleSheet } from "./ui/RoleSheet";
-import { StyleReading } from "./ui/StyleReading";
 import { TemplateBar } from "./ui/TemplateBar";
 import { TestSheet } from "./ui/TestSheet";
 import { WeakList } from "./ui/WeakList";
@@ -53,6 +53,7 @@ import "./ui/shell.css";
 
 const library = loadShapeLibrary();
 const styles = loadStyleLibrary();
+const records = loadSeasonRecords();
 
 const PASSING: InstructionChoice<TeamInstructions["passing"]>[] = [
   { value: "shorter", label: "Shorter" },
@@ -137,8 +138,6 @@ export function App() {
   const [status, setStatus] = useState<string | null>(null);
   const [roleShift, setRoleShift] = useState<string | null>(null);
   const styleWatch = useRef<{ nearestId: string | null; setupsKey: string } | null>(null);
-  const [pinnedId] = useState(() => new URLSearchParams(window.location.search).get("side"));
-
   const defensiveY =
     lineLive?.kind === "defensive" ? lineLive.y : defensiveAnchor(instructions.defensiveLine);
   const engagementY =
@@ -189,13 +188,18 @@ export function App() {
   }
   const heat = heatField(heatPlayers, instructions, { defensiveY, engagementY });
   const summary = shapeSummary(featuresFromPlayers(storedDisplay));
-  const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
   const profilePlayers = playersFromBoard(board.players, placed, setups).map((player) => ({
     ...player,
     duty: dutyNudge(player.duty, instructions.mentality),
   }));
   const reading = readStyle(profilePlayers, instructions, styles.sides);
-  const styleSide = styles.sides.find((side) => side.id === reading.nearestId) ?? null;
+  const match = closestMatch(
+    featuresFromPlayers(visualPlayers),
+    reading.profile,
+    library.sides,
+    styles.sides,
+    records.sides,
+  );
   const tacticKey = JSON.stringify({
     players: board.players.map((player) => [player.id, player.x, player.y]),
     setups,
@@ -221,12 +225,11 @@ export function App() {
       styleShiftNote(
         previous != null && previous.setupsKey !== setupsKey,
         previous?.nearestId ?? null,
-        reading.nearestId,
+        match?.id ?? null,
       ),
     );
-    styleWatch.current = { nearestId: reading.nearestId, setupsKey };
-  }, [setupsKey, reading.nearestId]);
-  const pinned = library.sides.find((side) => side.id === pinnedId) ?? null;
+    styleWatch.current = { nearestId: match?.id ?? null, setupsKey };
+  }, [setupsKey, match?.id]);
   const selected = board.selectedId ? labels.byId[board.selectedId] : null;
 
   function commit(id: string, point: PitchPoint) {
@@ -449,18 +452,7 @@ export function App() {
           notes={instructionNotes(instructions)}
           onChange={setInstructions}
         />
-        <StyleReading
-          team={styleSide?.team ?? null}
-          season={styleSide ? formatSeason(styleSide.season) : null}
-          competition={styleSide?.competition ?? null}
-          matches={styleSide?.matches ?? null}
-          xgPerShot={styleSide?.xgPerShot ?? null}
-          passLength={reading.profile.passLength}
-          shotsPerMatch={reading.profile.shotsPerMatch}
-          lines={reading.lines}
-          note={STYLE_NOTE}
-          shotGrid={styleSide?.shotGrid ?? null}
-        />
+        <ClosestSide match={match} />
         <TestSheet
           situationLabel={situationLabel}
           situations={SITUATIONS.map((item) => ({ id: item.id, label: item.label }))}
@@ -496,11 +488,10 @@ export function App() {
             lines={reportLines}
           />
         ) : null}
-        <NearestSide ranked={nearest} pinned={pinned} />
         <p className="credit">
           {library.sides.length} team-seasons from{" "}
-          <a href={library.sourceUrl}>{library.source}</a>. Shapes are starting lineups, not
-          measured defensive lines.
+          <a href={library.sourceUrl}>{library.source}</a>. The record is that season's league
+          table. Shapes are starting lineups, not measured defensive lines.
         </p>
       </main>
     </div>

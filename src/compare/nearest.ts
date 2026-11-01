@@ -51,6 +51,32 @@ const PHRASES: Record<FeatureKey, { higher: string; lower: string }> = {
   },
 };
 
+export function comparableSides(sides: SideSummary[]): SideSummary[] {
+  return comparable(sides);
+}
+
+export function formationGap(user: ShapeFeatures, side: SideSummary): number {
+  return countDistance(user, side);
+}
+
+export function blockGap(user: ShapeFeatures, side: SideSummary): { back: number; forward: number; width: number } {
+  return {
+    back: user.backLine - side.features.backLine,
+    forward: user.forwardLine - side.features.forwardLine,
+    width: user.width - side.features.width,
+  };
+}
+
+/** The largest way the user's shape differs, or null when the shape agrees. */
+export function shapeDifference(user: ShapeFeatures, side: SideSummary): string | null {
+  const other = usualFeatures(side);
+  const countGap = largestGap(user, other, COUNT_KEYS, 0.5);
+  if (countGap) return wording(user, other, countGap);
+  const spatial = largestGap(user, other, SPATIAL_KEYS, 3);
+  if (!spatial) return null;
+  return wording(user, other, spatial);
+}
+
 export function rankSides(user: ShapeFeatures, sides: SideSummary[], limit = 3): RankedSide[] {
   const pool = comparable(sides);
   return pool

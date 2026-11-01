@@ -181,7 +181,10 @@ function nearestStyle(profile: StyleProfile, styles: StyleFingerprint[]): StyleF
   })[0];
 }
 
-function styleDistance(profile: StyleProfile, style: StyleFingerprint): number {
+export function styleDistance(
+  profile: StyleProfile,
+  style: Pick<StyleFingerprint, "passLength" | "shotsPerMatch" | "pressHeight">,
+): number {
   return Math.hypot(
     (profile.passLength - style.passLength) / 1.2,
     (profile.shotsPerMatch - style.shotsPerMatch) / 1.5,

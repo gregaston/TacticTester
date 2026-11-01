@@ -18,6 +18,13 @@ export function usualShape(side: SideSummary): string {
   return `Usually ${shape} (${percent}% of matches)`;
 }
 
+export function placeLabel(place: number): string {
+  const lastTwo = place % 100;
+  const last = place % 10;
+  const suffix = lastTwo >= 11 && lastTwo <= 13 ? "th" : last === 1 ? "st" : last === 2 ? "nd" : last === 3 ? "rd" : "th";
+  return `${place}${suffix}`;
+}
+
 export function formatSeason(season: string): string {
   const match = season.match(/^(\d{4})\/(\d{4})$/);
   if (!match) return season;
