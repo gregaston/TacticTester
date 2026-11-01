@@ -1,0 +1,143 @@
+.instruction-sheet {
+  margin: 12px var(--gutter) 0;
+  padding: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.instruction-sheet .kicker {
+  margin: 0;
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--kicker-size);
+  letter-spacing: var(--kicker-tracking);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.instruction-sheet button {
+  appearance: none;
+  touch-action: manipulation;
+}
+
+.instruction-disclosure {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--target);
+  margin-top: 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.instruction-disclosure span:last-child {
+  flex: none;
+}
+
+.instruction-disclosure:active {
+  transform: translateY(2px);
+}
+
+.instruction-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.segment {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.segment-label {
+  margin: 0;
+  color: var(--plum);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.segment-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.segment-options button {
+  min-width: 0;
+  min-height: var(--target);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--plum);
+  padding: 6px 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.segment-options button + button {
+  box-shadow: inset 1px 0 0 var(--line);
+}
+
+.segment-options button[aria-pressed="true"] {
+  background: var(--plum);
+  color: var(--on-plum);
+  box-shadow: none;
+}
+
+.segment-options button[aria-pressed="true"] + button {
+  box-shadow: inset 1px 0 0 var(--plum);
+}
+
+.segment-options button:active {
+  background: var(--line);
+}
+
+.segment-options button[aria-pressed="true"]:active {
+  background: var(--plum-deep);
+  color: var(--on-plum);
+}
+
+.segment-options button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}
+
+.instruction-notes {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.instruction-notes p {
+  margin: 8px 0 0;
+  color: var(--plum);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}

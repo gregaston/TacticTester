@@ -1,0 +1,135 @@
+.role-sheet {
+  margin: 12px var(--gutter) 0;
+  padding: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.role-sheet .kicker {
+  margin: 0;
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--kicker-size);
+  letter-spacing: var(--kicker-tracking);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.role-sheet h2 {
+  margin: 2px 0 0;
+  color: var(--plum);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.role-sheet h2:empty {
+  display: none;
+}
+
+.role-sheet button {
+  appearance: none;
+  touch-action: manipulation;
+}
+
+.role-duties {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.role-duties button {
+  min-width: 0;
+  min-height: var(--target);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  padding: 0 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.role-duties button[aria-pressed="true"],
+.role-list button[aria-pressed="true"] {
+  background: var(--plum);
+  color: var(--on-plum);
+  box-shadow: var(--shadow-accent);
+}
+
+.role-duties button:active,
+.role-list button:active {
+  transform: translateY(2px);
+}
+
+.role-empty {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.role-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.role-list li {
+  margin: 0;
+}
+
+.role-list button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  min-height: var(--target);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.role-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.role-summary {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.92rem;
+  letter-spacing: 0;
+  line-height: 1.35;
+  text-transform: none;
+}
+
+.role-list button[aria-pressed="true"] .role-summary {
+  color: var(--on-plum);
+}
