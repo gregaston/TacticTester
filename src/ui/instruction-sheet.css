@@ -129,6 +129,15 @@
   outline-offset: -3px;
 }
 
+@media (max-width: 359px) {
+  .segment-options button {
+    padding-right: 2px;
+    padding-left: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+  }
+}
+
 .instruction-notes {
   margin-top: 12px;
   border-top: 1px solid var(--line);

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   DEFAULT_INSTRUCTIONS,
   applyInstructions,
+  dutyNudge,
   instructionNotes,
   type TeamInstructions,
 } from "./instructions";
@@ -19,6 +20,11 @@ describe("applyInstructions", () => {
       defensiveLine: "standard",
       engagement: "standard",
       pressing: "standard",
+      mentality: "balanced",
+      transition: "standard",
+      distribution: "mixed",
+      widthIntention: "balanced",
+      shooting: "standard",
     });
     expect(applyInstructions(DEFAULT_INSTRUCTIONS)).toEqual({
       passLength: 0,
@@ -74,6 +80,85 @@ describe("applyInstructions", () => {
     expect(applyInstructions(instructions({ width: "wider" })).width).toBe(6);
     expect(applyInstructions(instructions({ defensiveLine: "deeper" })).defensiveLine).toBe(-8);
     expect(applyInstructions(instructions({ engagement: "lower", pressing: "less" })).pressHeight).toBe(24);
+  });
+
+  it("adds mentality on top of the existing six", () => {
+    expect(applyInstructions(instructions({ mentality: "defensive" }))).toMatchObject({
+      passLength: -2,
+      pressHeight: 46,
+      shotVolume: 0.94,
+    });
+    expect(applyInstructions(instructions({ mentality: "attacking" }))).toMatchObject({
+      passLength: 2,
+      pressHeight: 54,
+      shotVolume: 1.08,
+    });
+    expect(applyInstructions(instructions({ mentality: "balanced" }))).toMatchObject({
+      passLength: 0,
+      pressHeight: 50,
+      shotVolume: 1,
+    });
+    expect(
+      applyInstructions(instructions({ passing: "more direct", mentality: "attacking" })).passLength,
+    ).toBe(12);
+    expect(
+      applyInstructions(
+        instructions({ defensiveLine: "higher", pressing: "more", mentality: "defensive" }),
+      ).pressHeight,
+    ).toBe(62);
+    expect(applyInstructions(instructions({ tempo: "higher", mentality: "attacking" })).shotVolume).toBeCloseTo(1.16);
+  });
+
+  it("adds transition, distribution, width intention, and shooting on top", () => {
+    expect(applyInstructions(instructions({ transition: "counter-press" })).pressHeight).toBe(56);
+    expect(applyInstructions(instructions({ transition: "regroup" })).pressHeight).toBe(44);
+    expect(applyInstructions(instructions({ transition: "standard" })).pressHeight).toBe(50);
+    expect(
+      applyInstructions(instructions({ mentality: "attacking", transition: "counter-press" })).pressHeight,
+    ).toBe(60);
+    expect(applyInstructions(instructions({ distribution: "play out" })).passLength).toBe(-4);
+    expect(applyInstructions(instructions({ distribution: "go long" })).passLength).toBe(6);
+    expect(applyInstructions(instructions({ distribution: "mixed" })).passLength).toBe(0);
+    expect(
+      applyInstructions(instructions({ passing: "shorter", distribution: "play out", mentality: "defensive" }))
+        .passLength,
+    ).toBe(-14);
+    expect(applyInstructions(instructions({ widthIntention: "underlap" })).width).toBe(-3);
+    expect(applyInstructions(instructions({ widthIntention: "overlap" })).width).toBe(4);
+    expect(applyInstructions(instructions({ widthIntention: "balanced" })).width).toBe(0);
+    expect(applyInstructions(instructions({ width: "wider", widthIntention: "overlap" })).width).toBe(10);
+    expect(applyInstructions(instructions({ shooting: "work the ball" })).shotVolume).toBeCloseTo(0.92);
+    expect(applyInstructions(instructions({ shooting: "shoot on sight" })).shotVolume).toBeCloseTo(1.1);
+    expect(
+      applyInstructions(
+        instructions({ tempo: "lower", mentality: "defensive", shooting: "work the ball" }),
+      ).shotVolume,
+    ).toBeCloseTo(0.81);
+    expect(
+      applyInstructions(
+        instructions({ tempo: "higher", mentality: "attacking", shooting: "shoot on sight" }),
+      ).shotVolume,
+    ).toBeCloseTo(1.26);
+  });
+});
+
+describe("dutyNudge", () => {
+  it("returns the duty unchanged when mentality is balanced", () => {
+    expect(dutyNudge("defend", "balanced")).toBe("defend");
+    expect(dutyNudge("support", "balanced")).toBe("support");
+    expect(dutyNudge("attack", "balanced")).toBe("attack");
+  });
+
+  it("holds the duty back when mentality is defensive, and leaves defend", () => {
+    expect(dutyNudge("attack", "defensive")).toBe("support");
+    expect(dutyNudge("support", "defensive")).toBe("defend");
+    expect(dutyNudge("defend", "defensive")).toBe("defend");
+  });
+
+  it("pushes the duty on when mentality is attacking, and leaves attack", () => {
+    expect(dutyNudge("defend", "attacking")).toBe("support");
+    expect(dutyNudge("support", "attacking")).toBe("attack");
+    expect(dutyNudge("attack", "attacking")).toBe("attack");
   });
 });
 
@@ -133,5 +218,55 @@ describe("instructionNotes", () => {
       "The press steps up and the defence sits, so the gap between them is large.",
       "The side is trying to play long through a crowded middle.",
     ]);
+  });
+
+  it("notes an attacking side that regroups, and a deep side playing long", () => {
+    expect(instructionNotes(instructions({ mentality: "attacking", transition: "regroup" }))).toEqual([
+      "The side attacks, then drops off when the ball is lost.",
+    ]);
+    expect(instructionNotes(instructions({ mentality: "defensive", passing: "more direct" }))).toEqual([
+      "A deep side is trying to play long.",
+    ]);
+    expect(
+      instructionNotes(
+        instructions({
+          mentality: "attacking",
+          transition: "regroup",
+          engagement: "higher",
+          defensiveLine: "deeper",
+        }),
+      ),
+    ).toEqual([
+      "The press steps up and the defence sits, so the gap between them is large.",
+      "The side attacks, then drops off when the ball is lost.",
+    ]);
+    expect(
+      instructionNotes(
+        instructions({
+          mentality: "defensive",
+          passing: "more direct",
+          width: "narrower",
+        }),
+      ),
+    ).toEqual([
+      "The side is trying to play long through a crowded middle.",
+      "A deep side is trying to play long.",
+    ]);
+
+    const quiet: TeamInstructions[] = [
+      instructions({ mentality: "attacking", transition: "standard" }),
+      instructions({ mentality: "attacking", transition: "counter-press" }),
+      instructions({ mentality: "defensive", transition: "regroup" }),
+      instructions({ mentality: "balanced", transition: "regroup" }),
+      instructions({ mentality: "defensive", passing: "standard" }),
+      instructions({ mentality: "defensive", passing: "shorter" }),
+      instructions({ mentality: "attacking", passing: "more direct" }),
+      instructions({ mentality: "balanced", passing: "more direct" }),
+    ];
+    for (const choice of quiet) {
+      const notes = instructionNotes(choice);
+      expect(notes.some((note) => note.includes("drops off"))).toBe(false);
+      expect(notes.some((note) => note.includes("deep side"))).toBe(false);
+    }
   });
 });
