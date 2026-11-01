@@ -8,6 +8,7 @@ import { Pitch } from "./pitch/Pitch";
 import { chooseTemplate, createBoard, movePlayer, selectPlayer, setFreePlacement } from "./tactics/board";
 import {
   DEFAULT_INSTRUCTIONS,
+  dutyNudge,
   instructionNotes,
   type TeamInstructions,
 } from "./tactics/instructions";
@@ -57,6 +58,31 @@ const PRESSING: InstructionChoice<TeamInstructions["pressing"]>[] = [
   { value: "standard", label: "Standard" },
   { value: "more", label: "More" },
 ];
+const MENTALITY: InstructionChoice<TeamInstructions["mentality"]>[] = [
+  { value: "defensive", label: "Defensive" },
+  { value: "balanced", label: "Balanced" },
+  { value: "attacking", label: "Attacking" },
+];
+const TRANSITION: InstructionChoice<TeamInstructions["transition"]>[] = [
+  { value: "regroup", label: "Regroup" },
+  { value: "standard", label: "Standard" },
+  { value: "counter-press", label: "Counter-press" },
+];
+const DISTRIBUTION: InstructionChoice<TeamInstructions["distribution"]>[] = [
+  { value: "play out", label: "Play out" },
+  { value: "mixed", label: "Mixed" },
+  { value: "go long", label: "Go long" },
+];
+const WIDTH_INTENTION: InstructionChoice<TeamInstructions["widthIntention"]>[] = [
+  { value: "underlap", label: "Underlap" },
+  { value: "balanced", label: "Balanced" },
+  { value: "overlap", label: "Overlap" },
+];
+const SHOOTING: InstructionChoice<TeamInstructions["shooting"]>[] = [
+  { value: "work the ball", label: "Work the ball" },
+  { value: "standard", label: "Standard" },
+  { value: "shoot on sight", label: "Shoot on sight" },
+];
 
 type PlayerSetup = { roleId: string; duty: Duty };
 
@@ -75,12 +101,22 @@ export function App() {
   const arrivals = board.players.flatMap((player) => {
     const label = placed.byId[player.id];
     const choice = resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]);
-    const arrival = arrivalPoint(player, effectFor(choice.roleId, choice.duty));
+    const arrival = arrivalPoint(
+      player,
+      effectFor(choice.roleId, dutyNudge(choice.duty, instructions.mentality)),
+    );
     return hasArrivalMark(player, arrival) ? [{ id: player.id, ...arrival }] : [];
   });
   const summary = shapeSummary(featuresFromPlayers(display));
   const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
-  const reading = readStyle(playersFromBoard(board.players, placed, setups), instructions, styles.sides);
+  const reading = readStyle(
+    playersFromBoard(board.players, placed, setups).map((player) => ({
+      ...player,
+      duty: dutyNudge(player.duty, instructions.mentality),
+    })),
+    instructions,
+    styles.sides,
+  );
   const styleSide = styles.sides.find((side) => side.id === reading.nearestId) ?? null;
   const pinned = library.sides.find((side) => side.id === pinnedId) ?? null;
   const selected = board.selectedId ? labels.byId[board.selectedId] : null;
@@ -97,11 +133,19 @@ export function App() {
   const roleId: RoleId | null =
     roleChoices.find((role) => role.id === stored?.roleId)?.id ?? roleChoices[0]?.id ?? null;
   const duty = stored?.duty ?? "support";
+  const nudgedDuty = dutyNudge(duty, instructions.mentality);
   const selectedPlayer = board.players.find((player) => player.id === board.selectedId) ?? null;
-  const arrival =
+  const arrivalLine =
     selectedPlayer && roleId
-      ? arrivalNote(selectedPlayer, arrivalPoint(selectedPlayer, effectFor(roleId, duty)))
+      ? arrivalNote(selectedPlayer, arrivalPoint(selectedPlayer, effectFor(roleId, nudgedDuty)))
       : null;
+  const mentalityNote =
+    nudgedDuty === duty
+      ? null
+      : instructions.mentality === "attacking"
+        ? "Attacking mentality pushes this duty on."
+        : "Defensive mentality holds this duty back.";
+  const arrival = [arrivalLine, mentalityNote].filter((line) => line).join(" ") || null;
 
   function assign(nextRole: string, nextDuty: Duty) {
     if (!board.selectedId) return;
@@ -167,6 +211,11 @@ export function App() {
           defensiveLine={LINE}
           engagement={ENGAGEMENT}
           pressing={PRESSING}
+          mentality={MENTALITY}
+          transition={TRANSITION}
+          distribution={DISTRIBUTION}
+          widthIntention={WIDTH_INTENTION}
+          shooting={SHOOTING}
           value={instructions}
           notes={instructionNotes(instructions)}
           onChange={setInstructions}

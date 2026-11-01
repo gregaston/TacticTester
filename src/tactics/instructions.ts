@@ -1,9 +1,16 @@
+import type { Duty } from "./roles";
+
 export type PassingDirectness = "shorter" | "standard" | "more direct";
 export type Tempo = "lower" | "standard" | "higher";
 export type WidthSetting = "narrower" | "standard" | "wider";
 export type LineHeight = "deeper" | "standard" | "higher";
 export type Engagement = "lower" | "standard" | "higher";
 export type Pressing = "less" | "standard" | "more";
+export type Mentality = "defensive" | "balanced" | "attacking";
+export type Transition = "regroup" | "standard" | "counter-press";
+export type Distribution = "play out" | "mixed" | "go long";
+export type WidthIntention = "underlap" | "balanced" | "overlap";
+export type Shooting = "work the ball" | "standard" | "shoot on sight";
 
 export type TeamInstructions = {
   passing: PassingDirectness;
@@ -12,6 +19,11 @@ export type TeamInstructions = {
   defensiveLine: LineHeight;
   engagement: Engagement;
   pressing: Pressing;
+  mentality: Mentality;
+  transition: Transition;
+  distribution: Distribution;
+  widthIntention: WidthIntention;
+  shooting: Shooting;
 };
 
 export const DEFAULT_INSTRUCTIONS: TeamInstructions = {
@@ -21,6 +33,11 @@ export const DEFAULT_INSTRUCTIONS: TeamInstructions = {
   defensiveLine: "standard",
   engagement: "standard",
   pressing: "standard",
+  mentality: "balanced",
+  transition: "standard",
+  distribution: "mixed",
+  widthIntention: "balanced",
+  shooting: "standard",
 };
 
 export type InstructionEffect = {
@@ -74,16 +91,79 @@ const PRESS_SHIFT: Record<Pressing, number> = {
   more: 8,
 };
 
+const MENTALITY_PASS: Record<Mentality, number> = {
+  defensive: -2,
+  balanced: 0,
+  attacking: 2,
+};
+
+const MENTALITY_PRESS: Record<Mentality, number> = {
+  defensive: -4,
+  balanced: 0,
+  attacking: 4,
+};
+
+const MENTALITY_SHOTS: Record<Mentality, number> = {
+  defensive: -0.06,
+  balanced: 0,
+  attacking: 0.08,
+};
+
+const TRANSITION_PRESS: Record<Transition, number> = {
+  regroup: -6,
+  standard: 0,
+  "counter-press": 6,
+};
+
+const DISTRIBUTION_PASS: Record<Distribution, number> = {
+  "play out": -4,
+  mixed: 0,
+  "go long": 6,
+};
+
+const WIDTH_INTENTION: Record<WidthIntention, number> = {
+  underlap: -3,
+  balanced: 0,
+  overlap: 4,
+};
+
+const SHOOTING_VOLUME: Record<Shooting, number> = {
+  "work the ball": -0.08,
+  standard: 0,
+  "shoot on sight": 0.1,
+};
+
+const DUTY_ORDER = ["defend", "support", "attack"] as const;
+
+export function dutyNudge(duty: Duty, mentality: Mentality): Duty {
+  if (mentality === "balanced") return duty;
+  const index = DUTY_ORDER.indexOf(duty);
+  const step = mentality === "attacking" ? 1 : -1;
+  const next = Math.min(DUTY_ORDER.length - 1, Math.max(0, index + step));
+  return DUTY_ORDER[next];
+}
+
 export function applyInstructions(instructions: TeamInstructions): InstructionEffect {
   const defensiveLine = LINE_SHIFT[instructions.defensiveLine];
   return {
-    passLength: PASS_LENGTH[instructions.passing],
+    passLength:
+      PASS_LENGTH[instructions.passing] +
+      MENTALITY_PASS[instructions.mentality] +
+      DISTRIBUTION_PASS[instructions.distribution],
     tempo: TEMPO[instructions.tempo],
-    width: WIDTH[instructions.width],
+    width: WIDTH[instructions.width] + WIDTH_INTENTION[instructions.widthIntention],
     defensiveLine,
     pressHeight:
-      ENGAGEMENT_HEIGHT[instructions.engagement] + defensiveLine + PRESS_SHIFT[instructions.pressing],
-    shotVolume: 1 + TEMPO_SHOTS[instructions.tempo],
+      ENGAGEMENT_HEIGHT[instructions.engagement] +
+      defensiveLine +
+      PRESS_SHIFT[instructions.pressing] +
+      MENTALITY_PRESS[instructions.mentality] +
+      TRANSITION_PRESS[instructions.transition],
+    shotVolume:
+      1 +
+      TEMPO_SHOTS[instructions.tempo] +
+      MENTALITY_SHOTS[instructions.mentality] +
+      SHOOTING_VOLUME[instructions.shooting],
   };
 }
 
@@ -93,6 +173,8 @@ const BALLS_OVER_THE_TOP =
   "The defence is high and the press is passive, so balls over the top are easier.";
 const LONG_THROUGH_A_CROWD =
   "The side is trying to play long through a crowded middle.";
+const ATTACK_THEN_DROP = "The side attacks, then drops off when the ball is lost.";
+const DEEP_SIDE_LONG = "A deep side is trying to play long.";
 
 export function instructionNotes(instructions: TeamInstructions): string[] {
   const notes: string[] = [];
@@ -104,6 +186,12 @@ export function instructionNotes(instructions: TeamInstructions): string[] {
   }
   if (instructions.passing === "more direct" && instructions.width === "narrower") {
     notes.push(LONG_THROUGH_A_CROWD);
+  }
+  if (instructions.mentality === "attacking" && instructions.transition === "regroup") {
+    notes.push(ATTACK_THEN_DROP);
+  }
+  if (instructions.mentality === "defensive" && instructions.passing === "more direct") {
+    notes.push(DEEP_SIDE_LONG);
   }
   return notes;
 }

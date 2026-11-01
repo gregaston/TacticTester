@@ -1,25 +1,24 @@
 import { useId, useState, type ReactNode } from "react";
+import type { TeamInstructions } from "../tactics/instructions";
 import "./instruction-sheet.css";
 
 export type InstructionChoice<T extends string> = { value: T; label: string };
 
 export type InstructionSheetProps = {
-  passing: InstructionChoice<"shorter" | "standard" | "more direct">[];
-  tempo: InstructionChoice<"lower" | "standard" | "higher">[];
-  width: InstructionChoice<"narrower" | "standard" | "wider">[];
-  defensiveLine: InstructionChoice<"deeper" | "standard" | "higher">[];
-  engagement: InstructionChoice<"lower" | "standard" | "higher">[];
-  pressing: InstructionChoice<"less" | "standard" | "more">[];
-  value: {
-    passing: "shorter" | "standard" | "more direct";
-    tempo: "lower" | "standard" | "higher";
-    width: "narrower" | "standard" | "wider";
-    defensiveLine: "deeper" | "standard" | "higher";
-    engagement: "lower" | "standard" | "higher";
-    pressing: "less" | "standard" | "more";
-  };
+  passing: InstructionChoice<TeamInstructions["passing"]>[];
+  tempo: InstructionChoice<TeamInstructions["tempo"]>[];
+  width: InstructionChoice<TeamInstructions["width"]>[];
+  defensiveLine: InstructionChoice<TeamInstructions["defensiveLine"]>[];
+  engagement: InstructionChoice<TeamInstructions["engagement"]>[];
+  pressing: InstructionChoice<TeamInstructions["pressing"]>[];
+  mentality: InstructionChoice<TeamInstructions["mentality"]>[];
+  transition: InstructionChoice<TeamInstructions["transition"]>[];
+  distribution: InstructionChoice<TeamInstructions["distribution"]>[];
+  widthIntention: InstructionChoice<TeamInstructions["widthIntention"]>[];
+  shooting: InstructionChoice<TeamInstructions["shooting"]>[];
+  value: TeamInstructions;
   notes: string[];
-  onChange: (next: InstructionSheetProps["value"]) => void;
+  onChange: (next: TeamInstructions) => void;
 };
 
 type InstructionValue = InstructionSheetProps["value"];
@@ -31,6 +30,11 @@ export function InstructionSheet({
   defensiveLine,
   engagement,
   pressing,
+  mentality,
+  transition,
+  distribution,
+  widthIntention,
+  shooting,
   value,
   notes,
   onChange,
@@ -38,6 +42,7 @@ export function InstructionSheet({
   const baseId = useId();
   const [inPossessionOpen, setInPossessionOpen] = useState(false);
   const [outOfPossessionOpen, setOutOfPossessionOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
 
   function update<K extends keyof InstructionValue>(key: K, next: InstructionValue[K]) {
     if (value[key] === next) return;
@@ -47,6 +52,22 @@ export function InstructionSheet({
   return (
     <section className="instruction-sheet" aria-label="Team instructions">
       <p className="kicker">Team instructions</p>
+      <div className="instruction-group">
+        <Segment
+          label="Mentality"
+          labelId={`${baseId}-mentality`}
+          options={mentality}
+          selected={value.mentality}
+          onSelect={(next) => update("mentality", next)}
+        />
+        <Segment
+          label="Transition"
+          labelId={`${baseId}-transition`}
+          options={transition}
+          selected={value.transition}
+          onSelect={(next) => update("transition", next)}
+        />
+      </div>
       <Disclosure
         title="In possession"
         open={inPossessionOpen}
@@ -101,6 +122,34 @@ export function InstructionSheet({
           options={pressing}
           selected={value.pressing}
           onSelect={(next) => update("pressing", next)}
+        />
+      </Disclosure>
+      <Disclosure
+        title="More"
+        open={moreOpen}
+        controlsId={`${baseId}-more`}
+        onToggle={() => setMoreOpen((open) => !open)}
+      >
+        <Segment
+          label="Keeper distribution"
+          labelId={`${baseId}-distribution`}
+          options={distribution}
+          selected={value.distribution}
+          onSelect={(next) => update("distribution", next)}
+        />
+        <Segment
+          label="Width intention"
+          labelId={`${baseId}-width-intention`}
+          options={widthIntention}
+          selected={value.widthIntention}
+          onSelect={(next) => update("widthIntention", next)}
+        />
+        <Segment
+          label="Shooting"
+          labelId={`${baseId}-shooting`}
+          options={shooting}
+          selected={value.shooting}
+          onSelect={(next) => update("shooting", next)}
         />
       </Disclosure>
       {notes.length > 0 ? (
