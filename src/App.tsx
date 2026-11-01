@@ -12,9 +12,10 @@ import {
   type TeamInstructions,
 } from "./tactics/instructions";
 import { labelSquad } from "./tactics/positions";
-import { rolesFor, type Duty } from "./tactics/roles";
+import { arrivalNote, arrivalPoint, hasArrivalMark } from "./tactics/arrival";
+import { effectFor, rolesFor, type Duty, type RoleId } from "./tactics/roles";
 import type { PitchPoint, Player } from "./tactics/types";
-import { playersFromBoard, readStyle, STYLE_NOTE, WIDE_CODES } from "./testing/profile";
+import { playersFromBoard, readStyle, resolveRole, STYLE_NOTE, WIDE_CODES } from "./testing/profile";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { NearestSide } from "./ui/NearestSide";
 import { RoleSheet } from "./ui/RoleSheet";
@@ -70,9 +71,16 @@ export function App() {
     ? board.players.map((player) => (player.id === preview.id ? preview : player))
     : board.players;
   const labels = labelSquad(display);
+  const placed = labelSquad(board.players);
+  const arrivals = board.players.flatMap((player) => {
+    const label = placed.byId[player.id];
+    const choice = resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]);
+    const arrival = arrivalPoint(player, effectFor(choice.roleId, choice.duty));
+    return hasArrivalMark(player, arrival) ? [{ id: player.id, ...arrival }] : [];
+  });
   const summary = shapeSummary(featuresFromPlayers(display));
   const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
-  const reading = readStyle(playersFromBoard(board.players, labelSquad(board.players), setups), instructions, styles.sides);
+  const reading = readStyle(playersFromBoard(board.players, placed, setups), instructions, styles.sides);
   const styleSide = styles.sides.find((side) => side.id === reading.nearestId) ?? null;
   const pinned = library.sides.find((side) => side.id === pinnedId) ?? null;
   const selected = board.selectedId ? labels.byId[board.selectedId] : null;
@@ -86,11 +94,14 @@ export function App() {
   const selectionIsName = Boolean(selected) && !labels.keeperInferred;
   const roleChoices = selected ? rolesFor(selected.line, WIDE_CODES.has(selected.code)) : [];
   const stored = board.selectedId ? setups[board.selectedId] : undefined;
-  const roleId =
-    stored && roleChoices.some((role) => role.id === stored.roleId)
-      ? stored.roleId
-      : (roleChoices[0]?.id ?? null);
+  const roleId: RoleId | null =
+    roleChoices.find((role) => role.id === stored?.roleId)?.id ?? roleChoices[0]?.id ?? null;
   const duty = stored?.duty ?? "support";
+  const selectedPlayer = board.players.find((player) => player.id === board.selectedId) ?? null;
+  const arrival =
+    selectedPlayer && roleId
+      ? arrivalNote(selectedPlayer, arrivalPoint(selectedPlayer, effectFor(roleId, duty)))
+      : null;
 
   function assign(nextRole: string, nextDuty: Duty) {
     if (!board.selectedId) return;
@@ -131,6 +142,7 @@ export function App() {
         </p>
         <Pitch
           players={display}
+          arrivals={arrivals}
           labels={labels}
           selectedId={board.selectedId}
           onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
@@ -143,6 +155,7 @@ export function App() {
             roles={roleChoices}
             roleId={roleId}
             duty={duty}
+            arrival={arrival}
             onRole={(id) => assign(id, duty)}
             onDuty={(next) => assign(roleId, next)}
           />

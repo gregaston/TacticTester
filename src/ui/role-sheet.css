@@ -32,6 +32,14 @@
   display: none;
 }
 
+.role-arrival {
+  margin: 6px 0 0;
+  color: var(--plum);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
 .role-sheet button {
   appearance: none;
   touch-action: manipulation;

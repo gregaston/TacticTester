@@ -23,6 +23,13 @@
   stroke-width: 0.35;
 }
 
+.arrival {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.55;
+  pointer-events: none;
+}
+
 .token {
   cursor: grab;
   touch-action: none;

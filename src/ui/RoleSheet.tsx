@@ -8,6 +8,7 @@ export type RoleSheetProps = {
   roles: RoleChoice[];
   roleId: string | null;
   duty: DutyChoice;
+  arrival: string | null;
   onRole: (id: string) => void;
   onDuty: (duty: DutyChoice) => void;
 };
@@ -18,11 +19,20 @@ const DUTIES: { value: DutyChoice; label: string }[] = [
   { value: "attack", label: "Attack" },
 ];
 
-export function RoleSheet({ positionName, roles, roleId, duty, onRole, onDuty }: RoleSheetProps) {
+export function RoleSheet({
+  positionName,
+  roles,
+  roleId,
+  duty,
+  arrival,
+  onRole,
+  onDuty,
+}: RoleSheetProps) {
   return (
     <section className="role-sheet" aria-label="Player role">
       <p className="kicker">Player role</p>
       <h2>{positionName}</h2>
+      {arrival ? <p className="role-arrival">{arrival}</p> : null}
       <div className="role-duties" role="group" aria-label="Duty">
         {DUTIES.map((item) => (
           <button

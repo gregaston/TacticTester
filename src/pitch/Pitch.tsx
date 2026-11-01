@@ -1,13 +1,17 @@
 import { useRef, type PointerEvent } from "react";
 import { clientToPitch } from "./pointer";
+import { Arrival } from "./Arrival";
 import { Markings } from "./Markings";
 import { Token } from "./Token";
 import type { PlayerLabel, SquadLabels } from "../tactics/positions";
 import type { PitchPoint, Player } from "../tactics/types";
 import "./pitch.css";
 
+export type ArrivalMark = PitchPoint & { id: string };
+
 type PitchProps = {
   players: Player[];
+  arrivals: ArrivalMark[];
   labels: SquadLabels;
   selectedId: string | null;
   onSelect: (id: string) => void;
@@ -15,7 +19,15 @@ type PitchProps = {
   onCommit: (id: string, point: PitchPoint) => void;
 };
 
-export function Pitch({ players, labels, selectedId, onSelect, onPreview, onCommit }: PitchProps) {
+export function Pitch({
+  players,
+  arrivals,
+  labels,
+  selectedId,
+  onSelect,
+  onPreview,
+  onCommit,
+}: PitchProps) {
   const surface = useRef<HTMLDivElement>(null);
 
   function pointFrom(event: PointerEvent<SVGGElement>): PitchPoint {
@@ -28,6 +40,9 @@ export function Pitch({ players, labels, selectedId, onSelect, onPreview, onComm
     <div className="pitch" ref={surface}>
       <svg viewBox="0 0 68 105" role="img" aria-label="Tactics pitch">
         <Markings />
+        {arrivals.map((mark) => (
+          <Arrival key={mark.id} point={mark} />
+        ))}
         {players.map((player) => (
           <Token
             key={player.id}
