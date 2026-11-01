@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { closestMatch } from "./compare/closest";
 import { featuresFromPlayers } from "./compare/features";
-import { formatSeason, shapeSummary } from "./compare/format";
+import { shapeSummary } from "./compare/format";
 import { loadSeasonRecords } from "./data/records";
 import { loadShapeLibrary } from "./data/shape-library";
 import { loadStyleLibrary } from "./data/style-library";
@@ -34,20 +34,14 @@ import { decodeTactic, encodeTactic, loadTactic, saveTactic, type SavedTactic } 
 import { effectFor, roleMark, roleName, rolesFor, type Duty, type RoleId } from "./tactics/roles";
 import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
-import { testTactic, type Battery } from "./testing/battery";
-import { SITUATIONS } from "./testing/corners";
-import { liveSample, styleShiftNote } from "./testing/live";
 import { playersFromBoard, readStyle, resolveRole, WIDE_CODES } from "./testing/profile";
-import type { Situation } from "./testing/sample";
 import { InfoBanner } from "./ui/InfoBanner";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { KeepBar } from "./ui/KeepBar";
-import { MatchReport } from "./ui/MatchReport";
 import { ClosestSide } from "./ui/ClosestSide";
 import { RoleSheet } from "./ui/RoleSheet";
 import { TemplateBar } from "./ui/TemplateBar";
 import { TestSheet } from "./ui/TestSheet";
-import { WeakList } from "./ui/WeakList";
 import "./styles/global.css";
 import "./ui/shell.css";
 
@@ -132,12 +126,7 @@ export function App() {
   const [instructions, setInstructions] = useState<TeamInstructions>(
     () => opening?.instructions ?? DEFAULT_INSTRUCTIONS,
   );
-  const [situation, setSituation] = useState<Situation>("level");
-  const [battery, setBattery] = useState<Battery | null>(null);
-  const [testedKey, setTestedKey] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
-  const [roleShift, setRoleShift] = useState<string | null>(null);
-  const styleWatch = useRef<{ nearestId: string | null; setupsKey: string } | null>(null);
   const defensiveY =
     lineLive?.kind === "defensive" ? lineLive.y : defensiveAnchor(instructions.defensiveLine);
   const engagementY =
@@ -204,32 +193,7 @@ export function App() {
     players: board.players.map((player) => [player.id, player.x, player.y]),
     setups,
     instructions,
-    situation,
   });
-  const weakest = battery?.weakest[0] ?? null;
-  const weakestSide = weakest ? styles.sides.find((side) => side.id === weakest.id) ?? null : null;
-  const weakestMatch = weakestSide
-    ? liveSample({
-        players: profilePlayers,
-        instructions,
-        opponent: weakestSide,
-        situation,
-        styles: styles.sides,
-        seed: 1,
-      })
-    : null;
-  const setupsKey = JSON.stringify(setups);
-  useEffect(() => {
-    const previous = styleWatch.current;
-    setRoleShift(
-      styleShiftNote(
-        previous != null && previous.setupsKey !== setupsKey,
-        previous?.nearestId ?? null,
-        match?.id ?? null,
-      ),
-    );
-    styleWatch.current = { nearestId: match?.id ?? null, setupsKey };
-  }, [setupsKey, match?.id]);
   const selected = board.selectedId ? labels.byId[board.selectedId] : null;
 
   function commit(id: string, point: PitchPoint) {
@@ -321,32 +285,6 @@ export function App() {
     } catch {
       setStatus("Link ready");
     }
-  }
-
-  const situationLabel = SITUATIONS.find((item) => item.id === situation)?.label ?? "Level";
-  const sampleLines = (weakestMatch?.report.lines ?? []).filter(
-    (line) => !line.includes("passes the opponent completes"),
-  );
-  const reportLines = [...sampleLines, ...(weakestMatch?.notes ?? []), roleShift].filter(
-    (line): line is string => Boolean(line),
-  );
-
-  function runTest() {
-    setBattery(
-      testTactic({
-        players: profilePlayers,
-        instructions,
-        opponents: styles.sides,
-        styles: styles.sides,
-        situation,
-        seed: 1,
-      }),
-    );
-    setTestedKey(tacticKey);
-  }
-
-  function shown(row: NonNullable<Battery["held"]>) {
-    return { ...row, season: formatSeason(row.season) };
   }
 
   return (
@@ -454,40 +392,12 @@ export function App() {
         />
         <ClosestSide match={match} />
         <TestSheet
-          situationLabel={situationLabel}
-          situations={SITUATIONS.map((item) => ({ id: item.id, label: item.label }))}
-          situation={situation}
-          onSituation={(id) => {
-            const next = SITUATIONS.find((item) => item.id === id);
-            if (next) setSituation(next.id);
-          }}
-          onTest={runTest}
-          hasResult={battery != null}
-          stale={battery != null && testedKey !== tacticKey}
+          label={`${board.templateId ?? summary} · ${instructions.mentality}`}
+          tacticKey={tacticKey}
+          players={profilePlayers}
+          instructions={instructions}
+          opponents={styles.sides}
         />
-        {battery ? (
-          <WeakList
-            summary={battery.summary}
-            rows={battery.weakest.map(shown)}
-            held={battery.held ? shown(battery.held) : null}
-          />
-        ) : null}
-        {battery && weakestMatch && weakestSide ? (
-          <MatchReport
-            team={weakestSide.team}
-            season={formatSeason(weakestSide.season)}
-            competition={weakestSide.competition}
-            matches={weakestSide.matches}
-            situation={situationLabel}
-            modelXgFor={weakestMatch.report.modelXgFor}
-            modelXgAgainst={weakestMatch.report.modelXgAgainst}
-            tilt={weakestMatch.report.tilt}
-            yourPpda={weakestMatch.yourPpda}
-            theirPpda={weakestSide.ppda}
-            restDefence={weakestMatch.report.restDefence}
-            lines={reportLines}
-          />
-        ) : null}
         <p className="credit">
           {library.sides.length} team-seasons from{" "}
           <a href={library.sourceUrl}>{library.source}</a>. The record is that season's league

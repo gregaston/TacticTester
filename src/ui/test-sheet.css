@@ -1,37 +1,37 @@
 .test-sheet {
-  margin: 12px var(--gutter) 0;
-  padding: 12px;
-  background: var(--card);
+  margin: 16px var(--gutter) 0;
+  padding: 16px 12px;
+  background: var(--plum);
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-accent);
+  color: var(--on-plum);
 }
 
-.test-sheet .kicker {
-  margin: 0;
-  color: var(--accent-ink);
+.test-sheet .kicker,
+.test-intro {
+  color: var(--on-plum);
 }
 
-.test-intro,
-.test-stale {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-size: 0.85rem;
+.test-intro {
+  margin: 6px 0 0;
+  font-size: 0.95rem;
 }
 
 .test-run {
   width: 100%;
-  min-height: var(--target);
-  margin-top: 8px;
+  min-height: 64px;
+  margin-top: 12px;
   border: 0;
   border-radius: var(--radius);
-  background: var(--plum);
-  color: var(--on-plum);
-  box-shadow: var(--shadow-accent);
-  padding: 0 14px;
+  background: var(--accent);
+  color: var(--plum-deep);
+  box-shadow: 0 4px 0 0 #b01858;
+  padding: 8px 14px;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.8rem;
   letter-spacing: 0.04em;
+  line-height: 1;
   text-transform: uppercase;
 }
 
@@ -40,8 +40,8 @@
 }
 
 .test-run:focus-visible {
-  outline: 2px solid var(--plum);
-  outline-offset: 2px;
+  outline: 2px solid var(--on-plum);
+  outline-offset: 3px;
 }
 
 .test-sheet button {
@@ -49,84 +49,197 @@
   touch-action: manipulation;
 }
 
-.test-disclosure {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+.test-history {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.test-history li + li {
+  margin-top: 8px;
+}
+
+.test-history button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 2px 12px;
   width: 100%;
   min-height: var(--target);
-  margin-top: 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.test-history-label,
+.test-history button strong {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.test-history-label {
+  font-size: 1.05rem;
+}
+
+.test-history button strong {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.test-history-move,
+.test-history-stale {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.test-history-stale {
+  color: var(--accent-ink);
+}
+
+.test-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: rgba(19, 4, 34, 0.62);
+}
+
+.test-panel {
+  width: min(100%, calc(var(--page) + 32px));
+  max-height: min(92vh, 44rem);
+  overflow: auto;
+  background: var(--card);
+  color: var(--plum);
+  border-radius: 16px 16px 0 0;
+  padding: 12px var(--gutter) calc(20px + env(safe-area-inset-bottom));
+  box-shadow: var(--shadow);
+}
+
+.test-close {
+  display: block;
+  min-height: var(--target);
+  margin-left: auto;
   border: 0;
   border-radius: var(--radius);
   background: var(--paper);
   color: var(--plum);
-  box-shadow: var(--shadow);
-  padding: 8px 14px;
+  padding: 0 16px;
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 800;
   font-size: 1rem;
-  letter-spacing: 0.03em;
-  line-height: 1.1;
-  text-align: left;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.test-disclosure span:first-child {
-  min-width: 0;
-}
-
-.test-disclosure span:last-child {
-  flex: none;
-}
-
-.test-label {
-  margin: 12px 0 0;
-  color: var(--plum);
+.test-running h2,
+.test-result h2 {
+  margin: 4px 0 0;
   font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 0.875rem;
-  letter-spacing: 0.06em;
-  line-height: 1.1;
+  font-weight: 800;
+  font-size: 3.2rem;
+  line-height: 0.9;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
 }
 
-.test-options {
+.test-running p,
+.test-move,
+.test-note,
+.test-count {
+  margin: 8px 0 0;
+}
+
+.test-note,
+.test-count,
+.test-side-meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.test-figures {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 8px;
+  margin: 14px 0 0;
 }
 
-.test-options button {
+.test-figures div {
   min-height: var(--target);
-  border: 0;
-  border-radius: var(--radius);
+  padding: 8px 10px;
   background: var(--paper);
-  color: var(--plum);
-  box-shadow: var(--shadow);
-  padding: 8px;
+  border-radius: var(--radius);
+}
+
+.test-figures dt {
+  color: var(--muted);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.03em;
-  line-height: 1.05;
+  font-size: var(--kicker-size);
+  letter-spacing: var(--kicker-tracking);
   text-transform: uppercase;
 }
 
-.test-options button[aria-pressed="true"] {
-  background: var(--plum);
-  color: var(--on-plum);
-  box-shadow: var(--shadow-accent);
+.test-figures dd {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.8rem;
+  line-height: 0.9;
 }
 
-.test-options button:active,
-.test-disclosure:active {
-  transform: translateY(2px);
+.test-result h3 {
+  margin: 16px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.test-options button:focus-visible,
-.test-disclosure:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: -3px;
+.test-result ul,
+.test-result ol {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.test-result li {
+  margin: 0;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.test-result li p {
+  margin: 0;
+}
+
+.test-side {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.test-side span,
+.test-side-meta {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.test-result section p {
+  margin: 8px 0 0;
 }
