@@ -1,0 +1,1546 @@
+{
+  "source": "StatsBomb open data",
+  "sourceUrl": "https://github.com/statsbomb/open-data",
+  "note": "Starting-lineup shapes. Counts use TacticTester position bands. Line height is the named position, not a measured defensive line.",
+  "sides": [
+    {
+      "id": "athletic-club-la-liga-2015-2016",
+      "team": "Athletic Club",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.95,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.59,
+        "def": 4,
+        "dm": 1.95,
+        "cm": 0.11,
+        "am": 2.95,
+        "st": 1
+      }
+    },
+    {
+      "id": "atletico-madrid-la-liga-2015-2016",
+      "team": "Atlético Madrid",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.66,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.99,
+        "def": 4,
+        "dm": 1.66,
+        "cm": 2.11,
+        "am": 0.53,
+        "st": 1.71
+      }
+    },
+    {
+      "id": "barcelona-la-liga-2015-2016",
+      "team": "Barcelona",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.97,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.21,
+        "def": 4,
+        "dm": 1.03,
+        "cm": 1.95,
+        "am": 2.03,
+        "st": 1
+      }
+    },
+    {
+      "id": "celta-vigo-la-liga-2015-2016",
+      "team": "Celta Vigo",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.55,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.49,
+        "def": 4,
+        "dm": 1.55,
+        "cm": 0.89,
+        "am": 2.53,
+        "st": 1.03
+      }
+    },
+    {
+      "id": "eibar-la-liga-2015-2016",
+      "team": "Eibar",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.47,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.49,
+        "def": 4,
+        "dm": 1.84,
+        "cm": 1.21,
+        "am": 1.55,
+        "st": 1.39
+      }
+    },
+    {
+      "id": "espanyol-la-liga-2015-2016",
+      "team": "Espanyol",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.53,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.94,
+        "def": 4.03,
+        "dm": 1.68,
+        "cm": 1.11,
+        "am": 2,
+        "st": 1.18
+      }
+    },
+    {
+      "id": "getafe-la-liga-2015-2016",
+      "team": "Getafe",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.63,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.96,
+        "def": 4,
+        "dm": 1.76,
+        "cm": 1.05,
+        "am": 2,
+        "st": 1.18
+      }
+    },
+    {
+      "id": "granada-la-liga-2015-2016",
+      "team": "Granada",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.53,
+      "features": {
+        "backLine": 24.08,
+        "forwardLine": 86,
+        "width": 19.85,
+        "def": 4.05,
+        "dm": 1.79,
+        "cm": 0.95,
+        "am": 1.92,
+        "st": 1.29
+      }
+    },
+    {
+      "id": "las-palmas-la-liga-2015-2016",
+      "team": "Las Palmas",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.34,
+      "features": {
+        "backLine": 24.25,
+        "forwardLine": 86,
+        "width": 18.95,
+        "def": 4.16,
+        "dm": 1.42,
+        "cm": 1.87,
+        "am": 1.37,
+        "st": 1.18
+      }
+    },
+    {
+      "id": "levante-ud-la-liga-2015-2016",
+      "team": "Levante UD",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.37,
+      "features": {
+        "backLine": 24.38,
+        "forwardLine": 86,
+        "width": 19.2,
+        "def": 4.24,
+        "dm": 1.39,
+        "cm": 2.21,
+        "am": 0.55,
+        "st": 1.61
+      }
+    },
+    {
+      "id": "malaga-la-liga-2015-2016",
+      "team": "Málaga",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.76,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 21.54,
+        "def": 4,
+        "dm": 1.89,
+        "cm": 1.74,
+        "am": 0.55,
+        "st": 1.82
+      }
+    },
+    {
+      "id": "rayo-vallecano-la-liga-2015-2016",
+      "team": "Rayo Vallecano",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.66,
+      "features": {
+        "backLine": 24.08,
+        "forwardLine": 86,
+        "width": 19.69,
+        "def": 4.05,
+        "dm": 1.76,
+        "cm": 0.61,
+        "am": 2.37,
+        "st": 1.21
+      }
+    },
+    {
+      "id": "rc-deportivo-la-coruna-la-liga-2015-2016",
+      "team": "RC Deportivo La Coruña",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.47,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.74,
+        "def": 4.03,
+        "dm": 1.63,
+        "cm": 1.32,
+        "am": 1.68,
+        "st": 1.34
+      }
+    },
+    {
+      "id": "real-betis-la-liga-2015-2016",
+      "team": "Real Betis",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.47,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.76,
+        "def": 4,
+        "dm": 1.84,
+        "cm": 1.24,
+        "am": 1.42,
+        "st": 1.5
+      }
+    },
+    {
+      "id": "real-madrid-la-liga-2015-2016",
+      "team": "Real Madrid",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.76,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.35,
+        "def": 4,
+        "dm": 1.18,
+        "cm": 1.63,
+        "am": 2.16,
+        "st": 1.03
+      }
+    },
+    {
+      "id": "real-sociedad-la-liga-2015-2016",
+      "team": "Real Sociedad",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.58,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.57,
+        "def": 4,
+        "dm": 1.58,
+        "cm": 0.95,
+        "am": 2.42,
+        "st": 1.05
+      }
+    },
+    {
+      "id": "sevilla-la-liga-2015-2016",
+      "team": "Sevilla",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.79,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.89,
+        "def": 4,
+        "dm": 1.89,
+        "cm": 0.42,
+        "am": 2.55,
+        "st": 1.13
+      }
+    },
+    {
+      "id": "sporting-gijon-la-liga-2015-2016",
+      "team": "Sporting Gijón",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 37,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.59,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.35,
+        "def": 4,
+        "dm": 1.92,
+        "cm": 0.78,
+        "am": 1.97,
+        "st": 1.32
+      }
+    },
+    {
+      "id": "valencia-la-liga-2015-2016",
+      "team": "Valencia",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.61,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.36,
+        "def": 4.03,
+        "dm": 1.18,
+        "cm": 2.08,
+        "am": 1.61,
+        "st": 1.11
+      }
+    },
+    {
+      "id": "villarreal-la-liga-2015-2016",
+      "team": "Villarreal",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.87,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 21.82,
+        "def": 4,
+        "dm": 1.79,
+        "cm": 2.21,
+        "am": 0.05,
+        "st": 1.95
+      }
+    },
+    {
+      "id": "angers-ligue-1-2015-2016",
+      "team": "Angers",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.61,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.2,
+        "def": 4,
+        "dm": 1,
+        "cm": 2.79,
+        "am": 1.21,
+        "st": 1
+      }
+    },
+    {
+      "id": "as-monaco-ligue-1-2015-2016",
+      "team": "AS Monaco",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.63,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.63,
+        "def": 4.03,
+        "dm": 1.74,
+        "cm": 0.79,
+        "am": 2.39,
+        "st": 1.05
+      }
+    },
+    {
+      "id": "bastia-ligue-1-2015-2016",
+      "team": "Bastia",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.38,
+      "features": {
+        "backLine": 24.22,
+        "forwardLine": 86,
+        "width": 19.09,
+        "def": 4.14,
+        "dm": 1.59,
+        "cm": 1.41,
+        "am": 1.59,
+        "st": 1.27
+      }
+    },
+    {
+      "id": "bordeaux-ligue-1-2015-2016",
+      "team": "Bordeaux",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.38,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.35,
+        "def": 4.03,
+        "dm": 1.49,
+        "cm": 1.54,
+        "am": 1.81,
+        "st": 1.14
+      }
+    },
+    {
+      "id": "gazelec-ajaccio-ligue-1-2015-2016",
+      "team": "Gazélec Ajaccio",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "formationKey": "4-1-2-1-2",
+      "formationShare": 0.46,
+      "features": {
+        "backLine": 24.09,
+        "forwardLine": 86,
+        "width": 17.33,
+        "def": 4.05,
+        "dm": 1.3,
+        "cm": 1.89,
+        "am": 1.05,
+        "st": 1.7
+      }
+    },
+    {
+      "id": "guingamp-ligue-1-2015-2016",
+      "team": "Guingamp",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.92,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 21.79,
+        "def": 4,
+        "dm": 1.95,
+        "cm": 2.05,
+        "am": 0.08,
+        "st": 1.92
+      }
+    },
+    {
+      "id": "lille-ligue-1-2015-2016",
+      "team": "Lille",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.68,
+      "features": {
+        "backLine": 24.29,
+        "forwardLine": 86,
+        "width": 19.2,
+        "def": 4.18,
+        "dm": 1.29,
+        "cm": 1.53,
+        "am": 1.92,
+        "st": 1.08
+      }
+    },
+    {
+      "id": "lorient-ligue-1-2015-2016",
+      "team": "Lorient",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.68,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 21.17,
+        "def": 4,
+        "dm": 1.82,
+        "cm": 2.26,
+        "am": 0.24,
+        "st": 1.68
+      }
+    },
+    {
+      "id": "lyon-ligue-1-2015-2016",
+      "team": "Lyon",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-1-2-1-2",
+      "formationShare": 0.45,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 16.95,
+        "def": 4.03,
+        "dm": 1.03,
+        "cm": 2.11,
+        "am": 1.37,
+        "st": 1.47
+      }
+    },
+    {
+      "id": "montpellier-ligue-1-2015-2016",
+      "team": "Montpellier",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.5,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 18.27,
+        "def": 4,
+        "dm": 1.55,
+        "cm": 1.21,
+        "am": 1.97,
+        "st": 1.26
+      }
+    },
+    {
+      "id": "nantes-ligue-1-2015-2016",
+      "team": "Nantes",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.58,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.88,
+        "def": 4,
+        "dm": 1.92,
+        "cm": 0.84,
+        "am": 2.03,
+        "st": 1.21
+      }
+    },
+    {
+      "id": "ogc-nice-ligue-1-2015-2016",
+      "team": "OGC Nice",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-1-2-1-2",
+      "formationShare": 0.82,
+      "features": {
+        "backLine": 24.21,
+        "forwardLine": 86,
+        "width": 14.74,
+        "def": 4.13,
+        "dm": 1.08,
+        "cm": 1.84,
+        "am": 1,
+        "st": 1.95
+      }
+    },
+    {
+      "id": "olympique-de-marseille-ligue-1-2015-2016",
+      "team": "Olympique de Marseille",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 27,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.81,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.63,
+        "def": 4,
+        "dm": 1.85,
+        "cm": 0.44,
+        "am": 2.67,
+        "st": 1.04
+      }
+    },
+    {
+      "id": "paris-saint-germain-ligue-1-2015-2016",
+      "team": "Paris Saint-Germain",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.97,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.28,
+        "def": 4,
+        "dm": 1.03,
+        "cm": 2,
+        "am": 1.95,
+        "st": 1.03
+      }
+    },
+    {
+      "id": "rennes-ligue-1-2015-2016",
+      "team": "Rennes",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.32,
+      "features": {
+        "backLine": 24.46,
+        "forwardLine": 86,
+        "width": 19.03,
+        "def": 4.29,
+        "dm": 1.71,
+        "cm": 1.21,
+        "am": 1.63,
+        "st": 1.16
+      }
+    },
+    {
+      "id": "saint-etienne-ligue-1-2015-2016",
+      "team": "Saint-Étienne",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.57,
+      "features": {
+        "backLine": 24.13,
+        "forwardLine": 86,
+        "width": 19.35,
+        "def": 4.08,
+        "dm": 1.62,
+        "cm": 0.86,
+        "am": 2.41,
+        "st": 1.03
+      }
+    },
+    {
+      "id": "stade-de-reims-ligue-1-2015-2016",
+      "team": "Stade de Reims",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.24,
+      "features": {
+        "backLine": 24.55,
+        "forwardLine": 86,
+        "width": 18.85,
+        "def": 4.34,
+        "dm": 1.71,
+        "cm": 1.13,
+        "am": 1.58,
+        "st": 1.24
+      }
+    },
+    {
+      "id": "stade-malherbe-caen-ligue-1-2015-2016",
+      "team": "Stade Malherbe Caen",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 29,
+      "formationKey": "4-1-4-0-1",
+      "formationShare": 0.55,
+      "features": {
+        "backLine": 24.11,
+        "forwardLine": 86,
+        "width": 19.38,
+        "def": 4.07,
+        "dm": 1.14,
+        "cm": 2.9,
+        "am": 0.86,
+        "st": 1.03
+      }
+    },
+    {
+      "id": "toulouse-ligue-1-2015-2016",
+      "team": "Toulouse",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.32,
+      "features": {
+        "backLine": 24.08,
+        "forwardLine": 86,
+        "width": 17.94,
+        "def": 4.05,
+        "dm": 1.34,
+        "cm": 1.84,
+        "am": 1.53,
+        "st": 1.24
+      }
+    },
+    {
+      "id": "troyes-ligue-1-2015-2016",
+      "team": "Troyes",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.46,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.71,
+        "def": 4,
+        "dm": 1.62,
+        "cm": 1.78,
+        "am": 1.49,
+        "st": 1.11
+      }
+    },
+    {
+      "id": "arsenal-premier-league-2003-2004",
+      "team": "Arsenal",
+      "season": "2003/2004",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.76,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 21.73,
+        "def": 4.03,
+        "dm": 1.55,
+        "cm": 2.42,
+        "am": 0,
+        "st": 2
+      }
+    },
+    {
+      "id": "afc-bournemouth-premier-league-2015-2016",
+      "team": "AFC Bournemouth",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-1-4-0-1",
+      "formationShare": 0.37,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.03,
+        "def": 4,
+        "dm": 1.03,
+        "cm": 3.34,
+        "am": 0.34,
+        "st": 1.29
+      }
+    },
+    {
+      "id": "arsenal-premier-league-2015-2016",
+      "team": "Arsenal",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.76,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.51,
+        "def": 4,
+        "dm": 1.53,
+        "cm": 0.47,
+        "am": 3,
+        "st": 1
+      }
+    },
+    {
+      "id": "aston-villa-premier-league-2015-2016",
+      "team": "Aston Villa",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.45,
+      "features": {
+        "backLine": 24.25,
+        "forwardLine": 86,
+        "width": 18.03,
+        "def": 4.16,
+        "dm": 1.21,
+        "cm": 1.66,
+        "am": 1.71,
+        "st": 1.26
+      }
+    },
+    {
+      "id": "chelsea-premier-league-2015-2016",
+      "team": "Chelsea",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.68,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.48,
+        "def": 4,
+        "dm": 1.42,
+        "cm": 0.63,
+        "am": 2.95,
+        "st": 1
+      }
+    },
+    {
+      "id": "crystal-palace-premier-league-2015-2016",
+      "team": "Crystal Palace",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.45,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.02,
+        "def": 4,
+        "dm": 1.45,
+        "cm": 1.58,
+        "am": 1.74,
+        "st": 1.24
+      }
+    },
+    {
+      "id": "everton-premier-league-2015-2016",
+      "team": "Everton",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.47,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.35,
+        "def": 4.03,
+        "dm": 1.18,
+        "cm": 1.11,
+        "am": 2.63,
+        "st": 1.05
+      }
+    },
+    {
+      "id": "leicester-city-premier-league-2015-2016",
+      "team": "Leicester City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-0-4-0-2",
+      "formationShare": 0.45,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 21.47,
+        "def": 4,
+        "dm": 0.97,
+        "cm": 3.03,
+        "am": 0.13,
+        "st": 1.87
+      }
+    },
+    {
+      "id": "liverpool-premier-league-2015-2016",
+      "team": "Liverpool",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.34,
+      "features": {
+        "backLine": 24.13,
+        "forwardLine": 86,
+        "width": 18.84,
+        "def": 4.08,
+        "dm": 1.05,
+        "cm": 1.76,
+        "am": 1.95,
+        "st": 1.16
+      }
+    },
+    {
+      "id": "manchester-city-premier-league-2015-2016",
+      "team": "Manchester City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.45,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.29,
+        "def": 4,
+        "dm": 1.37,
+        "cm": 1.37,
+        "am": 1.92,
+        "st": 1.34
+      }
+    },
+    {
+      "id": "manchester-united-premier-league-2015-2016",
+      "team": "Manchester United",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.39,
+      "features": {
+        "backLine": 24.08,
+        "forwardLine": 86,
+        "width": 19.15,
+        "def": 4.05,
+        "dm": 1.24,
+        "cm": 1.5,
+        "am": 2.13,
+        "st": 1.08
+      }
+    },
+    {
+      "id": "newcastle-united-premier-league-2015-2016",
+      "team": "Newcastle United",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.37,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.81,
+        "def": 4.03,
+        "dm": 1.18,
+        "cm": 1.47,
+        "am": 2.13,
+        "st": 1.18
+      }
+    },
+    {
+      "id": "norwich-city-premier-league-2015-2016",
+      "team": "Norwich City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-2-1-1",
+      "formationShare": 0.39,
+      "features": {
+        "backLine": 24.13,
+        "forwardLine": 86,
+        "width": 19.39,
+        "def": 4.08,
+        "dm": 1.32,
+        "cm": 2.11,
+        "am": 1.47,
+        "st": 1.03
+      }
+    },
+    {
+      "id": "southampton-premier-league-2015-2016",
+      "team": "Southampton",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.39,
+      "features": {
+        "backLine": 24.34,
+        "forwardLine": 86,
+        "width": 19.22,
+        "def": 4.21,
+        "dm": 1.42,
+        "cm": 0.97,
+        "am": 2.24,
+        "st": 1.16
+      }
+    },
+    {
+      "id": "stoke-city-premier-league-2015-2016",
+      "team": "Stoke City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.74,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.5,
+        "def": 4,
+        "dm": 1.61,
+        "cm": 0.61,
+        "am": 2.79,
+        "st": 1
+      }
+    },
+    {
+      "id": "sunderland-premier-league-2015-2016",
+      "team": "Sunderland",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-1-4-0-1",
+      "formationShare": 0.47,
+      "features": {
+        "backLine": 24.25,
+        "forwardLine": 86,
+        "width": 18.81,
+        "def": 4.16,
+        "dm": 1.21,
+        "cm": 2.47,
+        "am": 1.03,
+        "st": 1.13
+      }
+    },
+    {
+      "id": "swansea-city-premier-league-2015-2016",
+      "team": "Swansea City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 37,
+      "formationKey": "4-0-2-3-1",
+      "formationShare": 0.32,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 18.37,
+        "def": 4,
+        "dm": 0.92,
+        "cm": 1.54,
+        "am": 2.38,
+        "st": 1.16
+      }
+    },
+    {
+      "id": "tottenham-hotspur-premier-league-2015-2016",
+      "team": "Tottenham Hotspur",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.68,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19.43,
+        "def": 4.03,
+        "dm": 1.47,
+        "cm": 0.55,
+        "am": 2.95,
+        "st": 1
+      }
+    },
+    {
+      "id": "watford-premier-league-2015-2016",
+      "team": "Watford",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.39,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.76,
+        "def": 4,
+        "dm": 1.26,
+        "cm": 2.37,
+        "am": 0.63,
+        "st": 1.74
+      }
+    },
+    {
+      "id": "west-bromwich-albion-premier-league-2015-2016",
+      "team": "West Bromwich Albion",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.24,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.95,
+        "def": 4,
+        "dm": 1.24,
+        "cm": 2.26,
+        "am": 1.26,
+        "st": 1.24
+      }
+    },
+    {
+      "id": "west-ham-united-premier-league-2015-2016",
+      "team": "West Ham United",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.34,
+      "features": {
+        "backLine": 24.13,
+        "forwardLine": 86,
+        "width": 19.36,
+        "def": 4.08,
+        "dm": 1.24,
+        "cm": 1.82,
+        "am": 1.76,
+        "st": 1.11
+      }
+    },
+    {
+      "id": "ac-milan-serie-a-2015-2016",
+      "team": "AC Milan",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.47,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 18.89,
+        "def": 4,
+        "dm": 1.5,
+        "cm": 2,
+        "am": 0.68,
+        "st": 1.82
+      }
+    },
+    {
+      "id": "as-roma-serie-a-2015-2016",
+      "team": "AS Roma",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.47,
+      "features": {
+        "backLine": 24.08,
+        "forwardLine": 86,
+        "width": 18.86,
+        "def": 4.05,
+        "dm": 1.42,
+        "cm": 1.37,
+        "am": 2,
+        "st": 1.16
+      }
+    },
+    {
+      "id": "atalanta-serie-a-2015-2016",
+      "team": "Atalanta",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.68,
+      "features": {
+        "backLine": 24.21,
+        "forwardLine": 86,
+        "width": 18.77,
+        "def": 4.13,
+        "dm": 1.21,
+        "cm": 1.58,
+        "am": 2,
+        "st": 1.08
+      }
+    },
+    {
+      "id": "bologna-serie-a-2015-2016",
+      "team": "Bologna",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.71,
+      "features": {
+        "backLine": 24.04,
+        "forwardLine": 86,
+        "width": 19,
+        "def": 4.03,
+        "dm": 1.11,
+        "cm": 2.03,
+        "am": 1.76,
+        "st": 1.08
+      }
+    },
+    {
+      "id": "carpi-serie-a-2015-2016",
+      "team": "Carpi",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-2-2-1-1",
+      "formationShare": 0.32,
+      "features": {
+        "backLine": 24.72,
+        "forwardLine": 86,
+        "width": 17.02,
+        "def": 4.45,
+        "dm": 1.42,
+        "cm": 2.16,
+        "am": 0.68,
+        "st": 1.29
+      }
+    },
+    {
+      "id": "chievo-serie-a-2015-2016",
+      "team": "Chievo",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-1-2",
+      "formationShare": 0.84,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 15.38,
+        "def": 4,
+        "dm": 1.08,
+        "cm": 2,
+        "am": 1,
+        "st": 1.92
+      }
+    },
+    {
+      "id": "empoli-serie-a-2015-2016",
+      "team": "Empoli",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-1-2",
+      "formationShare": 1,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 14.4,
+        "def": 4,
+        "dm": 1,
+        "cm": 2,
+        "am": 1,
+        "st": 2
+      }
+    },
+    {
+      "id": "fiorentina-serie-a-2015-2016",
+      "team": "Fiorentina",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "5-2-0-2-1",
+      "formationShare": 0.45,
+      "features": {
+        "backLine": 24.88,
+        "forwardLine": 86,
+        "width": 17.96,
+        "def": 4.55,
+        "dm": 1.89,
+        "cm": 0.26,
+        "am": 2.21,
+        "st": 1.08
+      }
+    },
+    {
+      "id": "frosinone-serie-a-2015-2016",
+      "team": "Frosinone",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-2-2-0-2",
+      "formationShare": 0.5,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 20.36,
+        "def": 4,
+        "dm": 1.53,
+        "cm": 2,
+        "am": 0.92,
+        "st": 1.55
+      }
+    },
+    {
+      "id": "genoa-serie-a-2015-2016",
+      "team": "Genoa",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "5-2-0-2-1",
+      "formationShare": 0.5,
+      "features": {
+        "backLine": 25.6,
+        "forwardLine": 86,
+        "width": 17.29,
+        "def": 5,
+        "dm": 1.74,
+        "cm": 0.53,
+        "am": 1.29,
+        "st": 1.45
+      }
+    },
+    {
+      "id": "hellas-verona-serie-a-2015-2016",
+      "team": "Hellas Verona",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.29,
+      "features": {
+        "backLine": 24.17,
+        "forwardLine": 86,
+        "width": 19.84,
+        "def": 4.11,
+        "dm": 1.55,
+        "cm": 1.84,
+        "am": 1.18,
+        "st": 1.32
+      }
+    },
+    {
+      "id": "inter-milan-serie-a-2015-2016",
+      "team": "Inter Milan",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-2-0-3-1",
+      "formationShare": 0.29,
+      "features": {
+        "backLine": 24.13,
+        "forwardLine": 86,
+        "width": 18.74,
+        "def": 4.08,
+        "dm": 1.53,
+        "cm": 1.53,
+        "am": 1.42,
+        "st": 1.45
+      }
+    },
+    {
+      "id": "juventus-serie-a-2015-2016",
+      "team": "Juventus",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "5-1-2-0-2",
+      "formationShare": 0.63,
+      "features": {
+        "backLine": 25.05,
+        "forwardLine": 86,
+        "width": 15.58,
+        "def": 4.66,
+        "dm": 1.08,
+        "cm": 2,
+        "am": 0.37,
+        "st": 1.89
+      }
+    },
+    {
+      "id": "lazio-serie-a-2015-2016",
+      "team": "Lazio",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.63,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.19,
+        "def": 4,
+        "dm": 1.29,
+        "cm": 1.58,
+        "am": 2.11,
+        "st": 1.03
+      }
+    },
+    {
+      "id": "napoli-serie-a-2015-2016",
+      "team": "Napoli",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.92,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 18.82,
+        "def": 4,
+        "dm": 1,
+        "cm": 2,
+        "am": 1.92,
+        "st": 1.08
+      }
+    },
+    {
+      "id": "palermo-serie-a-2015-2016",
+      "team": "Palermo",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "5-1-2-1-1",
+      "formationShare": 0.26,
+      "features": {
+        "backLine": 24.84,
+        "forwardLine": 86,
+        "width": 16,
+        "def": 4.53,
+        "dm": 1.26,
+        "cm": 1.68,
+        "am": 1.21,
+        "st": 1.32
+      }
+    },
+    {
+      "id": "sampdoria-serie-a-2015-2016",
+      "team": "Sampdoria",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.29,
+      "features": {
+        "backLine": 24.72,
+        "forwardLine": 86,
+        "width": 17.23,
+        "def": 4.45,
+        "dm": 1.32,
+        "cm": 1.53,
+        "am": 1.45,
+        "st": 1.26
+      }
+    },
+    {
+      "id": "sassuolo-serie-a-2015-2016",
+      "team": "Sassuolo",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "4-1-2-2-1",
+      "formationShare": 0.97,
+      "features": {
+        "backLine": 24,
+        "forwardLine": 86,
+        "width": 19.2,
+        "def": 4,
+        "dm": 1,
+        "cm": 2.05,
+        "am": 1.95,
+        "st": 1
+      }
+    },
+    {
+      "id": "torino-serie-a-2015-2016",
+      "team": "Torino",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "5-1-2-0-2",
+      "formationShare": 1,
+      "features": {
+        "backLine": 25.6,
+        "forwardLine": 86,
+        "width": 14.8,
+        "def": 5,
+        "dm": 1,
+        "cm": 2,
+        "am": 0,
+        "st": 2
+      }
+    },
+    {
+      "id": "udinese-serie-a-2015-2016",
+      "team": "Udinese",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "formationKey": "5-1-2-0-2",
+      "formationShare": 0.76,
+      "features": {
+        "backLine": 25.43,
+        "forwardLine": 86,
+        "width": 15.04,
+        "def": 4.89,
+        "dm": 1.08,
+        "cm": 1.84,
+        "am": 0.32,
+        "st": 1.87
+      }
+    }
+  ]
+}

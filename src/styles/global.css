@@ -1,0 +1,44 @@
+:root {
+  color: #1c1915;
+  background: #f3efe6;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  line-height: 1.4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 32rem;
+  margin: 0 auto;
+  padding: 16px 0 calc(16px + env(safe-area-inset-bottom));
+}
+
+.masthead {
+  padding: 0 16px 8px;
+}
+
+.masthead h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.masthead p {
+  margin: 2px 0 0;
+  color: #3f3a33;
+}

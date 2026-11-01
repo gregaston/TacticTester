@@ -1,0 +1,101 @@
+.toolbar,
+.nearest,
+.selection,
+.credit {
+  padding: 0 16px;
+}
+
+.templates {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.templates button,
+.nearest button,
+.free {
+  min-height: 44px;
+}
+
+.templates button,
+.nearest button {
+  border: 1px solid #d9d0c1;
+  background: #fffdf8;
+  color: #1c1915;
+  border-radius: 999px;
+  padding: 0 14px;
+  font: inherit;
+}
+
+.templates button[aria-pressed="true"] {
+  background: #1c1915;
+  color: #f7f3ea;
+  border-color: #1c1915;
+}
+
+.free {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.95rem;
+}
+
+.selection {
+  min-height: 2.6rem;
+  margin: 8px 0 0;
+  color: #3f3a33;
+}
+
+.selection strong {
+  color: #1c1915;
+}
+
+.nearest {
+  margin-top: 12px;
+}
+
+.kicker,
+.meta,
+.credit {
+  color: #5e584e;
+  font-size: 0.85rem;
+}
+
+.nearest h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 650;
+}
+
+.phrase {
+  margin: 8px 0;
+  font-weight: 650;
+}
+
+.pinned {
+  margin: 0 0 8px;
+}
+
+.nearest ol {
+  margin: 8px 0 0;
+  padding-left: 1.1rem;
+}
+
+.nearest li {
+  margin: 8px 0;
+}
+
+.nearest li span,
+.nearest .meta {
+  display: block;
+}
+
+.credit {
+  margin: 12px 0 0;
+}
+
+.credit a {
+  color: #9a3412;
+}

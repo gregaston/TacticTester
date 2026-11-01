@@ -1,0 +1,8 @@
+{
+  "name": "TacticTester",
+  "short_name": "TacticTester",
+  "display": "standalone",
+  "background_color": "#f3efe6",
+  "theme_color": "#f3efe6",
+  "start_url": "."
+}
