@@ -188,7 +188,6 @@ export function App() {
   }, [setupsKey, reading.nearestId]);
   const pinned = library.sides.find((side) => side.id === pinnedId) ?? null;
   const selected = board.selectedId ? labels.byId[board.selectedId] : null;
-  const title = board.templateId ?? "Custom";
 
   function commit(id: string, point: PitchPoint) {
     setPreview(null);
@@ -279,12 +278,8 @@ export function App() {
     <div className="app">
       <header className="masthead">
         <div className="masthead-inner">
-          <p className="kicker">Shape</p>
           <h1>TacticTester</h1>
-          <p className="shape">
-            <span className="shape-name">{title}</span>
-            {summary !== title ? <span className="shape-detail">{summary}</span> : null}
-          </p>
+          <KeepBar status={status} onSave={save} onShare={() => void share()} />
         </div>
       </header>
       <main className="sheet">
@@ -306,6 +301,13 @@ export function App() {
                 : selected.name
               : "Drag a player. The position name follows the pitch."}
         </p>
+        <section className="formation-readout" aria-label="Formation">
+          {board.templateId ? <span className="formation-name">{board.templateId}</span> : null}
+          {board.templateId && summary !== board.templateId ? " " : null}
+          {!board.templateId || summary !== board.templateId ? (
+            <span className={board.templateId ? "formation-code" : "formation-name"}>{summary}</span>
+          ) : null}
+        </section>
         <Pitch
           players={display}
           arrivals={arrivals}
@@ -390,7 +392,6 @@ export function App() {
           />
         ) : null}
         <NearestSide ranked={nearest} pinned={pinned} />
-        <KeepBar status={status} onSave={save} onShare={() => void share()} />
         <p className="credit">
           {library.sides.length} team-seasons from{" "}
           <a href={library.sourceUrl}>{library.source}</a>. Shapes are starting lineups, not

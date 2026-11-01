@@ -36,7 +36,7 @@ button {
   background: var(--plum);
   color: var(--on-plum);
   box-shadow: var(--shadow-accent);
-  padding: calc(10px + env(safe-area-inset-top)) var(--gutter) 12px;
+  padding: calc(2px + env(safe-area-inset-top)) 8px 2px var(--gutter);
 }
 
 .masthead-inner,
@@ -45,47 +45,26 @@ button {
   margin: 0 auto;
 }
 
+.masthead-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--target);
+}
+
 .sheet {
   padding-bottom: calc(20px + env(safe-area-inset-bottom));
 }
 
 .masthead h1 {
-  margin: 1px 0 0;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 2rem;
-  line-height: 0.85;
+  font-size: 1.35rem;
+  line-height: 1;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-}
-
-.masthead .kicker {
-  color: var(--accent);
-}
-
-.shape {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin: 8px 0 0;
-}
-
-.shape-name {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.2rem;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.shape-detail {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.2rem;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.82);
 }
 
 .kicker {

@@ -1,7 +1,37 @@
 .toolbar,
 .nearest,
-.empty {
+.empty,
+.formation-readout {
   margin: 12px var(--gutter) 0;
+}
+
+.formation-readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px 12px;
+  padding: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.formation-name,
+.formation-code {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.formation-name {
+  font-size: 1.45rem;
+}
+
+.formation-code {
+  color: var(--muted);
+  font-size: 1.15rem;
 }
 
 .toolbar,
