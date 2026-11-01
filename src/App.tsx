@@ -194,7 +194,6 @@ export function App() {
     setBoard((state) => movePlayer(state, id, point));
   }
 
-  const selectionIsName = Boolean(selected) && !labels.keeperInferred;
   const roleChoices = selected ? rolesFor(selected.line, WIDE_CODES.has(selected.code)) : [];
   const stored = board.selectedId ? setups[board.selectedId] : undefined;
   const roleId: RoleId | null =
@@ -290,14 +289,8 @@ export function App() {
             setBoard((state) => chooseTemplate(state, id));
           }}
         />
-        {labels.keeperInferred || selected ? (
-          <p className={selectionIsName ? "selection is-name" : "selection"}>
-            {labels.keeperInferred
-              ? "No goalkeeper was placed, so the deepest player is marked in goal."
-              : selected?.alternateName
-                ? `${selected.name} / ${selected.alternateName}`
-                : selected?.name}
-          </p>
+        {labels.keeperInferred ? (
+          <p className="selection">No goalkeeper was placed, so the deepest player is marked in goal.</p>
         ) : null}
         <section className="formation-readout" aria-label="Formation">
           {board.templateId ? <span className="formation-name">{board.templateId}</span> : null}

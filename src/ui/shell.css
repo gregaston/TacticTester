@@ -123,16 +123,6 @@
   color: var(--muted);
 }
 
-.selection.is-name {
-  color: var(--plum);
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.35rem;
-  letter-spacing: 0.03em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
 .nearest .kicker {
   color: var(--accent-ink);
 }
