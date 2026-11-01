@@ -1,30 +1,41 @@
 import { useEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
-import { clientToPitch } from "./pointer";
-import { Arrival } from "./Arrival";
+import type { HeatBlob } from "../tactics/heat";
+import type { PlayerLabel, SquadLabels } from "../tactics/positions";
+import type { Duty } from "../tactics/roles";
+import type { PitchPoint, Player } from "../tactics/types";
+import { Grass } from "./Grass";
+import { Heatmap } from "./Heatmap";
 import { Markings } from "./Markings";
 import { Token } from "./Token";
-import type { PlayerLabel, SquadLabels } from "../tactics/positions";
-import type { PitchPoint, Player } from "../tactics/types";
+import { clientToPitch, dragStarts } from "./pointer";
 import "./pitch.css";
 
-export type ArrivalMark = PitchPoint & { id: string };
+export type TokenFace = {
+  mark: string;
+  roleName: string;
+  duty: Duty;
+};
 
 type PitchProps = {
   players: Player[];
-  arrivals: ArrivalMark[];
   labels: SquadLabels;
+  faces: Record<string, TokenFace>;
+  heat: HeatBlob[];
   selectedId: string | null;
   onSelect: (id: string) => void;
+  onDeselect: () => void;
   onPreview: (id: string, point: PitchPoint) => void;
   onCommit: (id: string, point: PitchPoint) => void;
 };
 
 export function Pitch({
   players,
-  arrivals,
   labels,
+  faces,
+  heat,
   selectedId,
   onSelect,
+  onDeselect,
   onPreview,
   onCommit,
 }: PitchProps) {
@@ -43,6 +54,10 @@ export function Pitch({
   function grab(id: string, event: ReactPointerEvent<SVGGElement>) {
     interrupt.current?.();
     const pointerId = event.pointerId;
+    const wasSelected = id === selectedId;
+    const originX = event.clientX;
+    const originY = event.clientY;
+    let dragging = false;
     let last = pointFrom(event);
     const dropListeners = () => {
       window.removeEventListener("pointermove", move);
@@ -53,18 +68,31 @@ export function Pitch({
     };
     const move = (ev: PointerEvent) => {
       if (ev.pointerId !== pointerId) return;
+      const distance = Math.hypot(ev.clientX - originX, ev.clientY - originY);
+      if (!dragging) {
+        if (!dragStarts(distance, wasSelected)) return;
+        dragging = true;
+        if (!wasSelected) onSelect(id);
+      }
       last = pointFrom(ev);
       onPreview(id, last);
     };
     const finish = (ev: PointerEvent) => {
       if (ev.pointerId !== pointerId) return;
       dropListeners();
+      if (!dragging) {
+        if (wasSelected) onDeselect();
+        else onSelect(id);
+        return;
+      }
       onCommit(id, pointFrom(ev));
     };
     detach.current = dropListeners;
     interrupt.current = () => {
+      const moved = dragging;
+      const point = last;
       dropListeners();
-      onCommit(id, last);
+      if (moved) onCommit(id, point);
     };
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", finish);
@@ -73,21 +101,26 @@ export function Pitch({
 
   return (
     <div className="pitch" ref={surface}>
-      <svg viewBox="0 0 68 105" role="img" aria-label="Tactics pitch">
+      <svg viewBox="0 0 68 105" role="img" aria-label="Tactics pitch. The shade shows where players arrive.">
+        <Grass />
+        <Heatmap blobs={heat} />
         <Markings />
-        {arrivals.map((mark) => (
-          <Arrival key={mark.id} point={mark} />
-        ))}
-        {players.map((player) => (
-          <Token
-            key={player.id}
-            player={player}
-            label={labels.byId[player.id] as PlayerLabel}
-            selected={player.id === selectedId}
-            onSelect={() => onSelect(player.id)}
-            onGrab={(event) => grab(player.id, event)}
-          />
-        ))}
+        {players.map((player) => {
+          const face = faces[player.id];
+          return (
+            <Token
+              key={player.id}
+              player={player}
+              label={labels.byId[player.id] as PlayerLabel}
+              mark={face.mark}
+              roleName={face.roleName}
+              duty={face.duty}
+              selected={player.id === selectedId}
+              onGrab={(event) => grab(player.id, event)}
+              onTap={() => (player.id === selectedId ? onDeselect() : onSelect(player.id))}
+            />
+          );
+        })}
       </svg>
     </div>
   );

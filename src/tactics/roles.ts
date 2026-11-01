@@ -516,6 +516,50 @@ export function rolesFor(line: Line, wide: boolean): RoleDefinition[] {
   );
 }
 
+const MARKS: Record<RoleId, string> = {
+  goalkeeper: "GK",
+  "sweeper-keeper": "SK",
+  "centre-back": "CB",
+  "ball-playing-defender": "BPD",
+  "no-nonsense-centre-back": "NCB",
+  "covering-centre-back": "CCD",
+  stopper: "STP",
+  "full-back": "FB",
+  "wing-back": "WB",
+  "inverted-wing-back": "IWB",
+  "defensive-midfielder": "DM",
+  "deep-lying-playmaker": "DLP",
+  "ball-winning-midfielder": "BWM",
+  "half-back": "HB",
+  regista: "REG",
+  "segundo-volante": "SV",
+  "central-midfielder": "CM",
+  "box-to-box": "B2B",
+  mezzala: "MEZ",
+  "attacking-midfielder": "AM",
+  "advanced-playmaker": "AP",
+  "shadow-striker": "SS",
+  enganche: "ENG",
+  winger: "W",
+  "inverted-winger": "IW",
+  "inside-forward": "IF",
+  raumdeuter: "RMD",
+  "advanced-forward": "AF",
+  "deep-lying-forward": "DLF",
+  "pressing-forward": "PF",
+  "target-forward": "TF",
+  poacher: "P",
+  "false-nine": "F9",
+};
+
+export function roleName(roleId: RoleId): string {
+  return BY_ID.get(roleId)?.name ?? roleId;
+}
+
+export function roleMark(roleId: RoleId): string {
+  return MARKS[roleId];
+}
+
 export function effectFor(roleId: RoleId, duty: Duty): RoleEffect {
   const role = BY_ID.get(roleId);
   if (!role) throw new Error(`Unknown role: ${roleId}`);

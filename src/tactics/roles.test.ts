@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import {
   ROLES,
   effectFor,
+  roleMark,
+  roleName,
   rolesFor,
   type Duty,
   type RoleId,
@@ -195,6 +197,17 @@ describe("effectFor", () => {
     expect(Math.abs(support.y)).toBeLessThanOrEqual(1);
     expect(support.passRisk).toBeGreaterThan(0.7);
     expect(support.pressing).toBeLessThan(0.2);
+  });
+});
+
+describe("roleMark", () => {
+  it("gives every role a short unique mark and its full name", () => {
+    const marks = EXPECTED_IDS.map((id) => roleMark(id));
+    expect(new Set(marks).size).toBe(marks.length);
+    for (const id of EXPECTED_IDS) {
+      expect(roleMark(id)).toMatch(/^[A-Z0-9]{1,3}$/);
+      expect(roleName(id).length).toBeGreaterThan(roleMark(id).length);
+    }
   });
 });
 

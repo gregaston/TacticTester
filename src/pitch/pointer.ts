@@ -5,6 +5,14 @@ export type PitchRect = {
   height: number;
 };
 
+/** A short drag still moves a player. A selected player needs a clearer pull. */
+export const MOVE_SLOP = 10;
+export const SELECTED_MOVE_SLOP = 28;
+
+export function dragStarts(distance: number, selected: boolean): boolean {
+  return distance >= (selected ? SELECTED_MOVE_SLOP : MOVE_SLOP);
+}
+
 export function clientToPitch(
   clientX: number,
   clientY: number,

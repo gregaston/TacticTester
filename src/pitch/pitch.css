@@ -14,7 +14,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--pitch);
+  background: #1c5536;
 }
 
 .markings {
@@ -23,10 +23,8 @@
   stroke-width: 0.35;
 }
 
-.arrival {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 0.55;
+.heat,
+.grass {
   pointer-events: none;
 }
 
@@ -50,11 +48,24 @@
 .token text {
   fill: var(--plum);
   font-family: var(--font-display);
-  font-size: 2.45px;
+  font-size: 2.05px;
   font-weight: 800;
   text-anchor: middle;
   dominant-baseline: middle;
   pointer-events: none;
+}
+
+.token .duty {
+  fill: var(--plum);
+  pointer-events: none;
+}
+
+.token.duty-defend .disc {
+  fill: #e4eef8;
+}
+
+.token.duty-attack .disc {
+  fill: #fff1d6;
 }
 
 .token.selected .disc {
@@ -62,6 +73,7 @@
   stroke: var(--plum);
 }
 
-.token.selected text {
+.token.selected text,
+.token.selected .duty {
   fill: var(--plum-deep);
 }

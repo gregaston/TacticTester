@@ -4,7 +4,7 @@ import { formatSeason, shapeSummary } from "./compare/format";
 import { rankSides } from "./compare/nearest";
 import { loadShapeLibrary } from "./data/shape-library";
 import { loadStyleLibrary } from "./data/style-library";
-import { Pitch } from "./pitch/Pitch";
+import { Pitch, type TokenFace } from "./pitch/Pitch";
 import { chooseTemplate, createBoard, movePlayer, selectPlayer, type BoardState } from "./tactics/board";
 import {
   DEFAULT_INSTRUCTIONS,
@@ -14,9 +14,10 @@ import {
   type TeamInstructions,
 } from "./tactics/instructions";
 import { labelSquad } from "./tactics/positions";
-import { arrivalNote, arrivalPoint, hasArrivalMark } from "./tactics/arrival";
+import { arrivalNote } from "./tactics/arrival";
+import { heatBlobs, heatSpread, influencedPoint } from "./tactics/heat";
 import { decodeTactic, encodeTactic, loadTactic, saveTactic, type SavedTactic } from "./tactics/persist";
-import { effectFor, rolesFor, type Duty, type RoleId } from "./tactics/roles";
+import { effectFor, roleMark, roleName, rolesFor, type Duty, type RoleId } from "./tactics/roles";
 import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
 import { testTactic, type Battery } from "./testing/battery";
@@ -139,14 +140,20 @@ export function App() {
     : board.players;
   const labels = labelSquad(display);
   const placed = labelSquad(board.players);
-  const arrivals = board.players.flatMap((player) => {
-    const label = placed.byId[player.id];
+  const spread = heatSpread(instructions);
+  const faces: Record<string, TokenFace> = {};
+  const heat = display.flatMap((player) => {
+    const label = labels.byId[player.id];
     const choice = resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]);
-    const arrival = arrivalPoint(
-      player,
-      effectFor(choice.roleId, dutyNudge(choice.duty, instructions.mentality)),
-    );
-    return hasArrivalMark(player, arrival) ? [{ id: player.id, ...arrival }] : [];
+    faces[player.id] = {
+      mark: roleMark(choice.roleId),
+      roleName: roleName(choice.roleId),
+      duty: choice.duty,
+    };
+    if (board.selectedId && player.id !== board.selectedId) return [];
+    const effect = effectFor(choice.roleId, dutyNudge(choice.duty, instructions.mentality));
+    const arrival = influencedPoint(player, label.line, effect, instructions);
+    return heatBlobs(player, arrival, spread, player.id === board.selectedId);
   });
   const summary = shapeSummary(featuresFromPlayers(display));
   const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
@@ -202,8 +209,11 @@ export function App() {
   const nudgedDuty = dutyNudge(duty, instructions.mentality);
   const selectedPlayer = board.players.find((player) => player.id === board.selectedId) ?? null;
   const arrivalLine =
-    selectedPlayer && roleId
-      ? arrivalNote(selectedPlayer, arrivalPoint(selectedPlayer, effectFor(roleId, nudgedDuty)))
+    selectedPlayer && roleId && selected
+      ? arrivalNote(
+          selectedPlayer,
+          influencedPoint(selectedPlayer, selected.line, effectFor(roleId, nudgedDuty), instructions),
+        )
       : null;
   const mentalityNote =
     nudgedDuty === duty
@@ -304,14 +314,22 @@ export function App() {
         </section>
         <Pitch
           players={display}
-          arrivals={arrivals}
           labels={labels}
+          faces={faces}
+          heat={heat}
           selectedId={board.selectedId}
           onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
+          onDeselect={() => {
+            setPreview(null);
+            setBoard((state) => selectPlayer(state, null));
+          }}
           onPreview={(id, point) => setPreview({ id, ...point })}
           onCommit={commit}
         />
-        <InfoBanner>Drag players to change position. Select players to change role.</InfoBanner>
+        <InfoBanner>
+          Drag players to change position. Select players to change role. Tap a selected player again to clear
+          them. The shade shows where players arrive.
+        </InfoBanner>
         {selected && roleId ? (
           <RoleSheet
             positionName={selected.name}
