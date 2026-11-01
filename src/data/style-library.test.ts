@@ -11,15 +11,22 @@ describe("style library", () => {
     expect(library.sourceUrl).toBe("https://github.com/statsbomb/open-data");
     expect(library.note).toContain("PPDA-style");
     expect(library.note).toContain("open-data shot xG");
+    expect(library.note).toContain("computed from StatsBomb open data");
     expect(library.sides.length).toBeGreaterThan(0);
   });
 
   it("matches shape-library ids and stays inside broad ranges", () => {
     const ids = library.sides.map((side) => side.id);
     expect(new Set(ids).size).toBe(ids.length);
+    expect(library.sides).toHaveLength(81);
     for (const side of library.sides) {
       expect(shapeIds.has(side.id)).toBe(true);
       expect(side.matches).toBeGreaterThanOrEqual(10);
+      expect(side.longPassShare).toBeGreaterThanOrEqual(0);
+      expect(side.longPassShare).toBeLessThanOrEqual(1);
+      expect(side.progressivePerMatch).toBeGreaterThanOrEqual(0);
+      expect(side.fieldTilt).toBeGreaterThanOrEqual(0);
+      expect(side.fieldTilt).toBeLessThanOrEqual(1);
       expect(side.passLength).toBeGreaterThanOrEqual(8);
       expect(side.passLength).toBeLessThanOrEqual(40);
       expect(side.xgPerShot).toBeGreaterThanOrEqual(0.02);

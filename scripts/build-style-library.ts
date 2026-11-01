@@ -22,6 +22,19 @@ import path from "node:path";
  * Defensive actions are Tackle, Interception, Foul Committed, Block, and
  * Dribbled Past. Current open data records a tackle as a Duel whose duel
  * type is Tackle; those count too. Pressure events are not required.
+ *
+ * longPassShare is the share of those completed passes whose length is at
+ * least 30 yards.
+ * progressivePerMatch counts completed passes that start at normalised
+ * x >= 40 and move the ball at least 25% closer to the opponent goal line
+ * (x = 120), using pass.end_location in the same attacking frame. The count
+ * is per match.
+ * fieldTilt is this side's final-third on-ball events divided by both sides'
+ * final-third on-ball events, summed across the matches in the sample (a
+ * season ratio, not a mean of match ratios). The final third is normalised
+ * x >= 80 in that event team's attacking frame. On-ball events are Pass,
+ * Carry, Dribble, Shot, and Ball Receipt. StatsBomb names the receipt
+ * "Ball Receipt*".
  */
 
 const ROOT = "https://raw.githubusercontent.com/statsbomb/open-data/master/data";
@@ -55,7 +68,7 @@ type SbEvent = {
   type?: { name?: string };
   team?: { id?: number; name?: string };
   location?: number[];
-  pass?: { length?: number; outcome?: { name?: string } | null };
+  pass?: { length?: number; outcome?: { name?: string } | null; end_location?: number[] };
   shot?: { statsbomb_xg?: number };
   duel?: { type?: { name?: string } };
 };
@@ -76,6 +89,10 @@ type Totals = {
   pressCount: number;
   ppdaSum: number;
   ppdaMatches: number;
+  longPasses: number;
+  progressive: number;
+  ownFinalThird: number;
+  oppFinalThird: number;
 };
 
 type MatchStats = {
@@ -90,6 +107,10 @@ type MatchStats = {
   pressCount: number;
   oppPasses: number;
   defZone: number;
+  longPasses: number;
+  progressive: number;
+  ownFinalThird: number;
+  oppFinalThird: number;
 };
 
 type StyleSide = {
@@ -104,6 +125,9 @@ type StyleSide = {
   shotGrid: ShotGrid;
   pressHeight: number;
   ppda: number;
+  longPassShare: number;
+  progressivePerMatch: number;
+  fieldTilt: number;
 };
 
 const DEFENSIVE_TYPES = new Set(["Tackle", "Interception", "Foul Committed", "Block", "Dribbled Past"]);
@@ -146,7 +170,7 @@ async function main(): Promise<void> {
   const library = {
     source: "StatsBomb open data",
     sourceUrl: "https://github.com/statsbomb/open-data",
-    note: "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here.",
+    note: "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here. Long-pass share, progressive passes per match, and field tilt are computed from StatsBomb open data.",
     sides,
   };
   await mkdir(path.dirname(OUT), { recursive: true });
@@ -159,8 +183,12 @@ async function main(): Promise<void> {
     if (side.xgPerShot < 0.02 || side.xgPerShot > 0.4) odd.push(`xgPerShot ${side.xgPerShot}`);
     if (side.ppda < 2 || side.ppda > 40) odd.push(`ppda ${side.ppda}`);
     if (side.pressHeight < 0 || side.pressHeight > 100) odd.push(`pressHeight ${side.pressHeight}`);
+    if (side.longPassShare < 0 || side.longPassShare > 1) odd.push(`longPassShare ${side.longPassShare}`);
+    if (side.progressivePerMatch < 0) odd.push(`progressivePerMatch ${side.progressivePerMatch}`);
+    if (side.fieldTilt < 0 || side.fieldTilt > 1) odd.push(`fieldTilt ${side.fieldTilt}`);
     if (odd.length > 0) console.warn(`${side.id}: ${odd.join(", ")}`);
   }
+  reportRanges(sides);
 }
 
 function absorb(spec: SeasonSpec, match: MatchRow, events: SbEvent[], buckets: Map<string, Totals>): void {
@@ -185,6 +213,7 @@ function summarise(events: SbEvent[], names: Map<number, string>, focus: string[
   const stats = new Map(focus.map((team) => [team, emptyMatch()]));
   const towardOwnGoal = directionOf(events, names);
   const opponents = new Map<string, string>();
+  const finalThird = new Map<string, number>();
   const all = [...names.values()];
   for (const team of focus) {
     const other = all.find((name) => name !== team);
@@ -197,11 +226,26 @@ function summarise(events: SbEvent[], names: Map<number, string>, focus: string[
     const period = event.period ?? 1;
     const own = stats.get(team);
     if (own) own.present = true;
+    if (isOnBall(event)) {
+      const point = readPoint(event.location);
+      if (point) {
+        const [x] = attackingPoint(point.x, point.y, team, team, period, towardOwnGoal);
+        if (x >= 80) finalThird.set(team, (finalThird.get(team) ?? 0) + 1);
+      }
+    }
     if (own && isCompletedPass(event)) {
       const length = event.pass?.length;
       if (typeof length === "number" && Number.isFinite(length)) {
         own.passLengthSum += length;
         own.passCount += 1;
+        if (length >= 30) own.longPasses += 1;
+      }
+      const start = readPoint(event.location);
+      const end = readPoint(event.pass?.end_location);
+      if (start && end) {
+        const [startX] = attackingPoint(start.x, start.y, team, team, period, towardOwnGoal);
+        const [endX] = attackingPoint(end.x, end.y, team, team, period, towardOwnGoal);
+        if (isProgressive(startX, endX)) own.progressive += 1;
       }
     }
     if (own && event.type?.name === "Shot") {
@@ -237,6 +281,11 @@ function summarise(events: SbEvent[], names: Map<number, string>, focus: string[
         if (x >= 48) stats.get(reference)!.oppPasses += 1;
       }
     }
+  }
+  for (const [team, match] of stats) {
+    const opponent = opponents.get(team);
+    match.ownFinalThird = finalThird.get(team) ?? 0;
+    match.oppFinalThird = opponent ? (finalThird.get(opponent) ?? 0) : 0;
   }
   return stats;
 }
@@ -331,6 +380,20 @@ function isCompletedPass(event: SbEvent): boolean {
   return outcome.name == null || outcome.name === "";
 }
 
+function isOnBall(event: SbEvent): boolean {
+  const name = event.type?.name;
+  if (!name) return false;
+  if (name === "Pass" || name === "Carry" || name === "Dribble" || name === "Shot") return true;
+  return name.startsWith("Ball Receipt");
+}
+
+function isProgressive(startX: number, endX: number): boolean {
+  if (startX < 40) return false;
+  const remain = 120 - startX;
+  if (remain <= 0) return false;
+  return endX - startX >= 0.25 * remain - 1e-9;
+}
+
 function isDefensive(event: SbEvent): boolean {
   const name = event.type?.name;
   if (!name) return false;
@@ -362,6 +425,10 @@ function emptyMatch(): MatchStats {
     pressCount: 0,
     oppPasses: 0,
     defZone: 0,
+    longPasses: 0,
+    progressive: 0,
+    ownFinalThird: 0,
+    oppFinalThird: 0,
   };
 }
 
@@ -380,6 +447,10 @@ function emptyTotals(spec: SeasonSpec, team: string): Totals {
     pressCount: 0,
     ppdaSum: 0,
     ppdaMatches: 0,
+    longPasses: 0,
+    progressive: 0,
+    ownFinalThird: 0,
+    oppFinalThird: 0,
   };
 }
 
@@ -399,6 +470,10 @@ function addMatch(totals: Totals, match: MatchStats): void {
     totals.ppdaSum += match.oppPasses / match.defZone;
     totals.ppdaMatches += 1;
   }
+  totals.longPasses += match.longPasses;
+  totals.progressive += match.progressive;
+  totals.ownFinalThird += match.ownFinalThird;
+  totals.oppFinalThird += match.oppFinalThird;
 }
 
 function toSide(totals: Totals): StyleSide | null {
@@ -416,11 +491,33 @@ function toSide(totals: Totals): StyleSide | null {
     shotGrid: totals.shotGrid,
     pressHeight: round2(totals.pressSum / totals.pressCount),
     ppda: round2(totals.ppdaSum / totals.ppdaMatches),
+    longPassShare: round2(totals.longPasses / totals.passCount),
+    progressivePerMatch: round1(totals.progressive / totals.matches),
+    fieldTilt: fieldTiltOf(totals.ownFinalThird, totals.oppFinalThird),
   };
+}
+
+function fieldTiltOf(own: number, opponent: number): number {
+  const both = own + opponent;
+  if (both <= 0) return 0;
+  return round2(own / both);
+}
+
+function round1(value: number): number {
+  return Math.round(value * 10) / 10;
 }
 
 function round2(value: number): number {
   return Math.round(value * 100) / 100;
+}
+
+function reportRanges(sides: StyleSide[]): void {
+  for (const key of ["longPassShare", "progressivePerMatch", "fieldTilt"] as const) {
+    const values = sides.map((side) => side[key]).sort((a, b) => a - b);
+    if (values.length === 0) continue;
+    const mid = values.length % 2 === 1 ? values[(values.length - 1) / 2] : (values[values.length / 2 - 1] + values[values.length / 2]) / 2;
+    console.log(`${key}: min ${values[0]} median ${mid} max ${values[values.length - 1]}`);
+  }
 }
 
 function shotKey(team: string, period: number): string {
