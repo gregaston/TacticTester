@@ -14,10 +14,10 @@ describe("format", () => {
         def: 4,
         dm: 0,
         cm: 4,
-        am: 0,
-        st: 2,
+        am: 1,
+        st: 1,
       }),
-    ).toBe("4 at the back, 4 in midfield, 2 up front");
+    ).toBe("4-4-1-1");
   });
 
   it("says when a side did not use one shape all season", () => {
@@ -40,8 +40,6 @@ describe("format", () => {
         st: 1,
       },
     };
-    expect(usualShape(side)).toBe(
-      "Usually 4 at the back, 3 in midfield, 2 in attacking midfield, 1 up front (62% of matches)",
-    );
+    expect(usualShape(side)).toBe("Usually 4-3-2-1 (62% of matches)");
   });
 });

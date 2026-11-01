@@ -17,8 +17,8 @@ export function NearestSide({ ranked, pinned }: NearestSideProps) {
   const showPinned = pinned && pinned.id !== nearest.side.id;
 
   return (
-    <section className="nearest" aria-label="Nearest recorded side">
-      <p className="kicker">Nearest recorded side</p>
+    <section className="nearest" aria-label="Shape comparison">
+      <p className="kicker">Shape comparison</p>
       <h2>
         {nearest.side.team} {formatSeason(nearest.side.season)}
       </h2>
@@ -34,7 +34,7 @@ export function NearestSide({ ranked, pinned }: NearestSideProps) {
       ) : null}
       {rest.length > 0 ? (
         <button type="button" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
-          {open ? "Hide other sides" : "Two more sides"}
+          {open ? "Hide other shapes" : "Two more shapes"}
         </button>
       ) : null}
       {open ? (

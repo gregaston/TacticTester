@@ -80,8 +80,11 @@ button {
 }
 
 .shape-detail {
-  font-size: 0.92rem;
-  line-height: 1.35;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.2rem;
+  line-height: 1;
+  letter-spacing: 0.04em;
   color: rgba(255, 255, 255, 0.82);
 }
 

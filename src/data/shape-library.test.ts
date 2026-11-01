@@ -29,6 +29,17 @@ describe("shape library", () => {
     const [nearest] = rankSides(featuresFromPlayers(template!.players), library.sides, 1);
     expect(nearest.side.team).toBe("Leicester City");
     expect(nearest.side.season).toBe("2015/2016");
-    expect(nearest.phrase).toBe("Very close in shape");
+    expect(nearest.phrase).toBe("Same shape in 45% of matches");
+  });
+
+  it("keeps a 4-2-3-1 with the side that used it most, even if the width shifts", () => {
+    const template = TEMPLATES.find((item) => item.id === "4-2-3-1");
+    const features = featuresFromPlayers(template!.players);
+    const [nearest] = rankSides(features, library.sides, 1);
+    const [shifted] = rankSides({ ...features, width: features.width + 4 }, library.sides, 1);
+    expect(nearest.side.team).toBe("Athletic Club");
+    expect(nearest.phrase).toBe("Same shape");
+    expect(shifted.side.id).toBe(nearest.side.id);
+    expect(shifted.phrase).toBe("Wider than their usual shape");
   });
 });

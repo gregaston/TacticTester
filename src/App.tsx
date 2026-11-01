@@ -44,7 +44,7 @@ export function App() {
           <h1>TacticTester</h1>
           <p className="shape">
             <span className="shape-name">{title}</span>
-            <span className="shape-detail">{summary}</span>
+            {summary !== title ? <span className="shape-detail">{summary}</span> : null}
           </p>
         </div>
       </header>

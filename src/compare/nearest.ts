@@ -1,13 +1,20 @@
-import { FEATURE_KEYS, FEATURE_WEIGHTS, type FeatureKey, type ShapeFeatures } from "./features";
+import { type FeatureKey, type ShapeFeatures } from "./features";
 import type { SideSummary } from "./types";
-
-export type FeatureScale = Record<FeatureKey, { mean: number; std: number }>;
 
 export type RankedSide = {
   side: SideSummary;
   distance: number;
   phrase: string;
 };
+
+/** A modal lineup below this share is too mixed to use as the comparison. */
+const MIN_SHARE = 0.4;
+
+/** At or above this, "same shape" does not need the match percentage repeated. */
+const SETTLED_SHARE = 0.5;
+
+const COUNT_KEYS = ["def", "dm", "cm", "am", "st"] as const satisfies readonly FeatureKey[];
+const SPATIAL_KEYS = ["backLine", "forwardLine", "width"] as const satisfies readonly FeatureKey[];
 
 const PHRASES: Record<FeatureKey, { higher: string; lower: string }> = {
   backLine: {
@@ -45,52 +52,63 @@ const PHRASES: Record<FeatureKey, { higher: string; lower: string }> = {
 };
 
 export function rankSides(user: ShapeFeatures, sides: SideSummary[], limit = 3): RankedSide[] {
-  const scale = featureScale(sides);
-  return sides
+  const pool = comparable(sides);
+  return pool
     .map((side) => ({
       side,
-      distance: distance(user, side.features, scale),
-      phrase: gapPhrase(user, usualFeatures(side)),
+      distance: countDistance(user, side),
+      spatial: spatialDistance(user, side),
+      phrase: gapPhrase(user, side),
     }))
-    .sort((a, b) => a.distance - b.distance || a.side.team.localeCompare(b.side.team))
-    .slice(0, limit);
+    .sort(
+      (a, b) =>
+        a.distance - b.distance ||
+        b.side.formationShare - a.side.formationShare ||
+        a.spatial - b.spatial ||
+        a.side.team.localeCompare(b.side.team),
+    )
+    .slice(0, limit)
+    .map(({ side, distance, phrase }) => ({ side, distance, phrase }));
 }
 
-export function featureScale(sides: SideSummary[]): FeatureScale {
-  const scale = {} as FeatureScale;
-  for (const key of FEATURE_KEYS) {
-    const values = sides.map((side) => side.features[key]);
-    const mean = average(values);
-    const variance = average(values.map((value) => (value - mean) ** 2));
-    scale[key] = { mean, std: Math.sqrt(variance) };
-  }
-  return scale;
+function comparable(sides: SideSummary[]): SideSummary[] {
+  const settled = sides.filter((side) => side.formationShare >= MIN_SHARE);
+  return settled.length > 0 ? settled : sides;
 }
 
-function distance(user: ShapeFeatures, other: ShapeFeatures, scale: FeatureScale): number {
-  let total = 0;
-  for (const key of FEATURE_KEYS) {
-    const std = usableStd(key, scale[key].std);
-    if (std === null) continue;
-    const gap = (user[key] - other[key]) / std;
-    total += (gap * FEATURE_WEIGHTS[key]) ** 2;
-  }
-  return Math.sqrt(total);
+function countDistance(user: ShapeFeatures, side: SideSummary): number {
+  const modal = side.formationKey.split("-").map(Number);
+  return COUNT_KEYS.reduce((sum, key, index) => sum + Math.abs(Math.round(user[key]) - modal[index]), 0);
 }
 
-const COUNT_KEYS = ["def", "st", "dm", "cm", "am"] as const satisfies readonly FeatureKey[];
+function spatialDistance(user: ShapeFeatures, side: SideSummary): number {
+  const back = user.backLine - side.features.backLine;
+  const forward = user.forwardLine - side.features.forwardLine;
+  const width = user.width - side.features.width;
+  return Math.hypot(back, forward, width);
+}
 
 function usualFeatures(side: SideSummary): ShapeFeatures {
   const [def, dm, cm, am, st] = side.formationKey.split("-").map(Number);
   return { ...side.features, def, dm, cm, am, st };
 }
 
-function gapPhrase(user: ShapeFeatures, other: ShapeFeatures): string {
+function gapPhrase(user: ShapeFeatures, side: SideSummary): string {
+  const other = usualFeatures(side);
   const countGap = largestGap(user, other, COUNT_KEYS, 0.5);
-  const gap = countGap ?? largestGap(user, other, ["backLine", "forwardLine", "width"], 3);
-  if (!gap) return "Very close in shape";
-  const wording = PHRASES[gap];
-  return user[gap] > other[gap] ? wording.higher : wording.lower;
+  if (countGap) return wording(user, other, countGap);
+  if (side.formationShare < SETTLED_SHARE) {
+    const percent = Math.round(side.formationShare * 100);
+    return `Same shape in ${percent}% of matches`;
+  }
+  const spatial = largestGap(user, other, SPATIAL_KEYS, 3);
+  if (!spatial) return "Same shape";
+  return wording(user, other, spatial);
+}
+
+function wording(user: ShapeFeatures, other: ShapeFeatures, key: FeatureKey): string {
+  const phrase = PHRASES[key];
+  return user[key] > other[key] ? phrase.higher : phrase.lower;
 }
 
 function largestGap(
@@ -109,14 +127,4 @@ function largestGap(
     }
   }
   return best;
-}
-
-function usableStd(key: FeatureKey, std: number): number | null {
-  const floor = key === "def" || key === "dm" || key === "cm" || key === "am" || key === "st" ? 0.25 : 1;
-  return std >= floor ? std : null;
-}
-
-function average(values: number[]): number {
-  if (values.length === 0) return 0;
-  return values.reduce((sum, value) => sum + value, 0) / values.length;
 }

@@ -12,16 +12,30 @@
   box-shadow: var(--shadow);
 }
 
-.templates {
+.disclosure {
   display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: none;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: var(--target);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.templates::-webkit-scrollbar {
-  display: none;
+.templates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
 }
 
 .templates button,
@@ -37,12 +51,17 @@
   background: var(--paper);
   color: var(--plum);
   box-shadow: var(--shadow);
-  padding: 0 14px;
+  padding: 0 8px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.templates button {
+  width: 100%;
 }
 
 .templates button[aria-pressed="true"] {
