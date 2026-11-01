@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TEMPLATES, templatesByBackLine } from "../tactics/templates";
+import { templatesByBackLine } from "../tactics/templates";
 
 type TemplateBarProps = {
   activeId: string | null;
@@ -8,7 +8,6 @@ type TemplateBarProps = {
 
 export function TemplateBar({ activeId, onTemplate }: TemplateBarProps) {
   const [open, setOpen] = useState(false);
-  const active = TEMPLATES.find((template) => template.id === activeId);
   const groups = templatesByBackLine();
 
   return (
@@ -21,7 +20,7 @@ export function TemplateBar({ activeId, onTemplate }: TemplateBarProps) {
         onClick={() => setOpen((value) => !value)}
       >
         <span>Formations</span>
-        <span>{open ? "Hide" : (active?.name ?? "Custom")}</span>
+        <span>{open ? "Hide" : "Show"}</span>
       </button>
       {open ? (
         <div className="template-groups" id="formations">
