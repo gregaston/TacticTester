@@ -1,7 +1,11 @@
 .pitch {
-  height: 58vh;
+  height: 50vh;
   aspect-ratio: 68 / 105;
-  margin: 0 auto;
+  max-width: calc(100% - 32px);
+  margin: 12px auto 0;
+  overflow: hidden;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   touch-action: none;
   user-select: none;
 }
@@ -10,7 +14,7 @@
   display: block;
   width: 100%;
   height: 100%;
-  background: #215c3a;
+  background: var(--pitch);
 }
 
 .markings {
@@ -31,25 +35,26 @@
 }
 
 .token .disc {
-  fill: #f7f3ea;
-  stroke: #1c1915;
-  stroke-width: 0.35;
+  fill: #fff;
+  stroke: var(--plum);
+  stroke-width: 0.4;
 }
 
 .token text {
-  fill: #1c1915;
-  font-size: 2.3px;
-  font-weight: 700;
+  fill: var(--plum);
+  font-family: var(--font-display);
+  font-size: 2.45px;
+  font-weight: 800;
   text-anchor: middle;
   dominant-baseline: middle;
   pointer-events: none;
 }
 
 .token.selected .disc {
-  fill: #9a3412;
-  stroke: #f7f3ea;
+  fill: var(--accent);
+  stroke: var(--plum);
 }
 
 .token.selected text {
-  fill: #fffdf8;
+  fill: var(--plum-deep);
 }

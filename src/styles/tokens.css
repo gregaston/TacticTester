@@ -1,0 +1,28 @@
+/* Shared look for every screen.
+   Plum field, pink accent, condensed headlines, serif body,
+   white cards with a hard offset shadow.
+   Big Shoulders Text and Lora are OFL and loaded from @fontsource.
+   Do not hotlink another site's fonts, logo, or images. */
+
+:root {
+  --plum: #1d0a30;
+  --plum-deep: #130422;
+  --accent: #fd4890;
+  --accent-ink: #d4204d;
+  --paper: #f6f3f8;
+  --card: #ffffff;
+  --muted: #5c5368;
+  --line: #e4dcec;
+  --pitch: #215c3a;
+  --on-plum: #ffffff;
+  --radius: 6px;
+  --shadow: 0 3px 0 0 rgba(29, 10, 48, 0.12);
+  --shadow-accent: 0 3px 0 0 #fd4890;
+  --font-display: "Big Shoulders Text", "Arial Narrow", Impact, sans-serif;
+  --font-body: Lora, Georgia, "Times New Roman", serif;
+  --kicker-size: 12px;
+  --kicker-tracking: 1px;
+  --target: 44px;
+  --page: 32rem;
+  --gutter: 16px;
+}

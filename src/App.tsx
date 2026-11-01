@@ -34,48 +34,54 @@ export function App() {
     setBoard((state) => movePlayer(state, id, point));
   }
 
+  const selectionIsName = Boolean(selected) && !labels.keeperInferred;
+
   return (
-    <main className="app">
+    <div className="app">
       <header className="masthead">
-        <h1>TacticTester</h1>
-        <p>
-          <strong>{title}</strong>
-          {" · "}
-          {summary}
-        </p>
+        <div className="masthead-inner">
+          <p className="kicker">Shape</p>
+          <h1>TacticTester</h1>
+          <p className="shape">
+            <span className="shape-name">{title}</span>
+            <span className="shape-detail">{summary}</span>
+          </p>
+        </div>
       </header>
-      <TemplateBar
-        activeId={board.templateId}
-        freePlacement={board.freePlacement}
-        onTemplate={(id) => {
-          setPreview(null);
-          setBoard((state) => chooseTemplate(state, id));
-        }}
-        onFreePlacement={(free) => setBoard((state) => setFreePlacement(state, free))}
-      />
-      <p className="selection">
-        {labels.keeperInferred
-          ? "No goalkeeper was placed, so the deepest player is marked in goal."
-          : selected
-            ? selected.alternateName
-              ? `${selected.name} / ${selected.alternateName}`
-              : selected.name
-            : "Drag a player. The position name follows the pitch."}
-      </p>
-      <Pitch
-        players={display}
-        labels={labels}
-        selectedId={board.selectedId}
-        onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
-        onPreview={(id, point) => setPreview({ id, ...point })}
-        onCommit={commit}
-      />
-      <NearestSide ranked={nearest} pinned={pinned} />
-      <p className="credit">
-        {library.sides.length} team-seasons from{" "}
-        <a href={library.sourceUrl}>{library.source}</a>. Shapes are starting lineups, not
-        measured defensive lines.
-      </p>
-    </main>
+      <main className="sheet">
+        <TemplateBar
+          activeId={board.templateId}
+          freePlacement={board.freePlacement}
+          onTemplate={(id) => {
+            setPreview(null);
+            setBoard((state) => chooseTemplate(state, id));
+          }}
+          onFreePlacement={(free) => setBoard((state) => setFreePlacement(state, free))}
+        />
+        <p className={selectionIsName ? "selection is-name" : "selection"}>
+          {labels.keeperInferred
+            ? "No goalkeeper was placed, so the deepest player is marked in goal."
+            : selected
+              ? selected.alternateName
+                ? `${selected.name} / ${selected.alternateName}`
+                : selected.name
+              : "Drag a player. The position name follows the pitch."}
+        </p>
+        <Pitch
+          players={display}
+          labels={labels}
+          selectedId={board.selectedId}
+          onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
+          onPreview={(id, point) => setPreview({ id, ...point })}
+          onCommit={commit}
+        />
+        <NearestSide ranked={nearest} pinned={pinned} />
+        <p className="credit">
+          {library.sides.length} team-seasons from{" "}
+          <a href={library.sourceUrl}>{library.source}</a>. Shapes are starting lineups, not
+          measured defensive lines.
+        </p>
+      </main>
+    </div>
   );
 }
