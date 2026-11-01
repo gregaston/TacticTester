@@ -19,8 +19,9 @@ export function hasArrivalMark(slot: PitchPoint, arrival: PitchPoint): boolean {
   return Math.hypot(arrival.x - slot.x, arrival.y - slot.y) > 2;
 }
 
-/** One line for the role sheet. Null when the arrival is the slot. */
+/** One line for the role sheet. Null when the arrival stays on the slot. */
 export function arrivalNote(slot: PitchPoint, arrival: PitchPoint): string | null {
+  if (!hasArrivalMark(slot, arrival)) return null;
   const height = arrival.y > slot.y ? "higher" : arrival.y < slot.y ? "deeper" : null;
   const fromCentre = Math.abs(arrival.x - 50) - Math.abs(slot.x - 50);
   const width = fromCentre < 0 ? "inside" : fromCentre > 0 ? "wider" : null;

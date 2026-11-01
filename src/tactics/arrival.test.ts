@@ -69,5 +69,6 @@ describe("arrivalNote", () => {
     expect(arrivalNote({ x: 86, y: 72 }, { x: 98, y: 72 })).toBe("Arrives wider than the slot.");
     expect(arrivalNote({ x: 40, y: 54 }, { x: 60, y: 54 })).toBe("Shifts across from the slot.");
     expect(arrivalNote({ x: 50, y: 54 }, { x: 50, y: 54 })).toBeNull();
+    expect(arrivalNote({ x: 50, y: 24 }, { x: 50, y: 25 })).toBeNull();
   });
 });
