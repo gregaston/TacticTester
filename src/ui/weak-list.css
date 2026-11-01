@@ -1,0 +1,96 @@
+.weak-list {
+  margin: 12px var(--gutter) 0;
+  padding: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.weak-list h2 {
+  margin: 14px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.6rem;
+  line-height: 0.95;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.weak-summary,
+.weak-meta,
+.weak-held {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.weak-summary {
+  margin: 6px 0 0;
+}
+
+.weak-list ol {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.weak-list li {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  background: var(--paper);
+  box-shadow: var(--shadow);
+}
+
+.weak-team {
+  margin: 0;
+  color: var(--plum);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.35rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.weak-team span,
+.weak-meta,
+.weak-numbers,
+.weak-why,
+.weak-held {
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.weak-team span {
+  font-size: 0.95rem;
+}
+
+.weak-meta,
+.weak-numbers,
+.weak-why {
+  margin: 4px 0 0;
+}
+
+.weak-numbers {
+  color: var(--plum);
+  font-size: 0.95rem;
+}
+
+.weak-xg {
+  text-transform: none;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+.weak-why,
+.weak-held {
+  color: var(--plum);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.weak-held {
+  margin: 10px 0 0;
+}

@@ -11,6 +11,39 @@
   color: var(--accent-ink);
 }
 
+.test-intro,
+.test-stale {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.test-run {
+  width: 100%;
+  min-height: var(--target);
+  margin-top: 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--plum);
+  color: var(--on-plum);
+  box-shadow: var(--shadow-accent);
+  padding: 0 14px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.test-run:active {
+  transform: translateY(2px);
+}
+
+.test-run:focus-visible {
+  outline: 2px solid var(--plum);
+  outline-offset: 2px;
+}
+
 .test-sheet button {
   appearance: none;
   touch-action: manipulation;

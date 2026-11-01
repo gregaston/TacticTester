@@ -19,7 +19,8 @@ import { decodeTactic, encodeTactic, loadTactic, saveTactic, type SavedTactic } 
 import { effectFor, rolesFor, type Duty, type RoleId } from "./tactics/roles";
 import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
-import { pickCorners, SITUATIONS } from "./testing/corners";
+import { testTactic, type Battery } from "./testing/battery";
+import { SITUATIONS } from "./testing/corners";
 import { liveSample, styleShiftNote } from "./testing/live";
 import { playersFromBoard, readStyle, resolveRole, STYLE_NOTE, WIDE_CODES } from "./testing/profile";
 import type { Situation } from "./testing/sample";
@@ -31,6 +32,7 @@ import { RoleSheet } from "./ui/RoleSheet";
 import { StyleReading } from "./ui/StyleReading";
 import { TemplateBar } from "./ui/TemplateBar";
 import { TestSheet } from "./ui/TestSheet";
+import { WeakList } from "./ui/WeakList";
 import "./styles/global.css";
 import "./ui/shell.css";
 
@@ -94,7 +96,6 @@ const SHOOTING: InstructionChoice<TeamInstructions["shooting"]>[] = [
 ];
 
 type PlayerSetup = { roleId: string; duty: Duty };
-type OpponentPick = "nearest" | "deepest" | "hardestPress" | "shortestPass" | "mostDirect";
 
 function openingFromLocation(): {
   board: BoardState;
@@ -126,7 +127,8 @@ export function App() {
     () => opening?.instructions ?? DEFAULT_INSTRUCTIONS,
   );
   const [situation, setSituation] = useState<Situation>("level");
-  const [opponentPick, setOpponentPick] = useState<OpponentPick>("nearest");
+  const [battery, setBattery] = useState<Battery | null>(null);
+  const [testedKey, setTestedKey] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [roleShift, setRoleShift] = useState<string | null>(null);
   const styleWatch = useRef<{ nearestId: string | null; setupsKey: string } | null>(null);
@@ -154,17 +156,19 @@ export function App() {
   }));
   const reading = readStyle(profilePlayers, instructions, styles.sides);
   const styleSide = styles.sides.find((side) => side.id === reading.nearestId) ?? null;
-  const corners = pickCorners(styles.sides);
-  const cornerSide =
-    opponentPick === "nearest"
-      ? null
-      : styles.sides.find((side) => side.id === corners[opponentPick].id) ?? null;
-  const opponentSide = cornerSide ?? styleSide;
-  const match = opponentSide
+  const tacticKey = JSON.stringify({
+    players: board.players.map((player) => [player.id, player.x, player.y]),
+    setups,
+    instructions,
+    situation,
+  });
+  const weakest = battery?.weakest[0] ?? null;
+  const weakestSide = weakest ? styles.sides.find((side) => side.id === weakest.id) ?? null : null;
+  const weakestMatch = weakestSide
     ? liveSample({
         players: profilePlayers,
         instructions,
-        opponent: opponentSide,
+        opponent: weakestSide,
         situation,
         styles: styles.sides,
         seed: 1,
@@ -246,17 +250,30 @@ export function App() {
   }
 
   const situationLabel = SITUATIONS.find((item) => item.id === situation)?.label ?? "Level";
-  const opponentChoices = [
-    { id: "nearest", label: styleSide ? `Nearest · ${styleSide.team}` : "Nearest" },
-    { id: "deepest", label: `Deepest · ${corners.deepest.team}` },
-    { id: "hardestPress", label: `Hardest press · ${corners.hardestPress.team}` },
-    { id: "shortestPass", label: `Shortest pass · ${corners.shortestPass.team}` },
-    { id: "mostDirect", label: `Most direct · ${corners.mostDirect.team}` },
-  ];
-  const opponentLabel =
-    opponentChoices.find((choice) => choice.id === opponentPick)?.label ?? "Nearest";
-  const sampleLines = (match?.report.lines ?? []).filter((line) => !line.includes("passes the opponent completes"));
-  const reportLines = [...sampleLines, ...(match?.notes ?? []), roleShift].filter((line): line is string => Boolean(line));
+  const sampleLines = (weakestMatch?.report.lines ?? []).filter(
+    (line) => !line.includes("passes the opponent completes"),
+  );
+  const reportLines = [...sampleLines, ...(weakestMatch?.notes ?? []), roleShift].filter(
+    (line): line is string => Boolean(line),
+  );
+
+  function runTest() {
+    setBattery(
+      testTactic({
+        players: profilePlayers,
+        instructions,
+        opponents: styles.sides,
+        styles: styles.sides,
+        situation,
+        seed: 1,
+      }),
+    );
+    setTestedKey(tacticKey);
+  }
+
+  function shown(row: NonNullable<Battery["held"]>) {
+    return { ...row, season: formatSeason(row.season) };
+  }
 
   return (
     <div className="app">
@@ -339,33 +356,36 @@ export function App() {
         />
         <TestSheet
           situationLabel={situationLabel}
-          opponentLabel={opponentLabel}
           situations={SITUATIONS.map((item) => ({ id: item.id, label: item.label }))}
           situation={situation}
-          opponents={opponentChoices}
-          opponent={opponentPick}
           onSituation={(id) => {
             const next = SITUATIONS.find((item) => item.id === id);
             if (next) setSituation(next.id);
           }}
-          onOpponent={(id) => {
-            const next = opponentChoices.find((choice) => choice.id === id);
-            if (next) setOpponentPick(next.id as OpponentPick);
-          }}
+          onTest={runTest}
+          hasResult={battery != null}
+          stale={battery != null && testedKey !== tacticKey}
         />
-        {match && opponentSide ? (
+        {battery ? (
+          <WeakList
+            summary={battery.summary}
+            rows={battery.weakest.map(shown)}
+            held={battery.held ? shown(battery.held) : null}
+          />
+        ) : null}
+        {battery && weakestMatch && weakestSide ? (
           <MatchReport
-            team={opponentSide.team}
-            season={formatSeason(opponentSide.season)}
-            competition={opponentSide.competition}
-            matches={opponentSide.matches}
+            team={weakestSide.team}
+            season={formatSeason(weakestSide.season)}
+            competition={weakestSide.competition}
+            matches={weakestSide.matches}
             situation={situationLabel}
-            modelXgFor={match.report.modelXgFor}
-            modelXgAgainst={match.report.modelXgAgainst}
-            tilt={match.report.tilt}
-            yourPpda={match.yourPpda}
-            theirPpda={opponentSide.ppda}
-            restDefence={match.report.restDefence}
+            modelXgFor={weakestMatch.report.modelXgFor}
+            modelXgAgainst={weakestMatch.report.modelXgAgainst}
+            tilt={weakestMatch.report.tilt}
+            yourPpda={weakestMatch.yourPpda}
+            theirPpda={weakestSide.ppda}
+            restDefence={weakestMatch.report.restDefence}
             lines={reportLines}
           />
         ) : null}
