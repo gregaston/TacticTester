@@ -61,11 +61,22 @@
   text-transform: uppercase;
 }
 
+.template-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.template-group .kicker {
+  margin: 0 0 6px;
+  color: var(--accent-ink);
+}
+
 .templates {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
-  margin-top: 8px;
 }
 
 .templates button,

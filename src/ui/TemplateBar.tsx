@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { TEMPLATES } from "../tactics/templates";
+import { TEMPLATES, templatesByBackLine } from "../tactics/templates";
 
 type TemplateBarProps = {
   activeId: string | null;
@@ -9,6 +9,7 @@ type TemplateBarProps = {
 export function TemplateBar({ activeId, onTemplate }: TemplateBarProps) {
   const [open, setOpen] = useState(false);
   const active = TEMPLATES.find((template) => template.id === activeId);
+  const groups = templatesByBackLine();
 
   return (
     <div className="toolbar">
@@ -23,16 +24,23 @@ export function TemplateBar({ activeId, onTemplate }: TemplateBarProps) {
         <span>{open ? "Hide" : (active?.name ?? "Custom")}</span>
       </button>
       {open ? (
-        <div className="templates" id="formations" role="group" aria-label="Formations">
-          {TEMPLATES.map((template) => (
-            <button
-              key={template.id}
-              type="button"
-              aria-pressed={template.id === activeId}
-              onClick={() => onTemplate(template.id)}
-            >
-              {template.name}
-            </button>
+        <div className="template-groups" id="formations">
+          {groups.map((group) => (
+            <section key={group.label} className="template-group" aria-label={group.label}>
+              <p className="kicker">{group.label}</p>
+              <div className="templates" role="group">
+                {group.templates.map((template) => (
+                  <button
+                    key={template.id}
+                    type="button"
+                    aria-pressed={template.id === activeId}
+                    onClick={() => onTemplate(template.id)}
+                  >
+                    {template.name}
+                  </button>
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       ) : null}

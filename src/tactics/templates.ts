@@ -100,3 +100,12 @@ export const TEMPLATES: TacticTemplate[] = [
 export function templateById(id: string): TacticTemplate {
   return TEMPLATES.find((template) => template.id === id) ?? TEMPLATES[0];
 }
+
+const BACK_LINES = [3, 4, 5] as const;
+
+export function templatesByBackLine(): { label: string; templates: TacticTemplate[] }[] {
+  return BACK_LINES.map((count) => ({
+    label: `${count} at the back`,
+    templates: TEMPLATES.filter((template) => Number(template.name.split("-")[0]) === count),
+  })).filter((group) => group.templates.length > 0);
+}
