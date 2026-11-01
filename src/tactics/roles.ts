@@ -25,6 +25,9 @@ export type RoleId =
   | "sweeper-keeper"
   | "centre-back"
   | "ball-playing-defender"
+  | "no-nonsense-centre-back"
+  | "covering-centre-back"
+  | "stopper"
   | "full-back"
   | "wing-back"
   | "inverted-wing-back"
@@ -32,20 +35,25 @@ export type RoleId =
   | "deep-lying-playmaker"
   | "ball-winning-midfielder"
   | "half-back"
+  | "regista"
+  | "segundo-volante"
   | "central-midfielder"
   | "box-to-box"
   | "mezzala"
   | "attacking-midfielder"
   | "advanced-playmaker"
   | "shadow-striker"
+  | "enganche"
   | "winger"
   | "inverted-winger"
   | "inside-forward"
+  | "raumdeuter"
   | "advanced-forward"
   | "deep-lying-forward"
   | "pressing-forward"
   | "target-forward"
-  | "poacher";
+  | "poacher"
+  | "false-nine";
 
 export type RoleDefinition = {
   id: RoleId;
@@ -120,6 +128,48 @@ const CATALOG: CatalogRole[] = [
       defend: { x: 0, y: -5, passLength: 6, passRisk: 0.3, shooting: 0.03, pressing: 0.16, tackling: 0.78 },
       // About +6 is as far as a centre-back steps. From a back-line slot that is still short of midfield.
       attack: { x: 0, y: 6, passLength: 18, passRisk: 0.7, shooting: 0.12, pressing: 0.4, tackling: 0.45 },
+    },
+  },
+  {
+    id: "no-nonsense-centre-back",
+    name: "No-Nonsense Centre-Back",
+    lines: ["DEF"],
+    wide: "central",
+    summary:
+      "With the ball, clears first with a short safe pass; without it, throws a body into the tackle.",
+    duties: {
+      support: { x: 0, y: 0, passLength: -8, passRisk: 0.06, shooting: 0.04, pressing: 0.16, tackling: 0.92 },
+      defend: { x: 0, y: -6, passLength: -12, passRisk: 0.04, shooting: 0.02, pressing: 0.08, tackling: 0.98 },
+      // Still a centre-back. Attack stays under +6, short of a step into midfield.
+      attack: { x: 0, y: 4, passLength: -4, passRisk: 0.12, shooting: 0.08, pressing: 0.26, tackling: 0.78 },
+    },
+  },
+  {
+    id: "covering-centre-back",
+    name: "Covering Centre-Back",
+    lines: ["DEF"],
+    wide: "central",
+    summary:
+      "With the ball, plays from a spot off the defensive line; without it, covers the space behind the other centre-back.",
+    duties: {
+      // Sitting off the line is the job, so y stays negative even on support.
+      support: { x: 0, y: -4, passLength: 2, passRisk: 0.2, shooting: 0.05, pressing: 0.16, tackling: 0.68 },
+      defend: { x: 0, y: -10, passLength: -2, passRisk: 0.1, shooting: 0.02, pressing: 0.08, tackling: 0.84 },
+      attack: { x: 0, y: 2, passLength: 6, passRisk: 0.32, shooting: 0.1, pressing: 0.28, tackling: 0.5 },
+    },
+  },
+  {
+    id: "stopper",
+    name: "Stopper",
+    lines: ["DEF"],
+    wide: "central",
+    summary:
+      "With the ball, steps up onto the striker and moves it on; without it, jumps out of the line to engage that forward.",
+    duties: {
+      support: { x: 0, y: 6, passLength: 0, passRisk: 0.24, shooting: 0.12, pressing: 0.55, tackling: 0.8 },
+      defend: { x: 0, y: 0, passLength: -4, passRisk: 0.12, shooting: 0.05, pressing: 0.38, tackling: 0.92 },
+      // The job is to jump out, so attack may pass the +6 a centre-back keeps.
+      attack: { x: 0, y: 12, passLength: 2, passRisk: 0.36, shooting: 0.2, pressing: 0.68, tackling: 0.58 },
     },
   },
   {
@@ -208,6 +258,33 @@ const CATALOG: CatalogRole[] = [
     },
   },
   {
+    id: "regista",
+    name: "Regista",
+    lines: ["DM"],
+    wide: "central",
+    summary:
+      "With the ball, attempts a longer and riskier pass from deep; without it, organises more than it tackles.",
+    duties: {
+      support: { x: 0, y: 0, passLength: 22, passRisk: 0.78, shooting: 0.18, pressing: 0.12, tackling: 0.16 },
+      defend: { x: 0, y: -6, passLength: 16, passRisk: 0.55, shooting: 0.08, pressing: 0.06, tackling: 0.32 },
+      attack: { x: 0, y: 4, passLength: 28, passRisk: 0.92, shooting: 0.26, pressing: 0.18, tackling: 0.08 },
+    },
+  },
+  {
+    id: "segundo-volante",
+    name: "Segundo Volante",
+    lines: ["DM"],
+    wide: "central",
+    summary:
+      "With the ball, arrives late from a deep start to shoot; without it, begins in front of the back line before breaking on.",
+    duties: {
+      // Starts deep. The late run, and the shot, land on attack.
+      support: { x: 0, y: -4, passLength: 2, passRisk: 0.32, shooting: 0.3, pressing: 0.46, tackling: 0.56 },
+      defend: { x: 0, y: -10, passLength: -2, passRisk: 0.16, shooting: 0.12, pressing: 0.32, tackling: 0.72 },
+      attack: { x: 0, y: 14, passLength: 4, passRisk: 0.44, shooting: 0.74, pressing: 0.55, tackling: 0.34 },
+    },
+  },
+  {
     id: "central-midfielder",
     name: "Central Midfielder",
     lines: ["CM"],
@@ -281,6 +358,20 @@ const CATALOG: CatalogRole[] = [
     },
   },
   {
+    id: "enganche",
+    name: "Enganche",
+    lines: ["AM"],
+    wide: "central",
+    summary:
+      "With the ball, tries a risky pass while staying in the pocket; without it, holds that pocket and leaves the pressing to others.",
+    duties: {
+      // The pocket is the job, so support y stays near 0.
+      support: { x: 0, y: 0, passLength: 8, passRisk: 0.82, shooting: 0.32, pressing: 0.08, tackling: 0.12 },
+      defend: { x: 0, y: -6, passLength: 4, passRisk: 0.55, shooting: 0.14, pressing: 0.04, tackling: 0.28 },
+      attack: { x: 0, y: 2, passLength: 12, passRisk: 0.92, shooting: 0.46, pressing: 0.12, tackling: 0.06 },
+    },
+  },
+  {
     id: "winger",
     name: "Winger",
     lines: ["AM"],
@@ -314,6 +405,19 @@ const CATALOG: CatalogRole[] = [
       support: { x: -4, y: 6, passLength: 2, passRisk: 0.42, shooting: 0.68, pressing: 0.4, tackling: 0.2 },
       defend: { x: -2, y: 0, passLength: 0, passRisk: 0.24, shooting: 0.4, pressing: 0.3, tackling: 0.36 },
       attack: { x: -8, y: 12, passLength: 4, passRisk: 0.52, shooting: 0.86, pressing: 0.48, tackling: 0.1 },
+    },
+  },
+  {
+    id: "raumdeuter",
+    name: "Raumdeuter",
+    lines: ["AM"],
+    wide: "wide",
+    summary:
+      "With the ball, attacks space and plays few passes; without it, drifts off the marker to find the next gap.",
+    duties: {
+      support: { x: -4, y: 8, passLength: -6, passRisk: 0.28, shooting: 0.8, pressing: 0.26, tackling: 0.16 },
+      defend: { x: -2, y: 2, passLength: -8, passRisk: 0.14, shooting: 0.42, pressing: 0.16, tackling: 0.32 },
+      attack: { x: -8, y: 14, passLength: -2, passRisk: 0.38, shooting: 0.92, pressing: 0.32, tackling: 0.08 },
     },
   },
   {
@@ -375,6 +479,20 @@ const CATALOG: CatalogRole[] = [
       support: { x: 0, y: 8, passLength: -8, passRisk: 0.12, shooting: 0.9, pressing: 0.25, tackling: 0.12 },
       defend: { x: 0, y: 2, passLength: -10, passRisk: 0.06, shooting: 0.68, pressing: 0.18, tackling: 0.24 },
       attack: { x: 0, y: 14, passLength: -6, passRisk: 0.18, shooting: 0.97, pressing: 0.3, tackling: 0.06 },
+    },
+  },
+  {
+    id: "false-nine",
+    name: "False Nine",
+    lines: ["ST"],
+    wide: "any",
+    summary:
+      "With the ball, drops in to combine rather than finish; without it, comes toward midfield instead of pinning the centre-backs.",
+    duties: {
+      // The drop is the job, so support y stays negative.
+      support: { x: 0, y: -6, passLength: 10, passRisk: 0.5, shooting: 0.38, pressing: 0.34, tackling: 0.24 },
+      defend: { x: 0, y: -12, passLength: 4, passRisk: 0.3, shooting: 0.18, pressing: 0.22, tackling: 0.4 },
+      attack: { x: 0, y: 0, passLength: 14, passRisk: 0.64, shooting: 0.52, pressing: 0.42, tackling: 0.12 },
     },
   },
 ];
