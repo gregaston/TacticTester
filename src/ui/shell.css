@@ -7,13 +7,32 @@
 
 .formation-readout {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 8px 12px;
-  padding: 12px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: var(--target);
+  padding: 8px 12px;
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+
+.formation-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.formation-value {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-left: auto;
+  text-align: right;
 }
 
 .formation-name,

@@ -292,12 +292,15 @@ export function App() {
         {labels.keeperInferred ? (
           <p className="selection">No goalkeeper was placed, so the deepest player is marked in goal.</p>
         ) : null}
-        <section className="formation-readout" aria-label="Formation">
-          {board.templateId ? <span className="formation-name">{board.templateId}</span> : null}
-          {board.templateId && summary !== board.templateId ? " " : null}
-          {!board.templateId || summary !== board.templateId ? (
-            <span className={board.templateId ? "formation-code" : "formation-name"}>{summary}</span>
-          ) : null}
+        <section className="formation-readout">
+          <span className="formation-label">Current formation:</span>
+          <span className="formation-value">
+            {board.templateId ? <span className="formation-name">{board.templateId}</span> : null}
+            {board.templateId && summary !== board.templateId ? " " : null}
+            {!board.templateId || summary !== board.templateId ? (
+              <span className={board.templateId ? "formation-code" : "formation-name"}>{summary}</span>
+            ) : null}
+          </span>
         </section>
         <Pitch
           players={display}
