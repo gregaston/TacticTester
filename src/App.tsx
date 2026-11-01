@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { featuresFromPlayers } from "./compare/features";
-import { shapeSummary } from "./compare/format";
+import { formatSeason, shapeSummary } from "./compare/format";
 import { rankSides } from "./compare/nearest";
 import { loadShapeLibrary } from "./data/shape-library";
+import { loadStyleLibrary } from "./data/style-library";
 import { Pitch } from "./pitch/Pitch";
 import { chooseTemplate, createBoard, movePlayer, selectPlayer, setFreePlacement } from "./tactics/board";
 import {
@@ -12,17 +13,18 @@ import {
 } from "./tactics/instructions";
 import { labelSquad } from "./tactics/positions";
 import { rolesFor, type Duty } from "./tactics/roles";
-import type { PitchPoint, Player, PositionCode } from "./tactics/types";
+import type { PitchPoint, Player } from "./tactics/types";
+import { playersFromBoard, readStyle, STYLE_NOTE, WIDE_CODES } from "./testing/profile";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { NearestSide } from "./ui/NearestSide";
 import { RoleSheet } from "./ui/RoleSheet";
+import { StyleReading } from "./ui/StyleReading";
 import { TemplateBar } from "./ui/TemplateBar";
 import "./styles/global.css";
 import "./ui/shell.css";
 
 const library = loadShapeLibrary();
-
-const WIDE_CODES = new Set<PositionCode>(["DL", "DR", "WBL", "WBR", "ML", "MR", "AML", "AMR"]);
+const styles = loadStyleLibrary();
 
 const PASSING: InstructionChoice<TeamInstructions["passing"]>[] = [
   { value: "shorter", label: "Shorter" },
@@ -70,6 +72,8 @@ export function App() {
   const labels = labelSquad(display);
   const summary = shapeSummary(featuresFromPlayers(display));
   const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
+  const reading = readStyle(playersFromBoard(board.players, labelSquad(board.players), setups), instructions, styles.sides);
+  const styleSide = styles.sides.find((side) => side.id === reading.nearestId) ?? null;
   const pinned = library.sides.find((side) => side.id === pinnedId) ?? null;
   const selected = board.selectedId ? labels.byId[board.selectedId] : null;
   const title = board.templateId ?? "Custom";
@@ -153,6 +157,18 @@ export function App() {
           value={instructions}
           notes={instructionNotes(instructions)}
           onChange={setInstructions}
+        />
+        <StyleReading
+          team={styleSide?.team ?? null}
+          season={styleSide ? formatSeason(styleSide.season) : null}
+          competition={styleSide?.competition ?? null}
+          matches={styleSide?.matches ?? null}
+          xgPerShot={styleSide?.xgPerShot ?? null}
+          passLength={reading.profile.passLength}
+          shotsPerMatch={reading.profile.shotsPerMatch}
+          lines={reading.lines}
+          note={STYLE_NOTE}
+          shotGrid={styleSide?.shotGrid ?? null}
         />
         <NearestSide ranked={nearest} pinned={pinned} />
         <p className="credit">

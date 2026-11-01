@@ -87,11 +87,18 @@ function reportLines(setup: TestSetup, xgPerShot: number, nearest: StyleFingerpr
   return lines;
 }
 
-function shotSentence(shotX: number, shotY: number): string {
+export function shotSentence(shotX: number, shotY: number): string {
   const yardsOut = ((100 - shotY) / 100) * (PITCH_LENGTH_M / YARD_M);
   const metresWide = (Math.abs(shotX - 50) / 100) * PITCH_WIDTH_M;
+  const insideSix = yardsOut <= 6 && metresWide <= BOX_HALF_WIDTH_M;
   const insideBox = yardsOut <= BOX_DEPTH_YARDS && metresWide <= BOX_HALF_WIDTH_M;
-  const depth = insideBox ? "inside the box" : yardsOut <= EDGE_OF_AREA_YARDS ? "the edge of the area" : "range";
+  const depth = insideSix
+    ? "inside the six-yard box"
+    : insideBox
+      ? "inside the box"
+      : yardsOut <= EDGE_OF_AREA_YARDS
+        ? "the edge of the area"
+        : "range";
   const lane = metresWide <= CENTRAL_HALF_M ? "central" : "wide";
   return `In a sample of possessions, shots are coming from ${depth}, and they are ${lane}.`;
 }
