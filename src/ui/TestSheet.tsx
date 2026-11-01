@@ -164,8 +164,14 @@ function Result({ run, earlier, titleId }: { run: CampaignRun; earlier: number |
       </p>
       <Finding title="Strengths" lines={run.strengths} empty="No strength stands out in this run." />
       <Finding title="Weaknesses" lines={run.weaknesses} empty="No weakness stands out in this run." />
-      <SideList title="Most trouble" rows={run.worst} />
-      <SideList title="Most room" rows={run.best} />
+      {run.comparison ? (
+        <section className="test-pattern">
+          <h3>The comparison</h3>
+          <p>{run.comparison}</p>
+        </section>
+      ) : null}
+      <SideList title="Harder than their shots" rows={run.worst} />
+      <SideList title="Easier than their shots" rows={run.best} />
     </div>
   );
 }
@@ -189,9 +195,11 @@ function Finding({ title, lines, empty }: { title: string; lines: string[]; empt
 
 function SideList({ title, rows }: { title: string; rows: CampaignRun["worst"] }) {
   if (rows.length === 0) return null;
+  const trait = sharedTrait(rows.map((row) => row.note));
   return (
     <section>
       <h3>{title}</h3>
+      {trait ? <p className="test-trait">{trait}</p> : null}
       <ol>
         {rows.map((row) => (
           <li key={row.id}>
@@ -201,12 +209,23 @@ function SideList({ title, rows }: { title: string; rows: CampaignRun["worst"] }
             <p className="test-side-meta">
               {row.competition} · xG {row.modelXgFor.toFixed(2)} for · {row.modelXgAgainst.toFixed(2)} against
             </p>
-            {row.note ? <p>{row.note}</p> : null}
+            <p>{edgeNote(row.note)}</p>
           </li>
         ))}
       </ol>
     </section>
   );
+}
+
+function sharedTrait(notes: string[]): string | null {
+  const heads = notes.map((note) => note.split(". ")[0]).filter((head) => head.length > 0);
+  if (heads.length === 0 || new Set(heads).size !== 1) return null;
+  return heads[0];
+}
+
+function edgeNote(note: string): string {
+  const splitAt = note.indexOf(". ");
+  return splitAt === -1 ? note : note.slice(splitAt + 2);
 }
 
 function earlierPlace(runs: CampaignRun[], id: string): number | null {

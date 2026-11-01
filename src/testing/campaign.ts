@@ -1,7 +1,8 @@
 import type { TeamInstructions } from "../tactics/instructions";
-import { whyLine, type TestOpponent } from "./battery";
+import type { TestOpponent } from "./battery";
 import { SITUATIONS } from "./corners";
 import { liveSample, restDefenceCount } from "./live";
+import { readMatchups, type MatchupRead, type SideNote } from "./matchups";
 import { readStyle, type ProfilePlayer } from "./profile";
 import type { Situation } from "./sample";
 
@@ -21,7 +22,6 @@ const NARROW_WIDTH = 28;
 const OPEN_REST = 3;
 const PRESS_GAP = 8;
 const EDGE_GAP = 0.05;
-const SHOW = 3;
 
 const SITUATION_NAME: Record<Situation, string> = {
   level: "the game is level",
@@ -33,17 +33,14 @@ const SITUATION_NAME: Record<Situation, string> = {
   "settled-attack": "the attack is settled",
 };
 
-export type CampaignOpponent = TestOpponent & { shotGrid?: number[][] };
-
-export type SideNote = {
-  id: string;
-  team: string;
-  season: string;
-  competition: string;
-  modelXgFor: number;
-  modelXgAgainst: number;
-  note: string;
+export type CampaignOpponent = TestOpponent & {
+  shotGrid?: number[][];
+  longPassShare?: number;
+  fieldTilt?: number;
+  shapeWidth?: number;
 };
+
+export type { SideNote } from "./matchups";
 
 export type CampaignRun = {
   id: string;
@@ -57,6 +54,7 @@ export type CampaignRun = {
   situations: number;
   strengths: string[];
   weaknesses: string[];
+  comparison: string | null;
   worst: SideNote[];
   best: SideNote[];
 };
@@ -100,11 +98,20 @@ export function runCampaign(input: {
   const rows = input.opponents.map((opponent) => averageRow(input.players, input.instructions, opponent, input.opponents, situations, seed));
   const meanFor = mean(rows.map((row) => row.modelXgFor));
   const meanAgainst = mean(rows.map((row) => row.modelXgAgainst));
-  const ranked = [...rows].sort(
-    (a, b) =>
-      b.modelXgAgainst - b.modelXgFor - (a.modelXgAgainst - a.modelXgFor) ||
-      a.opponent.team.localeCompare(b.opponent.team),
-  );
+  const pattern = readMatchups(rows.map((row) => ({
+    id: row.opponent.id,
+    team: row.opponent.team,
+    season: row.opponent.season,
+    competition: row.opponent.competition,
+    shotsPerMatch: row.opponent.shotsPerMatch,
+    modelXgFor: row.modelXgFor,
+    modelXgAgainst: row.modelXgAgainst,
+    shotGrid: row.opponent.shotGrid,
+    pressHeight: row.opponent.pressHeight,
+    longPassShare: row.opponent.longPassShare,
+    fieldTilt: row.opponent.fieldTilt,
+    shapeWidth: row.opponent.shapeWidth,
+  })));
   const notes = findings(
     input.players,
     input.instructions,
@@ -114,6 +121,7 @@ export function runCampaign(input: {
     profile.passLength,
     profile.shotsPerMatch,
     rest,
+    pattern,
   );
 
   return {
@@ -128,11 +136,9 @@ export function runCampaign(input: {
     situations: situations.length,
     strengths: notes.strengths,
     weaknesses: notes.weaknesses,
-    worst: ranked.slice(0, SHOW).map((row) => toNote(row, profile.pressHeight, profile.passLength, rest, input.opponents)),
-    best: [...ranked]
-      .reverse()
-      .slice(0, SHOW)
-      .map((row) => ({ ...toNote(row, profile.pressHeight, profile.passLength, rest, input.opponents), note: "" })),
+    comparison: pattern.comparison,
+    worst: pattern.harder,
+    best: pattern.easier,
   };
 }
 
@@ -170,9 +176,12 @@ function findings(
   passLength: number,
   shotsPerMatch: number,
   rest: number,
+  pattern: MatchupRead,
 ): { strengths: string[]; weaknesses: string[] } {
   const strengths: string[] = [];
   const weaknesses: string[] = [];
+  if (pattern.strength) strengths.push(pattern.strength);
+  if (pattern.weakness) weaknesses.push(pattern.weakness);
   if (rows.length === 0) return { strengths, weaknesses };
 
   const ahead = rows.filter((row) => row.modelXgFor > row.modelXgAgainst).length;
@@ -282,24 +291,6 @@ function wideShotShare(grid: number[][] | undefined): number {
     }
   }
   return total === 0 ? 0 : wide / total;
-}
-
-function toNote(
-  row: Row,
-  pressHeight: number,
-  passLength: number,
-  rest: number,
-  opponents: CampaignOpponent[],
-): SideNote {
-  return {
-    id: row.opponent.id,
-    team: row.opponent.team,
-    season: row.opponent.season,
-    competition: row.opponent.competition,
-    modelXgFor: row.modelXgFor,
-    modelXgAgainst: row.modelXgAgainst,
-    note: whyLine(row.opponent, pressHeight, passLength, rest, opponents),
-  };
 }
 
 function quartile(values: number[], fraction: number): number {

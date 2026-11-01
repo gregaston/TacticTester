@@ -16,10 +16,13 @@ import { shotXg } from "./xg";
  *
  * An opponent's shots use the same geometric ruler on the centres of their
  * recorded shot map. Their StatsBomb xG per shot is not an input. A narrow
- * back line marks up the shots that landed in the wide channels. The gap
- * between the engagement line and the defensive line marks up chances in
- * the space behind the press. Pass length, risk, and width move the cloud
- * before it is priced. Every player is assumed good enough to carry the role.
+ * back line marks up the shots that landed in the wide channels. A narrow
+ * opponent does the same to the shots this tactic takes from the channels,
+ * and a wider attack has more of those shots. A high line pays more against
+ * direct sides who see less of the final third. The gap between the
+ * engagement line and the defensive line marks up chances in the space
+ * behind the press. Pass length, risk, and width move the cloud before it
+ * is priced. Every player is assumed good enough to carry the role.
  */
 
 const CONNECTED_GAP = 46;
@@ -42,7 +45,12 @@ export type ChancePrice = {
 export function priceChances(input: {
   players: ProfilePlayer[];
   instructions: TeamInstructions;
-  opponent: StyleFingerprint & { shotGrid?: number[][] };
+  opponent: StyleFingerprint & {
+    shotGrid?: number[][];
+    longPassShare?: number;
+    fieldTilt?: number;
+    shapeWidth?: number;
+  };
   situation: Situation;
   passLength: number;
   passRisk: number;
@@ -61,7 +69,8 @@ export function priceChances(input: {
   const cover = backCover(widestDefender(input.players));
   const wideMark = wideMultiplier(cover);
 
-  const userQuality = weighted(cloud, (spot) => shotXg(spot.x, spot.y));
+  const shapeMark = opponentShapeMark(input.opponent.shapeWidth);
+  const userQuality = weighted(cloud, (spot) => shotXg(spot.x, spot.y) * (1 + (shapeMark - 1) * channelOpen(spot)));
   const oppQuality = weighted(theirs, (spot) => shotXg(spot.x, spot.y) * (isWide(spot) ? wideMark : 1));
 
   const userVolume = input.shotsPerMatch * userVolumeFactor(input);
@@ -118,7 +127,9 @@ function passCloud(
   const direct = clamp((input.passLength - NORMAL_PASS) / 12, -1.2, 1.2);
   const risk = input.passRisk;
   let dy = direct * 7 + (risk - 0.35) * 6;
-  let dxScale = (width - 36) / 6;
+  // Width is the instruction's yardage, not a 36-based sample width.
+  // The shift is what lets a wider attack meet a narrow or wide opponent.
+  const dxScale = width * 0.9;
   if (input.situation === "settled-attack") dy += input.passLength < 21 && risk < 0.45 ? 8 : 2;
   if (input.situation === "goal-kicks") {
     if (input.instructions.distribution === "play out") dy -= 4;
@@ -126,7 +137,7 @@ function passCloud(
   }
   return spots.map((spot) => {
     const outward = spot.x === 50 ? 0 : spot.x > 50 ? 1 : -1;
-    const dx = outward * (dxScale * 3 + (risk - 0.35) * 4);
+    const dx = outward * (dxScale + (risk - 0.35) * 4);
     return { ...spot, x: clamp(spot.x + dx, 0, 100), y: clamp(spot.y + dy, 0, 100) };
   });
 }
@@ -175,7 +186,11 @@ function userFactor(
 }
 
 function opponentFactor(
-  input: { situation: Situation; instructions: TeamInstructions },
+  input: {
+    situation: Situation;
+    instructions: TeamInstructions;
+    opponent: { longPassShare?: number; fieldTilt?: number };
+  },
   lineGap: number,
   rest: number,
   engagementY: number,
@@ -188,7 +203,39 @@ function opponentFactor(
   if (input.instructions.engagement === "higher" && space <= 8 && rest >= 3) factor *= 0.92;
   if (input.situation === "protect-lead") factor *= space > 12 ? 1.22 : 0.94;
   if (input.situation === "they-have-ten") factor *= 0.95;
+  factor *= directMark(input.opponent, lineY, rest);
   return factor;
+}
+
+/** A typical starting width in this set, mean distance from the centre. */
+const TYPICAL_SHAPE = 19.5;
+
+function opponentShapeMark(shapeWidth: number | undefined): number {
+  if (shapeWidth == null || !Number.isFinite(shapeWidth)) return 1;
+  const narrowness = clamp((TYPICAL_SHAPE - shapeWidth) / 5, -1, 1);
+  return 1 + narrowness * 0.4;
+}
+
+/**
+ * How much a shot sits in the channel a narrow block leaves open.
+ * A flat 4-4-2's strikers sit 12 off centre. The line starts further out,
+ * so that small nudge does not turn a central attack into a wide one.
+ * Wider instructions push the same shots out, and the opponent's shape counts.
+ */
+function channelOpen(spot: ShotSpot): number {
+  return clamp((Math.abs(spot.x - 50) - 14) / 12, 0, 1);
+}
+
+function directMark(
+  opponent: { longPassShare?: number; fieldTilt?: number },
+  lineY: number,
+  rest: number,
+): number {
+  if (opponent.longPassShare == null || opponent.fieldTilt == null) return 1;
+  if (lineY < 38 || rest > 4) return 1;
+  const direct = clamp((opponent.longPassShare - 0.14) / 0.06, 0, 1);
+  const lessTilt = clamp((0.55 - opponent.fieldTilt) / 0.2, 0, 1);
+  return 1 + ((direct + lessTilt) / 2) * 0.3;
 }
 
 function adjustedRest(rest: number, situation: Situation): number {
@@ -216,13 +263,17 @@ function isWide(spot: ShotSpot): boolean {
 }
 
 function shareWide(spots: ShotSpot[]): number {
-  let wide = 0;
+  return shareWhere(spots, isWide);
+}
+
+function shareWhere(spots: ShotSpot[], pick: (spot: ShotSpot) => boolean): number {
+  let picked = 0;
   let total = 0;
   for (const spot of spots) {
     total += spot.weight;
-    if (isWide(spot)) wide += spot.weight;
+    if (pick(spot)) picked += spot.weight;
   }
-  return total === 0 ? 0 : wide / total;
+  return total === 0 ? 0 : picked / total;
 }
 
 function weighted(spots: ShotSpot[], value: (spot: ShotSpot) => number): number {

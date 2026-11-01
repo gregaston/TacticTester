@@ -195,6 +195,22 @@
   line-height: 0.9;
 }
 
+.test-pattern {
+  margin-top: 16px;
+  padding: 10px 12px;
+  background: var(--paper);
+  border-radius: var(--radius);
+}
+
+.test-pattern h3 {
+  margin-top: 0;
+}
+
+.test-trait {
+  margin: 6px 0 0;
+  font-weight: 700;
+}
+
 .test-result h3 {
   margin: 16px 0 0;
   font-family: var(--font-display);

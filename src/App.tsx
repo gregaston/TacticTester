@@ -396,7 +396,10 @@ export function App() {
           tacticKey={tacticKey}
           players={profilePlayers}
           instructions={instructions}
-          opponents={styles.sides}
+          opponents={styles.sides.map((side) => ({
+            ...side,
+            shapeWidth: library.sides.find((shape) => shape.id === side.id)?.features.width,
+          }))}
         />
         <p className="credit">
           {library.sides.length} team-seasons from{" "}
