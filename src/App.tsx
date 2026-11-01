@@ -24,6 +24,7 @@ import { SITUATIONS } from "./testing/corners";
 import { liveSample, styleShiftNote } from "./testing/live";
 import { playersFromBoard, readStyle, resolveRole, STYLE_NOTE, WIDE_CODES } from "./testing/profile";
 import type { Situation } from "./testing/sample";
+import { InfoBanner } from "./ui/InfoBanner";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { KeepBar } from "./ui/KeepBar";
 import { MatchReport } from "./ui/MatchReport";
@@ -289,15 +290,15 @@ export function App() {
             setBoard((state) => chooseTemplate(state, id));
           }}
         />
-        <p className={selectionIsName ? "selection is-name" : "selection"}>
-          {labels.keeperInferred
-            ? "No goalkeeper was placed, so the deepest player is marked in goal."
-            : selected
-              ? selected.alternateName
+        {labels.keeperInferred || selected ? (
+          <p className={selectionIsName ? "selection is-name" : "selection"}>
+            {labels.keeperInferred
+              ? "No goalkeeper was placed, so the deepest player is marked in goal."
+              : selected?.alternateName
                 ? `${selected.name} / ${selected.alternateName}`
-                : selected.name
-              : "Drag a player. The position name follows the pitch."}
-        </p>
+                : selected?.name}
+          </p>
+        ) : null}
         <section className="formation-readout" aria-label="Formation">
           {board.templateId ? <span className="formation-name">{board.templateId}</span> : null}
           {board.templateId && summary !== board.templateId ? " " : null}
@@ -314,6 +315,7 @@ export function App() {
           onPreview={(id, point) => setPreview({ id, ...point })}
           onCommit={commit}
         />
+        <InfoBanner>Drag players to change position. Select players to change role.</InfoBanner>
         {selected && roleId ? (
           <RoleSheet
             positionName={selected.name}
