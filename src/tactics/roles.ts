@@ -175,7 +175,8 @@ const CATALOG: CatalogRole[] = [
   {
     id: "full-back",
     name: "Full-Back",
-    lines: ["DEF"],
+    // The same flank jobs apply one line higher, where a wide drop lands.
+    lines: ["DEF", "DM"],
     wide: "wide",
     summary: "With the ball, offers a short option beside the centre-back; without it, tucks narrower and deeper.",
     duties: {
@@ -187,7 +188,7 @@ const CATALOG: CatalogRole[] = [
   {
     id: "wing-back",
     name: "Wing-Back",
-    lines: ["DEF"],
+    lines: ["DEF", "DM"],
     wide: "wide",
     summary: "With the ball, stretches the game high and wide; without it, still has the flank to cover.",
     duties: {
@@ -199,7 +200,7 @@ const CATALOG: CatalogRole[] = [
   {
     id: "inverted-wing-back",
     name: "Inverted Wing-Back",
-    lines: ["DEF"],
+    lines: ["DEF", "DM"],
     wide: "wide",
     summary: "With the ball, tucks into midfield to pass; without it, defends the full-back zone.",
     duties: {

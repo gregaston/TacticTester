@@ -1,6 +1,6 @@
 import { formatSeason } from "../compare/format";
 import { applyInstructions, type TeamInstructions } from "../tactics/instructions";
-import { effectFor, rolesFor, type Duty, type RoleId } from "../tactics/roles";
+import { ROLES, effectFor, rolesFor, type Duty, type RoleId } from "../tactics/roles";
 import type { SquadLabels } from "../tactics/positions";
 import type { Line, Player, PositionCode } from "../tactics/types";
 import { shotSentence } from "./run";
@@ -78,10 +78,14 @@ export type StyleReading = {
 };
 
 export function resolveRole(line: Line, wide: boolean, stored?: Assignment): { roleId: RoleId; duty: Duty } {
-  const choices = rolesFor(line, wide);
+  const preferred = rolesFor(line, wide);
+  const choices = preferred.length > 0 ? preferred : rolesFor(line, !wide);
   const duty = stored?.duty ?? "support";
-  const chosen = choices.find((role) => role.id === stored?.roleId) ?? choices[0];
-  if (!chosen) throw new Error(`No role for ${line}`);
+  const chosen =
+    choices.find((role) => role.id === stored?.roleId) ??
+    choices[0] ??
+    ROLES.find((role) => role.lines.includes(line)) ??
+    ROLES[0];
   return { roleId: chosen.id, duty };
 }
 

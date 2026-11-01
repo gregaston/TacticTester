@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { loadStyleLibrary } from "../data/style-library";
-import { createBoard } from "../tactics/board";
+import { createBoard, movePlayer } from "../tactics/board";
 import { DEFAULT_INSTRUCTIONS, type TeamInstructions } from "../tactics/instructions";
 import { labelSquad } from "../tactics/positions";
 import type { Duty } from "../tactics/roles";
@@ -146,6 +146,29 @@ describe("readStyle", () => {
     expect(result.nearestId).toBe("Arsenal");
     expect(result.lines[0]).toMatch(/^In a sample of possessions/);
     expect(result.lines.join(" ")).not.toMatch(/score/i);
+  });
+
+  it("keeps a role when a full-back lands on the wide defensive-midfield line", () => {
+    const board = movePlayer(createBoard(), "p2", { x: 14, y: 40 });
+    const labels = labelSquad(board.players);
+    expect(labels.byId.p2).toMatchObject({ line: "DM", code: "WBL" });
+    const players = playersFromBoard(board.players, labels, {});
+    expect(players.find((player) => player.line === "DM" && player.wide)?.roleId).toBe("full-back");
+    expect(() => readStyle(players, DEFAULT_INSTRUCTIONS, library.sides)).not.toThrow();
+  });
+
+  it("resolves a role for every channel and line, including gaps between the grid", () => {
+    const board = createBoard();
+    const spots = [
+      ...[14, 32, 50, 68, 86].flatMap((x) => [8, 24, 40, 54, 69, 86].map((y) => ({ x, y }))),
+      { x: 8, y: 33 },
+      { x: 92, y: 46 },
+    ];
+    for (const spot of spots) {
+      const next = movePlayer(board, "p2", spot);
+      const labels = labelSquad(next.players);
+      expect(() => playersFromBoard(next.players, labels, {})).not.toThrow();
+    }
   });
 
   it("still describes the shot when no seasons are loaded", () => {

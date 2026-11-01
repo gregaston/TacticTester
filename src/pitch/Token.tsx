@@ -8,15 +8,11 @@ type TokenProps = {
   label: PlayerLabel;
   selected: boolean;
   onSelect: () => void;
-  onMove: (event: PointerEvent<SVGGElement>) => void;
-  onFinish: (event: PointerEvent<SVGGElement>) => void;
+  onGrab: (event: PointerEvent<SVGGElement>) => void;
 };
 
-export function Token({ player, label, selected, onSelect, onMove, onFinish }: TokenProps) {
+export function Token({ player, label, selected, onSelect, onGrab }: TokenProps) {
   const { x, y } = toView(player);
-  function capture(event: PointerEvent<SVGGElement>, then: (event: PointerEvent<SVGGElement>) => void) {
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) then(event);
-  }
 
   return (
     <g
@@ -28,12 +24,9 @@ export function Token({ player, label, selected, onSelect, onMove, onFinish }: T
       aria-pressed={selected}
       onPointerDown={(event) => {
         event.preventDefault();
-        event.currentTarget.setPointerCapture(event.pointerId);
         onSelect();
+        onGrab(event);
       }}
-      onPointerMove={(event) => capture(event, onMove)}
-      onPointerUp={(event) => capture(event, onFinish)}
-      onPointerCancel={(event) => capture(event, onFinish)}
     >
       <circle className="hit" r="5.6" />
       <circle className="disc" r="3.1" />

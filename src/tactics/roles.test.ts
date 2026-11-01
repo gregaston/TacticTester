@@ -247,6 +247,11 @@ describe("rolesFor", () => {
       "regista",
       "segundo-volante",
     ]);
+    expect(rolesFor("DM", true).map((role) => role.id)).toEqual([
+      "full-back",
+      "wing-back",
+      "inverted-wing-back",
+    ]);
     expect(rolesFor("ST", true).every((role) => role.lines.includes("ST"))).toBe(true);
     expect(rolesFor("CM", false).some((role) => role.lines.includes("ST"))).toBe(false);
   });
