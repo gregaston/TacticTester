@@ -1,7 +1,7 @@
 {
   "source": "StatsBomb open data",
   "sourceUrl": "https://github.com/statsbomb/open-data",
-  "note": "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here.",
+  "note": "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here. Long-pass share, progressive passes per match, and field tilt are computed from StatsBomb open data.",
   "sides": [
     {
       "id": "athletic-club-la-liga-2015-2016",
@@ -47,7 +47,10 @@
         ]
       ],
       "pressHeight": 41.64,
-      "ppda": 6.54
+      "ppda": 6.54,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 52.9,
+      "fieldTilt": 0.53
     },
     {
       "id": "atletico-madrid-la-liga-2015-2016",
@@ -93,7 +96,10 @@
         ]
       ],
       "pressHeight": 41.35,
-      "ppda": 7.07
+      "ppda": 7.07,
+      "longPassShare": 0.12,
+      "progressivePerMatch": 56.9,
+      "fieldTilt": 0.56
     },
     {
       "id": "barcelona-la-liga-2015-2016",
@@ -139,7 +145,10 @@
         ]
       ],
       "pressHeight": 43.13,
-      "ppda": 5.43
+      "ppda": 5.43,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 79.3,
+      "fieldTilt": 0.7
     },
     {
       "id": "celta-vigo-la-liga-2015-2016",
@@ -185,7 +194,10 @@
         ]
       ],
       "pressHeight": 39.94,
-      "ppda": 5.29
+      "ppda": 5.29,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 61.3,
+      "fieldTilt": 0.54
     },
     {
       "id": "eibar-la-liga-2015-2016",
@@ -231,7 +243,10 @@
         ]
       ],
       "pressHeight": 41.69,
-      "ppda": 6.27
+      "ppda": 6.27,
+      "longPassShare": 0.2,
+      "progressivePerMatch": 49.3,
+      "fieldTilt": 0.49
     },
     {
       "id": "espanyol-la-liga-2015-2016",
@@ -277,7 +292,10 @@
         ]
       ],
       "pressHeight": 39.23,
-      "ppda": 6.97
+      "ppda": 6.97,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 44.8,
+      "fieldTilt": 0.44
     },
     {
       "id": "getafe-la-liga-2015-2016",
@@ -323,7 +341,10 @@
         ]
       ],
       "pressHeight": 38.85,
-      "ppda": 7.34
+      "ppda": 7.34,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 45.7,
+      "fieldTilt": 0.46
     },
     {
       "id": "granada-la-liga-2015-2016",
@@ -369,7 +390,10 @@
         ]
       ],
       "pressHeight": 39.46,
-      "ppda": 7.27
+      "ppda": 7.27,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 44.1,
+      "fieldTilt": 0.42
     },
     {
       "id": "las-palmas-la-liga-2015-2016",
@@ -415,7 +439,10 @@
         ]
       ],
       "pressHeight": 38.19,
-      "ppda": 7.77
+      "ppda": 7.77,
+      "longPassShare": 0.13,
+      "progressivePerMatch": 47.4,
+      "fieldTilt": 0.48
     },
     {
       "id": "levante-ud-la-liga-2015-2016",
@@ -461,7 +488,10 @@
         ]
       ],
       "pressHeight": 38.83,
-      "ppda": 8.49
+      "ppda": 8.49,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 46.1,
+      "fieldTilt": 0.43
     },
     {
       "id": "malaga-la-liga-2015-2016",
@@ -507,7 +537,10 @@
         ]
       ],
       "pressHeight": 40.05,
-      "ppda": 6.64
+      "ppda": 6.64,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 52.5,
+      "fieldTilt": 0.5
     },
     {
       "id": "rayo-vallecano-la-liga-2015-2016",
@@ -553,7 +586,10 @@
         ]
       ],
       "pressHeight": 40.35,
-      "ppda": 5.49
+      "ppda": 5.49,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 52.9,
+      "fieldTilt": 0.53
     },
     {
       "id": "rc-deportivo-la-coruna-la-liga-2015-2016",
@@ -599,7 +635,10 @@
         ]
       ],
       "pressHeight": 38.13,
-      "ppda": 8.38
+      "ppda": 8.38,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 51.7,
+      "fieldTilt": 0.49
     },
     {
       "id": "real-betis-la-liga-2015-2016",
@@ -645,7 +684,10 @@
         ]
       ],
       "pressHeight": 39.19,
-      "ppda": 7.63
+      "ppda": 7.63,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 43.2,
+      "fieldTilt": 0.44
     },
     {
       "id": "real-madrid-la-liga-2015-2016",
@@ -691,7 +733,10 @@
         ]
       ],
       "pressHeight": 39.8,
-      "ppda": 7.41
+      "ppda": 7.41,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 74.3,
+      "fieldTilt": 0.6
     },
     {
       "id": "real-sociedad-la-liga-2015-2016",
@@ -737,7 +782,10 @@
         ]
       ],
       "pressHeight": 39.69,
-      "ppda": 6.5
+      "ppda": 6.5,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 61.3,
+      "fieldTilt": 0.55
     },
     {
       "id": "sevilla-la-liga-2015-2016",
@@ -783,7 +831,10 @@
         ]
       ],
       "pressHeight": 39.77,
-      "ppda": 7.1
+      "ppda": 7.1,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 56.1,
+      "fieldTilt": 0.49
     },
     {
       "id": "sporting-gijon-la-liga-2015-2016",
@@ -829,7 +880,10 @@
         ]
       ],
       "pressHeight": 38.19,
-      "ppda": 8.15
+      "ppda": 8.15,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 43.2,
+      "fieldTilt": 0.39
     },
     {
       "id": "valencia-la-liga-2015-2016",
@@ -875,7 +929,10 @@
         ]
       ],
       "pressHeight": 38.32,
-      "ppda": 6.71
+      "ppda": 6.71,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 51.8,
+      "fieldTilt": 0.46
     },
     {
       "id": "villarreal-la-liga-2015-2016",
@@ -921,7 +978,10 @@
         ]
       ],
       "pressHeight": 38.76,
-      "ppda": 8.11
+      "ppda": 8.11,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 51.2,
+      "fieldTilt": 0.44
     },
     {
       "id": "angers-ligue-1-2015-2016",
@@ -967,7 +1027,10 @@
         ]
       ],
       "pressHeight": 38.3,
-      "ppda": 11.44
+      "ppda": 11.44,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 42.1,
+      "fieldTilt": 0.4
     },
     {
       "id": "as-monaco-ligue-1-2015-2016",
@@ -1013,7 +1076,10 @@
         ]
       ],
       "pressHeight": 42.46,
-      "ppda": 7.68
+      "ppda": 7.68,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 57.8,
+      "fieldTilt": 0.52
     },
     {
       "id": "bastia-ligue-1-2015-2016",
@@ -1059,7 +1125,10 @@
         ]
       ],
       "pressHeight": 39.42,
-      "ppda": 9.89
+      "ppda": 9.89,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 40.1,
+      "fieldTilt": 0.4
     },
     {
       "id": "bordeaux-ligue-1-2015-2016",
@@ -1105,7 +1174,10 @@
         ]
       ],
       "pressHeight": 39.96,
-      "ppda": 8.05
+      "ppda": 8.05,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 50.8,
+      "fieldTilt": 0.52
     },
     {
       "id": "gazelec-ajaccio-ligue-1-2015-2016",
@@ -1151,7 +1223,10 @@
         ]
       ],
       "pressHeight": 39.74,
-      "ppda": 8.82
+      "ppda": 8.82,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 53.6,
+      "fieldTilt": 0.49
     },
     {
       "id": "guingamp-ligue-1-2015-2016",
@@ -1197,7 +1272,10 @@
         ]
       ],
       "pressHeight": 39.48,
-      "ppda": 10.32
+      "ppda": 10.32,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 43.6,
+      "fieldTilt": 0.43
     },
     {
       "id": "lille-ligue-1-2015-2016",
@@ -1243,7 +1321,10 @@
         ]
       ],
       "pressHeight": 42.47,
-      "ppda": 6.61
+      "ppda": 6.61,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 52.1,
+      "fieldTilt": 0.54
     },
     {
       "id": "lorient-ligue-1-2015-2016",
@@ -1289,7 +1370,10 @@
         ]
       ],
       "pressHeight": 39.16,
-      "ppda": 10.74
+      "ppda": 10.74,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 51.2,
+      "fieldTilt": 0.47
     },
     {
       "id": "lyon-ligue-1-2015-2016",
@@ -1335,7 +1419,10 @@
         ]
       ],
       "pressHeight": 43.58,
-      "ppda": 6.07
+      "ppda": 6.07,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 72.2,
+      "fieldTilt": 0.65
     },
     {
       "id": "montpellier-ligue-1-2015-2016",
@@ -1381,7 +1468,10 @@
         ]
       ],
       "pressHeight": 40.34,
-      "ppda": 8.68
+      "ppda": 8.68,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 54.5,
+      "fieldTilt": 0.53
     },
     {
       "id": "nantes-ligue-1-2015-2016",
@@ -1427,7 +1517,10 @@
         ]
       ],
       "pressHeight": 40.6,
-      "ppda": 8.04
+      "ppda": 8.04,
+      "longPassShare": 0.18,
+      "progressivePerMatch": 53.8,
+      "fieldTilt": 0.52
     },
     {
       "id": "ogc-nice-ligue-1-2015-2016",
@@ -1473,7 +1566,10 @@
         ]
       ],
       "pressHeight": 38.06,
-      "ppda": 8.51
+      "ppda": 8.51,
+      "longPassShare": 0.12,
+      "progressivePerMatch": 48.2,
+      "fieldTilt": 0.49
     },
     {
       "id": "olympique-de-marseille-ligue-1-2015-2016",
@@ -1519,7 +1615,10 @@
         ]
       ],
       "pressHeight": 41.69,
-      "ppda": 6.8
+      "ppda": 6.8,
+      "longPassShare": 0.13,
+      "progressivePerMatch": 54.4,
+      "fieldTilt": 0.56
     },
     {
       "id": "paris-saint-germain-ligue-1-2015-2016",
@@ -1565,7 +1664,10 @@
         ]
       ],
       "pressHeight": 41.45,
-      "ppda": 6.46
+      "ppda": 6.46,
+      "longPassShare": 0.12,
+      "progressivePerMatch": 64.2,
+      "fieldTilt": 0.6
     },
     {
       "id": "rennes-ligue-1-2015-2016",
@@ -1611,7 +1713,10 @@
         ]
       ],
       "pressHeight": 39.11,
-      "ppda": 8.51
+      "ppda": 8.51,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 50.2,
+      "fieldTilt": 0.47
     },
     {
       "id": "saint-etienne-ligue-1-2015-2016",
@@ -1657,7 +1762,10 @@
         ]
       ],
       "pressHeight": 42.05,
-      "ppda": 6.35
+      "ppda": 6.35,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 54.6,
+      "fieldTilt": 0.51
     },
     {
       "id": "stade-de-reims-ligue-1-2015-2016",
@@ -1703,7 +1811,10 @@
         ]
       ],
       "pressHeight": 41.03,
-      "ppda": 8.24
+      "ppda": 8.24,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 48.9,
+      "fieldTilt": 0.49
     },
     {
       "id": "stade-malherbe-caen-ligue-1-2015-2016",
@@ -1749,7 +1860,10 @@
         ]
       ],
       "pressHeight": 39.26,
-      "ppda": 9.72
+      "ppda": 9.72,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 48.8,
+      "fieldTilt": 0.45
     },
     {
       "id": "toulouse-ligue-1-2015-2016",
@@ -1795,7 +1909,10 @@
         ]
       ],
       "pressHeight": 41.01,
-      "ppda": 8.35
+      "ppda": 8.35,
+      "longPassShare": 0.12,
+      "progressivePerMatch": 49.7,
+      "fieldTilt": 0.5
     },
     {
       "id": "troyes-ligue-1-2015-2016",
@@ -1841,7 +1958,10 @@
         ]
       ],
       "pressHeight": 36.71,
-      "ppda": 9.96
+      "ppda": 9.96,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 50.6,
+      "fieldTilt": 0.45
     },
     {
       "id": "arsenal-premier-league-2003-2004",
@@ -1887,7 +2007,10 @@
         ]
       ],
       "pressHeight": 39.07,
-      "ppda": 6.31
+      "ppda": 6.31,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 55.1,
+      "fieldTilt": 0.53
     },
     {
       "id": "afc-bournemouth-premier-league-2015-2016",
@@ -1933,7 +2056,10 @@
         ]
       ],
       "pressHeight": 40.4,
-      "ppda": 7.98
+      "ppda": 7.98,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 56.7,
+      "fieldTilt": 0.52
     },
     {
       "id": "arsenal-premier-league-2015-2016",
@@ -1979,7 +2105,10 @@
         ]
       ],
       "pressHeight": 39.4,
-      "ppda": 7.42
+      "ppda": 7.42,
+      "longPassShare": 0.13,
+      "progressivePerMatch": 71.5,
+      "fieldTilt": 0.6
     },
     {
       "id": "aston-villa-premier-league-2015-2016",
@@ -2025,7 +2154,10 @@
         ]
       ],
       "pressHeight": 34.85,
-      "ppda": 11.34
+      "ppda": 11.34,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 45.2,
+      "fieldTilt": 0.44
     },
     {
       "id": "chelsea-premier-league-2015-2016",
@@ -2071,7 +2203,10 @@
         ]
       ],
       "pressHeight": 38.91,
-      "ppda": 6.84
+      "ppda": 6.84,
+      "longPassShare": 0.13,
+      "progressivePerMatch": 64.5,
+      "fieldTilt": 0.59
     },
     {
       "id": "crystal-palace-premier-league-2015-2016",
@@ -2117,7 +2252,10 @@
         ]
       ],
       "pressHeight": 38.64,
-      "ppda": 7.76
+      "ppda": 7.76,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 46,
+      "fieldTilt": 0.44
     },
     {
       "id": "everton-premier-league-2015-2016",
@@ -2163,7 +2301,10 @@
         ]
       ],
       "pressHeight": 37.06,
-      "ppda": 8.75
+      "ppda": 8.75,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 57.5,
+      "fieldTilt": 0.49
     },
     {
       "id": "leicester-city-premier-league-2015-2016",
@@ -2209,7 +2350,10 @@
         ]
       ],
       "pressHeight": 37.51,
-      "ppda": 8.26
+      "ppda": 8.26,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 47.5,
+      "fieldTilt": 0.45
     },
     {
       "id": "liverpool-premier-league-2015-2016",
@@ -2255,7 +2399,10 @@
         ]
       ],
       "pressHeight": 40.82,
-      "ppda": 5.74
+      "ppda": 5.74,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 68.4,
+      "fieldTilt": 0.57
     },
     {
       "id": "manchester-city-premier-league-2015-2016",
@@ -2301,7 +2448,10 @@
         ]
       ],
       "pressHeight": 41.06,
-      "ppda": 6.89
+      "ppda": 6.89,
+      "longPassShare": 0.12,
+      "progressivePerMatch": 72,
+      "fieldTilt": 0.63
     },
     {
       "id": "manchester-united-premier-league-2015-2016",
@@ -2347,7 +2497,10 @@
         ]
       ],
       "pressHeight": 41.2,
-      "ppda": 6.42
+      "ppda": 6.42,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 69.2,
+      "fieldTilt": 0.64
     },
     {
       "id": "newcastle-united-premier-league-2015-2016",
@@ -2393,7 +2546,10 @@
         ]
       ],
       "pressHeight": 37.27,
-      "ppda": 7.98
+      "ppda": 7.98,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 48.6,
+      "fieldTilt": 0.41
     },
     {
       "id": "norwich-city-premier-league-2015-2016",
@@ -2439,7 +2595,10 @@
         ]
       ],
       "pressHeight": 38.68,
-      "ppda": 9.14
+      "ppda": 9.14,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 49.6,
+      "fieldTilt": 0.47
     },
     {
       "id": "southampton-premier-league-2015-2016",
@@ -2485,7 +2644,10 @@
         ]
       ],
       "pressHeight": 39.53,
-      "ppda": 7.48
+      "ppda": 7.48,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 61.6,
+      "fieldTilt": 0.52
     },
     {
       "id": "stoke-city-premier-league-2015-2016",
@@ -2531,7 +2693,10 @@
         ]
       ],
       "pressHeight": 36.2,
-      "ppda": 8.95
+      "ppda": 8.95,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 53.5,
+      "fieldTilt": 0.45
     },
     {
       "id": "sunderland-premier-league-2015-2016",
@@ -2577,7 +2742,10 @@
         ]
       ],
       "pressHeight": 36.77,
-      "ppda": 9.36
+      "ppda": 9.36,
+      "longPassShare": 0.18,
+      "progressivePerMatch": 41.2,
+      "fieldTilt": 0.39
     },
     {
       "id": "swansea-city-premier-league-2015-2016",
@@ -2623,7 +2791,10 @@
         ]
       ],
       "pressHeight": 38.69,
-      "ppda": 7.97
+      "ppda": 7.97,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 53.4,
+      "fieldTilt": 0.47
     },
     {
       "id": "tottenham-hotspur-premier-league-2015-2016",
@@ -2669,7 +2840,10 @@
         ]
       ],
       "pressHeight": 40.33,
-      "ppda": 5.61
+      "ppda": 5.61,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 61.5,
+      "fieldTilt": 0.57
     },
     {
       "id": "watford-premier-league-2015-2016",
@@ -2715,7 +2889,10 @@
         ]
       ],
       "pressHeight": 38.33,
-      "ppda": 8.37
+      "ppda": 8.37,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 43.4,
+      "fieldTilt": 0.44
     },
     {
       "id": "west-bromwich-albion-premier-league-2015-2016",
@@ -2761,7 +2938,10 @@
         ]
       ],
       "pressHeight": 38.02,
-      "ppda": 9.79
+      "ppda": 9.79,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 45.4,
+      "fieldTilt": 0.4
     },
     {
       "id": "west-ham-united-premier-league-2015-2016",
@@ -2807,7 +2987,10 @@
         ]
       ],
       "pressHeight": 38.13,
-      "ppda": 8.03
+      "ppda": 8.03,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 49.5,
+      "fieldTilt": 0.47
     },
     {
       "id": "ac-milan-serie-a-2015-2016",
@@ -2853,7 +3036,10 @@
         ]
       ],
       "pressHeight": 42.18,
-      "ppda": 6.55
+      "ppda": 6.55,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 58.6,
+      "fieldTilt": 0.55
     },
     {
       "id": "as-roma-serie-a-2015-2016",
@@ -2899,7 +3085,10 @@
         ]
       ],
       "pressHeight": 42.13,
-      "ppda": 7.34
+      "ppda": 7.34,
+      "longPassShare": 0.14,
+      "progressivePerMatch": 64.3,
+      "fieldTilt": 0.6
     },
     {
       "id": "atalanta-serie-a-2015-2016",
@@ -2945,7 +3134,10 @@
         ]
       ],
       "pressHeight": 39.33,
-      "ppda": 7.69
+      "ppda": 7.69,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 51.6,
+      "fieldTilt": 0.48
     },
     {
       "id": "bologna-serie-a-2015-2016",
@@ -2991,7 +3183,10 @@
         ]
       ],
       "pressHeight": 38.99,
-      "ppda": 9.56
+      "ppda": 9.56,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 49.4,
+      "fieldTilt": 0.47
     },
     {
       "id": "carpi-serie-a-2015-2016",
@@ -3037,7 +3232,10 @@
         ]
       ],
       "pressHeight": 40.26,
-      "ppda": 9.1
+      "ppda": 9.1,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 43.8,
+      "fieldTilt": 0.4
     },
     {
       "id": "chievo-serie-a-2015-2016",
@@ -3083,7 +3281,10 @@
         ]
       ],
       "pressHeight": 39.84,
-      "ppda": 8.62
+      "ppda": 8.62,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 47.6,
+      "fieldTilt": 0.42
     },
     {
       "id": "empoli-serie-a-2015-2016",
@@ -3129,7 +3330,10 @@
         ]
       ],
       "pressHeight": 42.57,
-      "ppda": 7.48
+      "ppda": 7.48,
+      "longPassShare": 0.1,
+      "progressivePerMatch": 48.2,
+      "fieldTilt": 0.48
     },
     {
       "id": "fiorentina-serie-a-2015-2016",
@@ -3175,7 +3379,10 @@
         ]
       ],
       "pressHeight": 42.33,
-      "ppda": 5.99
+      "ppda": 5.99,
+      "longPassShare": 0.13,
+      "progressivePerMatch": 60.2,
+      "fieldTilt": 0.59
     },
     {
       "id": "frosinone-serie-a-2015-2016",
@@ -3221,7 +3428,10 @@
         ]
       ],
       "pressHeight": 38.22,
-      "ppda": 7.64
+      "ppda": 7.64,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 41,
+      "fieldTilt": 0.36
     },
     {
       "id": "genoa-serie-a-2015-2016",
@@ -3267,7 +3477,10 @@
         ]
       ],
       "pressHeight": 39.62,
-      "ppda": 7.45
+      "ppda": 7.45,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 52.3,
+      "fieldTilt": 0.51
     },
     {
       "id": "hellas-verona-serie-a-2015-2016",
@@ -3313,7 +3526,10 @@
         ]
       ],
       "pressHeight": 40.32,
-      "ppda": 8.72
+      "ppda": 8.72,
+      "longPassShare": 0.17,
+      "progressivePerMatch": 49.3,
+      "fieldTilt": 0.46
     },
     {
       "id": "inter-milan-serie-a-2015-2016",
@@ -3359,7 +3575,10 @@
         ]
       ],
       "pressHeight": 39.83,
-      "ppda": 7.7
+      "ppda": 7.7,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 58.3,
+      "fieldTilt": 0.56
     },
     {
       "id": "juventus-serie-a-2015-2016",
@@ -3405,7 +3624,10 @@
         ]
       ],
       "pressHeight": 43.87,
-      "ppda": 7.53
+      "ppda": 7.53,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 60.8,
+      "fieldTilt": 0.6
     },
     {
       "id": "lazio-serie-a-2015-2016",
@@ -3451,7 +3673,10 @@
         ]
       ],
       "pressHeight": 42.31,
-      "ppda": 6.52
+      "ppda": 6.52,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 55.5,
+      "fieldTilt": 0.58
     },
     {
       "id": "napoli-serie-a-2015-2016",
@@ -3497,7 +3722,10 @@
         ]
       ],
       "pressHeight": 43.44,
-      "ppda": 6.68
+      "ppda": 6.68,
+      "longPassShare": 0.1,
+      "progressivePerMatch": 67.2,
+      "fieldTilt": 0.66
     },
     {
       "id": "palermo-serie-a-2015-2016",
@@ -3543,7 +3771,10 @@
         ]
       ],
       "pressHeight": 39.25,
-      "ppda": 10.16
+      "ppda": 10.16,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 48.2,
+      "fieldTilt": 0.44
     },
     {
       "id": "sampdoria-serie-a-2015-2016",
@@ -3589,7 +3820,10 @@
         ]
       ],
       "pressHeight": 38.14,
-      "ppda": 8.85
+      "ppda": 8.85,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 47.6,
+      "fieldTilt": 0.46
     },
     {
       "id": "sassuolo-serie-a-2015-2016",
@@ -3635,7 +3869,10 @@
         ]
       ],
       "pressHeight": 41.17,
-      "ppda": 6.76
+      "ppda": 6.76,
+      "longPassShare": 0.15,
+      "progressivePerMatch": 62.4,
+      "fieldTilt": 0.53
     },
     {
       "id": "torino-serie-a-2015-2016",
@@ -3681,7 +3918,10 @@
         ]
       ],
       "pressHeight": 39.2,
-      "ppda": 9.91
+      "ppda": 9.91,
+      "longPassShare": 0.19,
+      "progressivePerMatch": 45.4,
+      "fieldTilt": 0.43
     },
     {
       "id": "udinese-serie-a-2015-2016",
@@ -3727,7 +3967,10 @@
         ]
       ],
       "pressHeight": 38.21,
-      "ppda": 9.65
+      "ppda": 9.65,
+      "longPassShare": 0.16,
+      "progressivePerMatch": 50,
+      "fieldTilt": 0.44
     }
   ]
 }

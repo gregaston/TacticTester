@@ -14,6 +14,9 @@ export type StyleSide = {
   shotGrid: ShotGrid;
   pressHeight: number;
   ppda: number;
+  longPassShare: number;
+  progressivePerMatch: number;
+  fieldTilt: number;
 };
 
 export type StyleLibrary = {
