@@ -5,18 +5,63 @@ import { rankSides } from "./compare/nearest";
 import { loadShapeLibrary } from "./data/shape-library";
 import { Pitch } from "./pitch/Pitch";
 import { chooseTemplate, createBoard, movePlayer, selectPlayer, setFreePlacement } from "./tactics/board";
+import {
+  DEFAULT_INSTRUCTIONS,
+  instructionNotes,
+  type TeamInstructions,
+} from "./tactics/instructions";
 import { labelSquad } from "./tactics/positions";
-import type { PitchPoint, Player } from "./tactics/types";
+import { rolesFor, type Duty } from "./tactics/roles";
+import type { PitchPoint, Player, PositionCode } from "./tactics/types";
+import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { NearestSide } from "./ui/NearestSide";
+import { RoleSheet } from "./ui/RoleSheet";
 import { TemplateBar } from "./ui/TemplateBar";
 import "./styles/global.css";
 import "./ui/shell.css";
 
 const library = loadShapeLibrary();
 
+const WIDE_CODES = new Set<PositionCode>(["DL", "DR", "WBL", "WBR", "ML", "MR", "AML", "AMR"]);
+
+const PASSING: InstructionChoice<TeamInstructions["passing"]>[] = [
+  { value: "shorter", label: "Shorter" },
+  { value: "standard", label: "Standard" },
+  { value: "more direct", label: "More direct" },
+];
+const TEMPO: InstructionChoice<TeamInstructions["tempo"]>[] = [
+  { value: "lower", label: "Lower" },
+  { value: "standard", label: "Standard" },
+  { value: "higher", label: "Higher" },
+];
+const WIDTH: InstructionChoice<TeamInstructions["width"]>[] = [
+  { value: "narrower", label: "Narrower" },
+  { value: "standard", label: "Standard" },
+  { value: "wider", label: "Wider" },
+];
+const LINE: InstructionChoice<TeamInstructions["defensiveLine"]>[] = [
+  { value: "deeper", label: "Deeper" },
+  { value: "standard", label: "Standard" },
+  { value: "higher", label: "Higher" },
+];
+const ENGAGEMENT: InstructionChoice<TeamInstructions["engagement"]>[] = [
+  { value: "lower", label: "Lower" },
+  { value: "standard", label: "Standard" },
+  { value: "higher", label: "Higher" },
+];
+const PRESSING: InstructionChoice<TeamInstructions["pressing"]>[] = [
+  { value: "less", label: "Less" },
+  { value: "standard", label: "Standard" },
+  { value: "more", label: "More" },
+];
+
+type PlayerSetup = { roleId: string; duty: Duty };
+
 export function App() {
   const [board, setBoard] = useState(() => createBoard());
   const [preview, setPreview] = useState<Player | null>(null);
+  const [setups, setSetups] = useState<Record<string, PlayerSetup>>({});
+  const [instructions, setInstructions] = useState<TeamInstructions>(DEFAULT_INSTRUCTIONS);
   const [pinnedId] = useState(() => new URLSearchParams(window.location.search).get("side"));
 
   const display = preview
@@ -35,6 +80,19 @@ export function App() {
   }
 
   const selectionIsName = Boolean(selected) && !labels.keeperInferred;
+  const roleChoices = selected ? rolesFor(selected.line, WIDE_CODES.has(selected.code)) : [];
+  const stored = board.selectedId ? setups[board.selectedId] : undefined;
+  const roleId =
+    stored && roleChoices.some((role) => role.id === stored.roleId)
+      ? stored.roleId
+      : (roleChoices[0]?.id ?? null);
+  const duty = stored?.duty ?? "support";
+
+  function assign(nextRole: string, nextDuty: Duty) {
+    if (!board.selectedId) return;
+    const id = board.selectedId;
+    setSetups((current) => ({ ...current, [id]: { roleId: nextRole, duty: nextDuty } }));
+  }
 
   return (
     <div className="app">
@@ -74,6 +132,27 @@ export function App() {
           onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
           onPreview={(id, point) => setPreview({ id, ...point })}
           onCommit={commit}
+        />
+        {selected && roleId ? (
+          <RoleSheet
+            positionName={selected.name}
+            roles={roleChoices}
+            roleId={roleId}
+            duty={duty}
+            onRole={(id) => assign(id, duty)}
+            onDuty={(next) => assign(roleId, next)}
+          />
+        ) : null}
+        <InstructionSheet
+          passing={PASSING}
+          tempo={TEMPO}
+          width={WIDTH}
+          defensiveLine={LINE}
+          engagement={ENGAGEMENT}
+          pressing={PRESSING}
+          value={instructions}
+          notes={instructionNotes(instructions)}
+          onChange={setInstructions}
         />
         <NearestSide ranked={nearest} pinned={pinned} />
         <p className="credit">
