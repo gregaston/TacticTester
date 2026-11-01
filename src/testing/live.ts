@@ -1,6 +1,7 @@
 import { arrivalPoint } from "../tactics/arrival";
 import { applyInstructions, type TeamInstructions } from "../tactics/instructions";
 import { effectFor } from "../tactics/roles";
+import { priceChances } from "./chance";
 import type { StyleFingerprint } from "./types";
 import { readStyle, resolveRole, type ProfilePlayer, type StyleProfile } from "./profile";
 import { runSample, type SampleReport, type Situation } from "./sample";
@@ -38,7 +39,7 @@ export type LiveMatch = {
 export function liveSample(input: {
   players: ProfilePlayer[];
   instructions: TeamInstructions;
-  opponent: StyleFingerprint;
+  opponent: StyleFingerprint & { shotGrid?: number[][] };
   situation: Situation;
   styles: StyleFingerprint[];
   seed?: number;
@@ -46,21 +47,22 @@ export function liveSample(input: {
   const profile = readStyle(input.players, input.instructions, input.styles).profile;
   const effect = applyInstructions(input.instructions);
   const restDefence = restDefenceCount(input.players);
-  const report = runSample(
+  const passRisk = clamp(
+    0.5 +
+      mean(
+        input.players.map((player) => {
+          const chosen = effectFor(player.roleId, player.duty).passRisk;
+          const base = effectFor(resolveRole(player.line, player.wide).roleId, "support").passRisk;
+          return chosen - base;
+        }),
+      ),
+    0,
+    1,
+  );
+  const sampled = runSample(
     {
       passLength: profile.passLength,
-      passRisk: clamp(
-        0.5 +
-          mean(
-            input.players.map((player) => {
-              const chosen = effectFor(player.roleId, player.duty).passRisk;
-              const base = effectFor(resolveRole(player.line, player.wide).roleId, "support").passRisk;
-              return chosen - base;
-            }),
-          ),
-        0,
-        1,
-      ),
+      passRisk,
       // The sample calls 36 a normal width and 20 a narrow one. A real
       // squad's average distance from the centre sits near 18, so that
       // number would mark every shape narrow. Start at the sample's normal
@@ -76,11 +78,43 @@ export function liveSample(input: {
     input.situation,
     input.seed ?? 1,
   );
+  const priced = priceChances({
+    players: input.players,
+    instructions: input.instructions,
+    opponent: input.opponent,
+    situation: input.situation,
+    passLength: profile.passLength,
+    passRisk,
+    pressHeight: profile.pressHeight,
+    shotsPerMatch: profile.shotsPerMatch,
+    restDefence,
+  });
+  const report: SampleReport = {
+    ...sampled,
+    modelXgFor: priced.modelXgFor,
+    modelXgAgainst: priced.modelXgAgainst,
+    lines: sampled.lines.map((line) =>
+      line.includes("model's xG")
+        ? chanceSentence(priced.modelXgFor, priced.modelXgAgainst, sampled.tilt, sampled.restDefence)
+        : line,
+    ),
+  };
   return {
     report,
     yourPpda: sketchPpda(profile.pressHeight, input.opponent.pressHeight, input.opponent.ppda),
     notes: causeNotes(profile, report, input.opponent.pressHeight),
   };
+}
+
+function chanceSentence(modelXgFor: number, modelXgAgainst: number, tilt: number, restDefence: number): string {
+  const body = `the model's xG is ${modelXgFor.toFixed(2)} for and ${modelXgAgainst.toFixed(2)} against, and field tilt is ${Math.round(tilt * 100)} percent`;
+  if (restDefence < OPEN_REST) return `With ${formatTenths(restDefence)} players behind the ball, ${body}.`;
+  return `The model's xG is ${modelXgFor.toFixed(2)} for and ${modelXgAgainst.toFixed(2)} against, and field tilt is ${Math.round(tilt * 100)} percent.`;
+}
+
+function formatTenths(value: number): string {
+  const rounded = Math.round(value * 10) / 10;
+  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
 
 /** Outfield players who arrive short of the halfway line. */

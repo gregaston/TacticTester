@@ -54,7 +54,7 @@ describe("testTactic", () => {
     expect(result.weakest[0].team).toBe("Volume");
     expect(result.weakest[0].why).toContain("20 shots");
     expect(result.weakest.map((row) => row.margin)).toEqual([...result.weakest.map((row) => row.margin)].sort((a, b) => b - a));
-    expect(result.summary).toContain("ask the most");
+    expect(result.summary).toContain("Volume");
     expect(result.summary).not.toMatch(/score/i);
     expect(result.weakest.every((row) => !/score|very close/i.test(row.why))).toBe(true);
     expect(testTactic({

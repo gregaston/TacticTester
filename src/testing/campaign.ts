@@ -4,24 +4,18 @@ import { SITUATIONS } from "./corners";
 import { liveSample, restDefenceCount } from "./live";
 import { readStyle, type ProfilePlayer } from "./profile";
 import type { Situation } from "./sample";
-import { shotXg } from "./xg";
 
 /**
  * One test of the tactic against every side, in every situation.
  *
- * The table grade maps the model's xG margin onto 1st–20th using the
- * geometric sketch's own range. It moves when the chances do. It is not a
- * predicted league finish, and it is not a scoreline.
+ * The table grade maps the model's xG margin onto 1st–20th. The ends of the
+ * ruler are this sketch's own range once shots come from the role cloud and
+ * the recorded maps: a flat 4-4-2 sits near the middle, and there is room
+ * either way. It is not a predicted league finish, and it is not a scoreline.
  */
 
-const ATTACK_QUIET = shotXg(50, 50) * 12;
-const ATTACK_SHARP = shotXg(50, 96) * 12;
-const EDGE_SHOT = shotXg(50, 78);
-const BUSY_SHOTS = 20;
-const QUIET_SHOTS = 8;
-const OPEN_FACTOR = 1.25;
-const FLOOR_MARGIN = ATTACK_QUIET - EDGE_SHOT * BUSY_SHOTS * OPEN_FACTOR;
-const CEILING_MARGIN = ATTACK_SHARP - EDGE_SHOT * QUIET_SHOTS;
+const FLOOR_MARGIN = -1.53;
+const CEILING_MARGIN = 0.83;
 
 const NARROW_WIDTH = 28;
 const OPEN_REST = 3;
@@ -111,7 +105,16 @@ export function runCampaign(input: {
       b.modelXgAgainst - b.modelXgFor - (a.modelXgAgainst - a.modelXgFor) ||
       a.opponent.team.localeCompare(b.opponent.team),
   );
-  const notes = findings(input.players, rows, situations, profile.pressHeight, profile.shotsPerMatch, rest);
+  const notes = findings(
+    input.players,
+    input.instructions,
+    rows,
+    situations,
+    profile.pressHeight,
+    profile.passLength,
+    profile.shotsPerMatch,
+    rest,
+  );
 
   return {
     id: `run-${input.now ?? Date.now()}`,
@@ -160,9 +163,11 @@ function averageRow(
 
 function findings(
   players: ProfilePlayer[],
+  instructions: TeamInstructions,
   rows: Row[],
   situations: Situation[],
   pressHeight: number,
+  passLength: number,
   shotsPerMatch: number,
   rest: number,
 ): { strengths: string[]; weaknesses: string[] } {
@@ -208,7 +213,16 @@ function findings(
   if (rest < OPEN_REST) {
     weaknesses.push("Fewer than three players stay behind the ball, so the model's xG against is marked up.");
   }
+  if (instructions.engagement === "higher" && instructions.defensiveLine === "deeper") {
+    weaknesses.push("The press steps up and the defence sits, so the gap between them shows up in the model's xG against.");
+  }
+  if (instructions.engagement === "lower" && instructions.defensiveLine === "higher") {
+    weaknesses.push("The defence is high and the press is passive, so balls over the top are easier.");
+  }
   const presses = rows.map((row) => row.opponent.pressHeight);
+  if (passLength <= 17 && pressHeight + PRESS_GAP <= quartile(presses, 0.5)) {
+    weaknesses.push("Short passes run into the higher presses in this set, and the model's xG for comes down.");
+  }
   if (pressHeight >= quartile(presses, 0.5) + PRESS_GAP && rest < 4) {
     weaknesses.push("The press is higher than most sides here and leaves space behind the ball.");
   }

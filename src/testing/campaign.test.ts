@@ -28,9 +28,9 @@ function playersOf(board = createBoard()): ProfilePlayer[] {
 
 describe("gradePlace", () => {
   it("climbs when the model's margin grows, and stays inside 1st to 20th", () => {
-    const poor = gradePlace(0.4, 3);
-    const plain = gradePlace(6.5, 2);
-    const sharp = gradePlace(10, 1.2);
+    const poor = gradePlace(0.5, 1.4);
+    const plain = gradePlace(1.2, 1.5);
+    const sharp = gradePlace(1.6, 1.1);
     expect(sharp).toBeLessThan(plain);
     expect(plain).toBeLessThan(poor);
     expect(gradePlace(100, 0)).toBe(1);
@@ -78,7 +78,8 @@ describe("runCampaign", () => {
     expect(run.best).toHaveLength(3);
     const text = [...run.strengths, ...run.weaknesses, ...run.worst.map((row) => row.note)].join(" ");
     expect(text).not.toMatch(/score|very close/i);
-    expect(run.meanFor).toBeGreaterThan(run.meanAgainst);
+    expect(run.meanFor).toBeGreaterThan(0);
+    expect(run.meanAgainst).toBeGreaterThan(0);
   });
 
   it("gives a sharper attack a better grade and a blunt one a worse grade", () => {

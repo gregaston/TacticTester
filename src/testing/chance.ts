@@ -1,0 +1,245 @@
+import { arrivalPoint } from "../tactics/arrival";
+import { defensiveAnchor, engagementAnchor } from "../tactics/block";
+import { applyInstructions, type TeamInstructions } from "../tactics/instructions";
+import { effectFor } from "../tactics/roles";
+import type { ProfilePlayer } from "./profile";
+import type { Situation } from "./sample";
+import type { StyleFingerprint } from "./types";
+import { shotXg } from "./xg";
+
+/**
+ * The tactic test's chance price.
+ *
+ * Your shots are a cloud around each role's arrival, weighted by how much
+ * that role shoots. A poacher's share sits closer to goal than a winger's.
+ * The value is the average of those shots, not the value of the average spot.
+ *
+ * An opponent's shots use the same geometric ruler on the centres of their
+ * recorded shot map. Their StatsBomb xG per shot is not an input. A narrow
+ * back line marks up the shots that landed in the wide channels. The gap
+ * between the engagement line and the defensive line marks up chances in
+ * the space behind the press. Pass length, risk, and width move the cloud
+ * before it is priced. Every player is assumed good enough to carry the role.
+ */
+
+const CONNECTED_GAP = 46;
+const WIDE_X = 30;
+const WIDE_Y = 70;
+const NORMAL_FULL_BACK = 36;
+const TUCKED = 14;
+const NORMAL_PASS = 19;
+
+export type ShotSpot = { x: number; y: number; weight: number };
+
+export type ChancePrice = {
+  modelXgFor: number;
+  modelXgAgainst: number;
+  meanShotY: number;
+  wideShotShare: number;
+  lineGap: number;
+};
+
+export function priceChances(input: {
+  players: ProfilePlayer[];
+  instructions: TeamInstructions;
+  opponent: StyleFingerprint & { shotGrid?: number[][] };
+  situation: Situation;
+  passLength: number;
+  passRisk: number;
+  pressHeight: number;
+  shotsPerMatch: number;
+  restDefence: number;
+}): ChancePrice {
+  const effect = applyInstructions(input.instructions);
+  const engagementY = engagementAnchor(input.instructions.engagement);
+  const lineY = defensiveAnchor(input.instructions.defensiveLine);
+  const lineGap = engagementY - lineY;
+  const rest = adjustedRest(input.restDefence, input.situation);
+  const cloud = passCloud(roleShots(input.players), input, effect.width);
+  const theirs = gridShots(input.opponent.shotGrid);
+  const wideShare = shareWide(theirs);
+  const cover = backCover(widestDefender(input.players));
+  const wideMark = wideMultiplier(cover);
+
+  const userQuality = weighted(cloud, (spot) => shotXg(spot.x, spot.y));
+  const oppQuality = weighted(theirs, (spot) => shotXg(spot.x, spot.y) * (isWide(spot) ? wideMark : 1));
+
+  const userVolume = input.shotsPerMatch * userVolumeFactor(input);
+  const oppVolume = input.opponent.shotsPerMatch * opponentVolumeFactor(input.situation);
+
+  return {
+    modelXgFor: round4(userQuality * userVolume * userFactor(input, lineGap)),
+    modelXgAgainst: round4(oppQuality * oppVolume * opponentFactor(input, lineGap, rest, engagementY, lineY)),
+    meanShotY: round4(weighted(cloud, (spot) => spot.y)),
+    wideShotShare: round4(wideShare),
+    lineGap,
+  };
+}
+
+/** Shots around each outfield role. Low shooting rates still count, lightly. */
+export function roleShots(players: ProfilePlayer[]): ShotSpot[] {
+  const spots = players
+    .filter((player) => player.line !== "GK")
+    .map((player) => {
+      const effect = effectFor(player.roleId, player.duty);
+      const arrival = arrivalPoint({ x: player.x, y: player.y }, effect);
+      const pull = 8 + (1 - effect.shooting) * 10;
+      return {
+        x: arrival.x,
+        y: clamp(arrival.y - pull, 0, 100),
+        weight: Math.max(effect.shooting, 0.02),
+      };
+    });
+  return spots.length > 0 ? spots : [{ x: 50, y: 50, weight: 1 }];
+}
+
+/** Cell centres of a 4×6 attacking shot map, on the 0–100 pitch. */
+export function gridShots(grid: number[][] | undefined): ShotSpot[] {
+  if (!grid || grid.length === 0) return [{ x: 50, y: 78, weight: 1 }];
+  const spots: ShotSpot[] = [];
+  for (let row = 0; row < grid.length; row += 1) {
+    for (let col = 0; col < grid[row].length; col += 1) {
+      const weight = grid[row][col];
+      if (weight <= 0) continue;
+      const length = grid[row].length;
+      const across = (row + 0.5) / grid.length;
+      const along = (col + 0.5) / length;
+      spots.push({ x: across * 100, y: along * 100, weight });
+    }
+  }
+  return spots.length > 0 ? spots : [{ x: 50, y: 78, weight: 1 }];
+}
+
+function passCloud(
+  spots: ShotSpot[],
+  input: { passLength: number; passRisk: number; situation: Situation; instructions: TeamInstructions; opponent: StyleFingerprint },
+  width: number,
+): ShotSpot[] {
+  const direct = clamp((input.passLength - NORMAL_PASS) / 12, -1.2, 1.2);
+  const risk = input.passRisk;
+  let dy = direct * 7 + (risk - 0.35) * 6;
+  let dxScale = (width - 36) / 6;
+  if (input.situation === "settled-attack") dy += input.passLength < 21 && risk < 0.45 ? 8 : 2;
+  if (input.situation === "goal-kicks") {
+    if (input.instructions.distribution === "play out") dy -= 4;
+    if (input.instructions.distribution === "go long") dy += 6;
+  }
+  return spots.map((spot) => {
+    const outward = spot.x === 50 ? 0 : spot.x > 50 ? 1 : -1;
+    const dx = outward * (dxScale * 3 + (risk - 0.35) * 4);
+    return { ...spot, x: clamp(spot.x + dx, 0, 100), y: clamp(spot.y + dy, 0, 100) };
+  });
+}
+
+function userVolumeFactor(input: { situation: Situation; shotsPerMatch: number }): number {
+  switch (input.situation) {
+    case "chase": {
+      const above = input.shotsPerMatch / 12 - 1;
+      return 1.12 + Math.max(0, above) * 0.5;
+    }
+    case "you-have-ten":
+      return 0.9;
+    case "goal-kicks":
+      return 0.55;
+    default:
+      return 1;
+  }
+}
+
+function opponentVolumeFactor(situation: Situation): number {
+  switch (situation) {
+    case "protect-lead":
+      return 0.85;
+    case "they-have-ten":
+      return 0.85;
+    case "goal-kicks":
+      return 0.55;
+    default:
+      return 1;
+  }
+}
+
+function userFactor(
+  input: { situation: Situation; passLength: number; passRisk: number; pressHeight: number; instructions: TeamInstructions; opponent: StyleFingerprint },
+  lineGap: number,
+): number {
+  let factor = 1;
+  const pressGap = input.opponent.pressHeight - input.pressHeight;
+  const gap = input.situation === "protect-lead" ? pressGap + 8 : input.situation === "chase" ? pressGap - 4 : pressGap;
+  if (gap >= 8 && input.passLength <= 17 && input.passRisk <= 0.4) factor *= 0.8;
+  else if (gap >= 8 && input.passLength >= 24) factor *= 0.94;
+  else if (gap >= 8) factor *= 0.9;
+  if (input.situation === "goal-kicks" && input.instructions.distribution === "play out" && gap >= 6) factor *= 0.7;
+  if (input.situation === "settled-attack" && lineGap > CONNECTED_GAP + 12) factor *= 0.95;
+  return factor;
+}
+
+function opponentFactor(
+  input: { situation: Situation; instructions: TeamInstructions },
+  lineGap: number,
+  rest: number,
+  engagementY: number,
+  lineY: number,
+): number {
+  const space = Math.max(0, lineGap - CONNECTED_GAP);
+  let factor = 1 + space / 60;
+  factor *= clamp(1 + (4 - rest) * 0.1, 0.8, 1.6);
+  if (lineY >= 38 && engagementY <= 56) factor *= 1.18;
+  if (input.instructions.engagement === "higher" && space <= 8 && rest >= 3) factor *= 0.92;
+  if (input.situation === "protect-lead") factor *= space > 12 ? 1.22 : 0.94;
+  if (input.situation === "they-have-ten") factor *= 0.95;
+  return factor;
+}
+
+function adjustedRest(rest: number, situation: Situation): number {
+  if (situation === "you-have-ten") return Math.max(0, rest - 1);
+  return rest;
+}
+
+export function widestDefender(players: ProfilePlayer[]): number | null {
+  const block = players.filter((player) => player.line === "DEF" || (player.wide && player.y < 45));
+  if (block.length === 0) return null;
+  return Math.max(...block.map((player) => Math.abs(player.x - 50)));
+}
+
+function backCover(widest: number | null): number {
+  if (widest == null) return 1;
+  return clamp((widest - TUCKED) / (NORMAL_FULL_BACK - TUCKED), 0, 1.5);
+}
+
+function wideMultiplier(cover: number): number {
+  return clamp(1 + (1 - cover) * 0.55, 0.75, 1.6);
+}
+
+function isWide(spot: ShotSpot): boolean {
+  return spot.y >= WIDE_Y && Math.abs(spot.x - 50) >= WIDE_X;
+}
+
+function shareWide(spots: ShotSpot[]): number {
+  let wide = 0;
+  let total = 0;
+  for (const spot of spots) {
+    total += spot.weight;
+    if (isWide(spot)) wide += spot.weight;
+  }
+  return total === 0 ? 0 : wide / total;
+}
+
+function weighted(spots: ShotSpot[], value: (spot: ShotSpot) => number): number {
+  let weight = 0;
+  let sum = 0;
+  for (const spot of spots) {
+    if (spot.weight <= 0) continue;
+    weight += spot.weight;
+    sum += spot.weight * value(spot);
+  }
+  return weight === 0 ? 0 : sum / weight;
+}
+
+function round4(value: number): number {
+  return Math.round(value * 10000) / 10000;
+}
+
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
+}

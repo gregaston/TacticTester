@@ -5,6 +5,7 @@ import { labelSquad } from "../tactics/positions";
 import { playersFromBoard, readStyle, type ProfilePlayer } from "./profile";
 import { shotXg } from "./xg";
 import type { StyleFingerprint } from "./types";
+import { priceChances } from "./chance";
 import { causeNotes, liveSample, restDefenceCount, sketchPpda, styleShiftNote } from "./live";
 
 function fingerprint(patch: Partial<StyleFingerprint> = {}): StyleFingerprint {
@@ -69,7 +70,19 @@ describe("liveSample", () => {
       seed: 3,
     });
     const profile = readStyle(players, DEFAULT_INSTRUCTIONS, [opponent]).profile;
-    expect(match.report.modelXgFor).toBeCloseTo(shotXg(profile.shotX, profile.shotY) * profile.shotsPerMatch, 5);
+    const priced = priceChances({
+      players,
+      instructions: DEFAULT_INSTRUCTIONS,
+      opponent,
+      situation: "level",
+      passLength: profile.passLength,
+      passRisk: 0.5,
+      pressHeight: profile.pressHeight,
+      shotsPerMatch: profile.shotsPerMatch,
+      restDefence: match.report.restDefence,
+    });
+    expect(match.report.modelXgFor).toBeCloseTo(priced.modelXgFor, 4);
+    expect(match.report.modelXgFor).not.toBeCloseTo(shotXg(profile.shotX, profile.shotY) * profile.shotsPerMatch, 1);
     expect(match.report.modelXgAgainst).not.toBeCloseTo(0.99 * 12, 1);
   });
 
