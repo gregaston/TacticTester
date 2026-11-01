@@ -8,7 +8,8 @@
     "build": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.scripts.json && vite build",
     "test": "vitest run",
     "preview": "vite preview --host",
-    "library": "tsx scripts/build-shape-library.ts"
+    "library": "tsx scripts/build-shape-library.ts",
+    "style": "tsx scripts/build-style-library.ts"
   },
   "dependencies": {
     "@fontsource/big-shoulders-text": "^5.3.0",

@@ -1,0 +1,3733 @@
+{
+  "source": "StatsBomb open data",
+  "sourceUrl": "https://github.com/statsbomb/open-data",
+  "note": "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here.",
+  "sides": [
+    {
+      "id": "athletic-club-la-liga-2015-2016",
+      "team": "Athletic Club",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 20.38,
+      "shotsPerMatch": 12.24,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          4
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          63,
+          142
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          64,
+          171
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          6,
+          3
+        ]
+      ],
+      "pressHeight": 41.64,
+      "ppda": 6.54
+    },
+    {
+      "id": "atletico-madrid-la-liga-2015-2016",
+      "team": "Atlético Madrid",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 17.66,
+      "shotsPerMatch": 12.71,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          4
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          82,
+          169
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          54,
+          165
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          2
+        ]
+      ],
+      "pressHeight": 41.35,
+      "ppda": 7.07
+    },
+    {
+      "id": "barcelona-la-liga-2015-2016",
+      "team": "Barcelona",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 18.94,
+      "shotsPerMatch": 15.89,
+      "xgPerShot": 0.15,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          72,
+          250
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          69,
+          203
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          2
+        ]
+      ],
+      "pressHeight": 43.13,
+      "ppda": 5.43
+    },
+    {
+      "id": "celta-vigo-la-liga-2015-2016",
+      "team": "Celta Vigo",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 19.87,
+      "shotsPerMatch": 11.74,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          69,
+          170
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          63,
+          133
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ]
+      ],
+      "pressHeight": 39.94,
+      "ppda": 5.29
+    },
+    {
+      "id": "eibar-la-liga-2015-2016",
+      "team": "Eibar",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 21.19,
+      "shotsPerMatch": 11.16,
+      "xgPerShot": 0.12,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          2,
+          10
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          68,
+          140
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          53,
+          143
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 41.69,
+      "ppda": 6.27
+    },
+    {
+      "id": "espanyol-la-liga-2015-2016",
+      "team": "Espanyol",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 19.97,
+      "shotsPerMatch": 10.5,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          39,
+          158
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          57,
+          138
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "pressHeight": 39.23,
+      "ppda": 6.97
+    },
+    {
+      "id": "getafe-la-liga-2015-2016",
+      "team": "Getafe",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 19.95,
+      "shotsPerMatch": 11.47,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          133
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          77,
+          144
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          1,
+          2
+        ]
+      ],
+      "pressHeight": 38.85,
+      "ppda": 7.34
+    },
+    {
+      "id": "granada-la-liga-2015-2016",
+      "team": "Granada",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 20.82,
+      "shotsPerMatch": 11.42,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          1,
+          7,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          86,
+          100
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          84,
+          136
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7,
+          5
+        ]
+      ],
+      "pressHeight": 39.46,
+      "ppda": 7.27
+    },
+    {
+      "id": "las-palmas-la-liga-2015-2016",
+      "team": "Las Palmas",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 18.9,
+      "shotsPerMatch": 11.13,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          2,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          90,
+          135
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          72,
+          114
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "pressHeight": 38.19,
+      "ppda": 7.77
+    },
+    {
+      "id": "levante-ud-la-liga-2015-2016",
+      "team": "Levante UD",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 20.97,
+      "shotsPerMatch": 11.66,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          83,
+          140
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          69,
+          137
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          2
+        ]
+      ],
+      "pressHeight": 38.83,
+      "ppda": 8.49
+    },
+    {
+      "id": "malaga-la-liga-2015-2016",
+      "team": "Málaga",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 19.55,
+      "shotsPerMatch": 12,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          1,
+          4,
+          3
+        ],
+        [
+          0,
+          0,
+          2,
+          0,
+          68,
+          147
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          76,
+          146
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          0,
+          2
+        ]
+      ],
+      "pressHeight": 40.05,
+      "ppda": 6.64
+    },
+    {
+      "id": "rayo-vallecano-la-liga-2015-2016",
+      "team": "Rayo Vallecano",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 20.11,
+      "shotsPerMatch": 13.18,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          2,
+          8,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          85,
+          161
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          76,
+          148
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7,
+          2
+        ]
+      ],
+      "pressHeight": 40.35,
+      "ppda": 5.49
+    },
+    {
+      "id": "rc-deportivo-la-coruna-la-liga-2015-2016",
+      "team": "RC Deportivo La Coruña",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 20.82,
+      "shotsPerMatch": 12.03,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          72,
+          129
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          100,
+          128
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          10,
+          7
+        ]
+      ],
+      "pressHeight": 38.13,
+      "ppda": 8.38
+    },
+    {
+      "id": "real-betis-la-liga-2015-2016",
+      "team": "Real Betis",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 18.66,
+      "shotsPerMatch": 10.66,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          6,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          52,
+          120
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          70,
+          140
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          6
+        ]
+      ],
+      "pressHeight": 39.19,
+      "ppda": 7.63
+    },
+    {
+      "id": "real-madrid-la-liga-2015-2016",
+      "team": "Real Madrid",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 18.95,
+      "shotsPerMatch": 18.87,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          2
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          102,
+          247
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          102,
+          252
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          1
+        ]
+      ],
+      "pressHeight": 39.8,
+      "ppda": 7.41
+    },
+    {
+      "id": "real-sociedad-la-liga-2015-2016",
+      "team": "Real Sociedad",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 19.79,
+      "shotsPerMatch": 12.26,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          77,
+          171
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          55,
+          143
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          4
+        ]
+      ],
+      "pressHeight": 39.69,
+      "ppda": 6.5
+    },
+    {
+      "id": "sevilla-la-liga-2015-2016",
+      "team": "Sevilla",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 20.25,
+      "shotsPerMatch": 12.42,
+      "xgPerShot": 0.13,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          45,
+          180
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          49,
+          190
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          1
+        ]
+      ],
+      "pressHeight": 39.77,
+      "ppda": 7.1
+    },
+    {
+      "id": "sporting-gijon-la-liga-2015-2016",
+      "team": "Sporting Gijón",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 19.94,
+      "shotsPerMatch": 10,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          58,
+          129
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          54,
+          127
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          4
+        ]
+      ],
+      "pressHeight": 38.19,
+      "ppda": 8.15
+    },
+    {
+      "id": "valencia-la-liga-2015-2016",
+      "team": "Valencia",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 20.34,
+      "shotsPerMatch": 10.79,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          7
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          70,
+          120
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          51,
+          151
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          4
+        ]
+      ],
+      "pressHeight": 38.32,
+      "ppda": 6.71
+    },
+    {
+      "id": "villarreal-la-liga-2015-2016",
+      "team": "Villarreal",
+      "season": "2015/2016",
+      "competition": "La Liga",
+      "matches": 38,
+      "passLength": 19.79,
+      "shotsPerMatch": 9.13,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          51,
+          102
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          49,
+          138
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "pressHeight": 38.76,
+      "ppda": 8.11
+    },
+    {
+      "id": "angers-ligue-1-2015-2016",
+      "team": "Angers",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.78,
+      "shotsPerMatch": 10.76,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          3
+        ],
+        [
+          0,
+          0,
+          1,
+          2,
+          73,
+          104
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          80,
+          135
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          3
+        ]
+      ],
+      "pressHeight": 38.3,
+      "ppda": 11.44
+    },
+    {
+      "id": "as-monaco-ligue-1-2015-2016",
+      "team": "AS Monaco",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.87,
+      "shotsPerMatch": 11.26,
+      "xgPerShot": 0.13,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          53,
+          156
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          61,
+          145
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          3
+        ]
+      ],
+      "pressHeight": 42.46,
+      "ppda": 7.68
+    },
+    {
+      "id": "bastia-ligue-1-2015-2016",
+      "team": "Bastia",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "passLength": 20.51,
+      "shotsPerMatch": 8.84,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          61,
+          85
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          66,
+          94
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          4,
+          5
+        ]
+      ],
+      "pressHeight": 39.42,
+      "ppda": 9.89
+    },
+    {
+      "id": "bordeaux-ligue-1-2015-2016",
+      "team": "Bordeaux",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "passLength": 19.26,
+      "shotsPerMatch": 11.62,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          78,
+          128
+        ],
+        [
+          0,
+          0,
+          1,
+          2,
+          76,
+          138
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ]
+      ],
+      "pressHeight": 39.96,
+      "ppda": 8.05
+    },
+    {
+      "id": "gazelec-ajaccio-ligue-1-2015-2016",
+      "team": "Gazélec Ajaccio",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "passLength": 21.53,
+      "shotsPerMatch": 11.59,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          73,
+          136
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          79,
+          123
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          6,
+          2
+        ]
+      ],
+      "pressHeight": 39.74,
+      "ppda": 8.82
+    },
+    {
+      "id": "guingamp-ligue-1-2015-2016",
+      "team": "Guingamp",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 20.07,
+      "shotsPerMatch": 10.45,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          1,
+          6,
+          53,
+          145
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          62,
+          123
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 39.48,
+      "ppda": 10.32
+    },
+    {
+      "id": "lille-ligue-1-2015-2016",
+      "team": "Lille",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.07,
+      "shotsPerMatch": 12.87,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          89,
+          155
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          78,
+          153
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          4
+        ]
+      ],
+      "pressHeight": 42.47,
+      "ppda": 6.61
+    },
+    {
+      "id": "lorient-ligue-1-2015-2016",
+      "team": "Lorient",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.38,
+      "shotsPerMatch": 11.08,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          72,
+          131
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          69,
+          137
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          1
+        ]
+      ],
+      "pressHeight": 39.16,
+      "ppda": 10.74
+    },
+    {
+      "id": "lyon-ligue-1-2015-2016",
+      "team": "Lyon",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.23,
+      "shotsPerMatch": 14.74,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          82,
+          188
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          85,
+          187
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          8
+        ]
+      ],
+      "pressHeight": 43.58,
+      "ppda": 6.07
+    },
+    {
+      "id": "montpellier-ligue-1-2015-2016",
+      "team": "Montpellier",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.36,
+      "shotsPerMatch": 10.34,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          63,
+          139
+        ],
+        [
+          0,
+          0,
+          1,
+          3,
+          63,
+          109
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          3
+        ]
+      ],
+      "pressHeight": 40.34,
+      "ppda": 8.68
+    },
+    {
+      "id": "nantes-ligue-1-2015-2016",
+      "team": "Nantes",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 20.17,
+      "shotsPerMatch": 11.58,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          143
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          79,
+          130
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          1,
+          3
+        ]
+      ],
+      "pressHeight": 40.6,
+      "ppda": 8.04
+    },
+    {
+      "id": "ogc-nice-ligue-1-2015-2016",
+      "team": "OGC Nice",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 18.26,
+      "shotsPerMatch": 10.53,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          71,
+          114
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          58,
+          137
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          2,
+          6
+        ]
+      ],
+      "pressHeight": 38.06,
+      "ppda": 8.51
+    },
+    {
+      "id": "olympique-de-marseille-ligue-1-2015-2016",
+      "team": "Olympique de Marseille",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 18.92,
+      "shotsPerMatch": 12.76,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          78,
+          168
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          60,
+          159
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          7
+        ]
+      ],
+      "pressHeight": 41.69,
+      "ppda": 6.8
+    },
+    {
+      "id": "paris-saint-germain-ligue-1-2015-2016",
+      "team": "Paris Saint-Germain",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "passLength": 18.07,
+      "shotsPerMatch": 14.97,
+      "xgPerShot": 0.14,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          65,
+          223
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          72,
+          184
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          0,
+          5
+        ]
+      ],
+      "pressHeight": 41.45,
+      "ppda": 6.46
+    },
+    {
+      "id": "rennes-ligue-1-2015-2016",
+      "team": "Rennes",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.36,
+      "shotsPerMatch": 11.21,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          7,
+          3
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          66,
+          140
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          58,
+          141
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 39.11,
+      "ppda": 8.51
+    },
+    {
+      "id": "saint-etienne-ligue-1-2015-2016",
+      "team": "Saint-Étienne",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "passLength": 19.57,
+      "shotsPerMatch": 11.78,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          80,
+          127
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          88,
+          124
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          4
+        ]
+      ],
+      "pressHeight": 42.05,
+      "ppda": 6.35
+    },
+    {
+      "id": "stade-de-reims-ligue-1-2015-2016",
+      "team": "Stade de Reims",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 19.88,
+      "shotsPerMatch": 11.58,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          0,
+          4,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          53,
+          127
+        ],
+        [
+          0,
+          0,
+          0,
+          4,
+          89,
+          149
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 41.03,
+      "ppda": 8.24
+    },
+    {
+      "id": "stade-malherbe-caen-ligue-1-2015-2016",
+      "team": "Stade Malherbe Caen",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 21.03,
+      "shotsPerMatch": 12.66,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          6,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          82,
+          145
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          80,
+          152
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          6,
+          1
+        ]
+      ],
+      "pressHeight": 39.26,
+      "ppda": 9.72
+    },
+    {
+      "id": "toulouse-ligue-1-2015-2016",
+      "team": "Toulouse",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 38,
+      "passLength": 18.35,
+      "shotsPerMatch": 11.5,
+      "xgPerShot": 0.12,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          57,
+          159
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          54,
+          150
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          5
+        ]
+      ],
+      "pressHeight": 41.01,
+      "ppda": 8.35
+    },
+    {
+      "id": "troyes-ligue-1-2015-2016",
+      "team": "Troyes",
+      "season": "2015/2016",
+      "competition": "Ligue 1",
+      "matches": 37,
+      "passLength": 19.56,
+      "shotsPerMatch": 11.68,
+      "xgPerShot": 0.07,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          84,
+          98
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          98,
+          133
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          7,
+          4
+        ]
+      ],
+      "pressHeight": 36.71,
+      "ppda": 9.96
+    },
+    {
+      "id": "arsenal-premier-league-2003-2004",
+      "team": "Arsenal",
+      "season": "2003/2004",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.28,
+      "shotsPerMatch": 14.32,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          3,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          112,
+          161
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          94,
+          156
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          5,
+          1
+        ]
+      ],
+      "pressHeight": 39.07,
+      "ppda": 6.31
+    },
+    {
+      "id": "afc-bournemouth-premier-league-2015-2016",
+      "team": "AFC Bournemouth",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.48,
+      "shotsPerMatch": 12.58,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          78,
+          163
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          85,
+          136
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          4
+        ]
+      ],
+      "pressHeight": 40.4,
+      "ppda": 7.98
+    },
+    {
+      "id": "arsenal-premier-league-2015-2016",
+      "team": "Arsenal",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 18.47,
+      "shotsPerMatch": 15.34,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          6
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          55,
+          224
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          71,
+          225
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "pressHeight": 39.4,
+      "ppda": 7.42
+    },
+    {
+      "id": "aston-villa-premier-league-2015-2016",
+      "team": "Aston Villa",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.84,
+      "shotsPerMatch": 10.32,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          86,
+          116
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          65,
+          120
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      ],
+      "pressHeight": 34.85,
+      "ppda": 11.34
+    },
+    {
+      "id": "chelsea-premier-league-2015-2016",
+      "team": "Chelsea",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 18.62,
+      "shotsPerMatch": 14.08,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          80,
+          169
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          89,
+          185
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          2
+        ]
+      ],
+      "pressHeight": 38.91,
+      "ppda": 6.84
+    },
+    {
+      "id": "crystal-palace-premier-league-2015-2016",
+      "team": "Crystal Palace",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 20.25,
+      "shotsPerMatch": 12.55,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          79,
+          142
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          73,
+          167
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          4,
+          4
+        ]
+      ],
+      "pressHeight": 38.64,
+      "ppda": 7.76
+    },
+    {
+      "id": "everton-premier-league-2015-2016",
+      "team": "Everton",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.7,
+      "shotsPerMatch": 13.11,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          80,
+          168
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          78,
+          167
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      ],
+      "pressHeight": 37.06,
+      "ppda": 8.75
+    },
+    {
+      "id": "leicester-city-premier-league-2015-2016",
+      "team": "Leicester City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.39,
+      "shotsPerMatch": 13.82,
+      "xgPerShot": 0.13,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          75,
+          190
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          79,
+          179
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "pressHeight": 37.51,
+      "ppda": 8.26
+    },
+    {
+      "id": "liverpool-premier-league-2015-2016",
+      "team": "Liverpool",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.19,
+      "shotsPerMatch": 16.71,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          9,
+          7
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          132,
+          200
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          95,
+          182
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          4
+        ]
+      ],
+      "pressHeight": 40.82,
+      "ppda": 5.74
+    },
+    {
+      "id": "manchester-city-premier-league-2015-2016",
+      "team": "Manchester City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 18.3,
+      "shotsPerMatch": 16.16,
+      "xgPerShot": 0.11,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          1,
+          2,
+          90,
+          206
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          89,
+          206
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          8
+        ]
+      ],
+      "pressHeight": 41.06,
+      "ppda": 6.89
+    },
+    {
+      "id": "manchester-united-premier-league-2015-2016",
+      "team": "Manchester United",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.54,
+      "shotsPerMatch": 11.34,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          94,
+          155
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          60,
+          116
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "pressHeight": 41.2,
+      "ppda": 6.42
+    },
+    {
+      "id": "newcastle-united-premier-league-2015-2016",
+      "team": "Newcastle United",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.81,
+      "shotsPerMatch": 10.63,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          53,
+          132
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          59,
+          156
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "pressHeight": 37.27,
+      "ppda": 7.98
+    },
+    {
+      "id": "norwich-city-premier-league-2015-2016",
+      "team": "Norwich City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.65,
+      "shotsPerMatch": 11.16,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          2
+        ],
+        [
+          0,
+          0,
+          1,
+          1,
+          78,
+          115
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          74,
+          146
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          1
+        ]
+      ],
+      "pressHeight": 38.68,
+      "ppda": 9.14
+    },
+    {
+      "id": "southampton-premier-league-2015-2016",
+      "team": "Southampton",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 20.25,
+      "shotsPerMatch": 13.87,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          65,
+          178
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          78,
+          194
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          2
+        ]
+      ],
+      "pressHeight": 39.53,
+      "ppda": 7.48
+    },
+    {
+      "id": "stoke-city-premier-league-2015-2016",
+      "team": "Stoke City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 20.4,
+      "shotsPerMatch": 11.18,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          2,
+          4
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          79,
+          120
+        ],
+        [
+          0,
+          1,
+          1,
+          2,
+          76,
+          134
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          2
+        ]
+      ],
+      "pressHeight": 36.2,
+      "ppda": 8.95
+    },
+    {
+      "id": "sunderland-premier-league-2015-2016",
+      "team": "Sunderland",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 20.77,
+      "shotsPerMatch": 11.87,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          80,
+          141
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          83,
+          136
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          1,
+          4
+        ]
+      ],
+      "pressHeight": 36.77,
+      "ppda": 9.36
+    },
+    {
+      "id": "swansea-city-premier-league-2015-2016",
+      "team": "Swansea City",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.61,
+      "shotsPerMatch": 11.79,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          73,
+          126
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          98,
+          145
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          2,
+          0
+        ]
+      ],
+      "pressHeight": 38.69,
+      "ppda": 7.97
+    },
+    {
+      "id": "tottenham-hotspur-premier-league-2015-2016",
+      "team": "Tottenham Hotspur",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 20.14,
+      "shotsPerMatch": 17.26,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          8
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          133,
+          185
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          119,
+          203
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 40.33,
+      "ppda": 5.61
+    },
+    {
+      "id": "watford-premier-league-2015-2016",
+      "team": "Watford",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 19.63,
+      "shotsPerMatch": 11.84,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          98,
+          142
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          76,
+          123
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 38.33,
+      "ppda": 8.37
+    },
+    {
+      "id": "west-bromwich-albion-premier-league-2015-2016",
+      "team": "West Bromwich Albion",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 21.46,
+      "shotsPerMatch": 10.42,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          6,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          50,
+          129
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          62,
+          139
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          2
+        ]
+      ],
+      "pressHeight": 38.02,
+      "ppda": 9.79
+    },
+    {
+      "id": "west-ham-united-premier-league-2015-2016",
+      "team": "West Ham United",
+      "season": "2015/2016",
+      "competition": "Premier League",
+      "matches": 38,
+      "passLength": 20.02,
+      "shotsPerMatch": 14.71,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          99,
+          183
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          89,
+          175
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "pressHeight": 38.13,
+      "ppda": 8.03
+    },
+    {
+      "id": "ac-milan-serie-a-2015-2016",
+      "team": "AC Milan",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.48,
+      "shotsPerMatch": 14.87,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          116,
+          162
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          99,
+          169
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          4
+        ]
+      ],
+      "pressHeight": 42.18,
+      "ppda": 6.55
+    },
+    {
+      "id": "as-roma-serie-a-2015-2016",
+      "team": "AS Roma",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 18.89,
+      "shotsPerMatch": 15.58,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          86,
+          179
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          102,
+          211
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          2
+        ]
+      ],
+      "pressHeight": 42.13,
+      "ppda": 7.34
+    },
+    {
+      "id": "atalanta-serie-a-2015-2016",
+      "team": "Atalanta",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.63,
+      "shotsPerMatch": 12.42,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          4
+        ],
+        [
+          0,
+          0,
+          2,
+          2,
+          85,
+          154
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          80,
+          136
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          2
+        ]
+      ],
+      "pressHeight": 39.33,
+      "ppda": 7.69
+    },
+    {
+      "id": "bologna-serie-a-2015-2016",
+      "team": "Bologna",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.61,
+      "shotsPerMatch": 10.39,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          84,
+          121
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          75,
+          98
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          2,
+          5
+        ]
+      ],
+      "pressHeight": 38.99,
+      "ppda": 9.56
+    },
+    {
+      "id": "carpi-serie-a-2015-2016",
+      "team": "Carpi",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.94,
+      "shotsPerMatch": 11.42,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          83,
+          142
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          58,
+          130
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          5,
+          5
+        ]
+      ],
+      "pressHeight": 40.26,
+      "ppda": 9.1
+    },
+    {
+      "id": "chievo-serie-a-2015-2016",
+      "team": "Chievo",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.68,
+      "shotsPerMatch": 11.34,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          75,
+          135
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          85,
+          122
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          4
+        ]
+      ],
+      "pressHeight": 39.84,
+      "ppda": 8.62
+    },
+    {
+      "id": "empoli-serie-a-2015-2016",
+      "team": "Empoli",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 17.17,
+      "shotsPerMatch": 12.87,
+      "xgPerShot": 0.08,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          2,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          124,
+          141
+        ],
+        [
+          0,
+          0,
+          1,
+          2,
+          92,
+          113
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          3,
+          3
+        ]
+      ],
+      "pressHeight": 42.57,
+      "ppda": 7.48
+    },
+    {
+      "id": "fiorentina-serie-a-2015-2016",
+      "team": "Fiorentina",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 18.95,
+      "shotsPerMatch": 15.32,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          117,
+          143
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          144,
+          165
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          5
+        ]
+      ],
+      "pressHeight": 42.33,
+      "ppda": 5.99
+    },
+    {
+      "id": "frosinone-serie-a-2015-2016",
+      "team": "Frosinone",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 20.91,
+      "shotsPerMatch": 12.95,
+      "xgPerShot": 0.06,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          7,
+          6
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          101,
+          125
+        ],
+        [
+          0,
+          0,
+          0,
+          7,
+          108,
+          127
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          6,
+          2
+        ]
+      ],
+      "pressHeight": 38.22,
+      "ppda": 7.64
+    },
+    {
+      "id": "genoa-serie-a-2015-2016",
+      "team": "Genoa",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.52,
+      "shotsPerMatch": 12.45,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          93,
+          135
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          77,
+          156
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 39.62,
+      "ppda": 7.45
+    },
+    {
+      "id": "hellas-verona-serie-a-2015-2016",
+      "team": "Hellas Verona",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 20.39,
+      "shotsPerMatch": 12.34,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          86,
+          151
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          72,
+          151
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          3
+        ]
+      ],
+      "pressHeight": 40.32,
+      "ppda": 8.72
+    },
+    {
+      "id": "inter-milan-serie-a-2015-2016",
+      "team": "Inter Milan",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.35,
+      "shotsPerMatch": 13.95,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          1,
+          0,
+          0,
+          5,
+          7
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          111,
+          168
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          83,
+          147
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          2
+        ]
+      ],
+      "pressHeight": 39.83,
+      "ppda": 7.7
+    },
+    {
+      "id": "juventus-serie-a-2015-2016",
+      "team": "Juventus",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.87,
+      "shotsPerMatch": 16,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          0,
+          7,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          127,
+          179
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          111,
+          171
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          2
+        ]
+      ],
+      "pressHeight": 43.87,
+      "ppda": 7.53
+    },
+    {
+      "id": "lazio-serie-a-2015-2016",
+      "team": "Lazio",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.44,
+      "shotsPerMatch": 13.68,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          1,
+          5
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          89,
+          154
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          96,
+          164
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          3
+        ]
+      ],
+      "pressHeight": 42.31,
+      "ppda": 6.52
+    },
+    {
+      "id": "napoli-serie-a-2015-2016",
+      "team": "Napoli",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 16.82,
+      "shotsPerMatch": 17.47,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          0,
+          6,
+          3
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          147,
+          210
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          85,
+          203
+        ],
+        [
+          0,
+          0,
+          1,
+          2,
+          1,
+          3
+        ]
+      ],
+      "pressHeight": 43.44,
+      "ppda": 6.68
+    },
+    {
+      "id": "palermo-serie-a-2015-2016",
+      "team": "Palermo",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.4,
+      "shotsPerMatch": 10.95,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          2
+        ],
+        [
+          0,
+          0,
+          0,
+          3,
+          84,
+          113
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          66,
+          140
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          2
+        ]
+      ],
+      "pressHeight": 39.25,
+      "ppda": 10.16
+    },
+    {
+      "id": "sampdoria-serie-a-2015-2016",
+      "team": "Sampdoria",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.76,
+      "shotsPerMatch": 11.55,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          1,
+          1,
+          1,
+          4
+        ],
+        [
+          0,
+          0,
+          0,
+          1,
+          79,
+          120
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          94,
+          133
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          1
+        ]
+      ],
+      "pressHeight": 38.14,
+      "ppda": 8.85
+    },
+    {
+      "id": "sassuolo-serie-a-2015-2016",
+      "team": "Sassuolo",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.58,
+      "shotsPerMatch": 13.03,
+      "xgPerShot": 0.09,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          2
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          106,
+          153
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          91,
+          131
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          3,
+          4
+        ]
+      ],
+      "pressHeight": 41.17,
+      "ppda": 6.76
+    },
+    {
+      "id": "torino-serie-a-2015-2016",
+      "team": "Torino",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 21.82,
+      "shotsPerMatch": 12.58,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          0,
+          5,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          57,
+          143
+        ],
+        [
+          0,
+          0,
+          0,
+          2,
+          95,
+          167
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          4,
+          5
+        ]
+      ],
+      "pressHeight": 39.2,
+      "ppda": 9.91
+    },
+    {
+      "id": "udinese-serie-a-2015-2016",
+      "team": "Udinese",
+      "season": "2015/2016",
+      "competition": "Serie A",
+      "matches": 38,
+      "passLength": 19.91,
+      "shotsPerMatch": 11.95,
+      "xgPerShot": 0.1,
+      "shotGrid": [
+        [
+          0,
+          0,
+          0,
+          1,
+          6,
+          7
+        ],
+        [
+          0,
+          0,
+          1,
+          0,
+          59,
+          158
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          80,
+          137
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          2,
+          3
+        ]
+      ],
+      "pressHeight": 38.21,
+      "ppda": 9.65
+    }
+  ]
+}
