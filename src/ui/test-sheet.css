@@ -1,0 +1,99 @@
+.test-sheet {
+  margin: 12px var(--gutter) 0;
+  padding: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.test-sheet .kicker {
+  margin: 0;
+  color: var(--accent-ink);
+}
+
+.test-sheet button {
+  appearance: none;
+  touch-action: manipulation;
+}
+
+.test-disclosure {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: var(--target);
+  margin-top: 8px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  padding: 8px 14px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.test-disclosure span:first-child {
+  min-width: 0;
+}
+
+.test-disclosure span:last-child {
+  flex: none;
+}
+
+.test-label {
+  margin: 12px 0 0;
+  color: var(--plum);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.test-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.test-options button {
+  min-height: var(--target);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--plum);
+  box-shadow: var(--shadow);
+  padding: 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.03em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.test-options button[aria-pressed="true"] {
+  background: var(--plum);
+  color: var(--on-plum);
+  box-shadow: var(--shadow-accent);
+}
+
+.test-options button:active,
+.test-disclosure:active {
+  transform: translateY(2px);
+}
+
+.test-options button:focus-visible,
+.test-disclosure:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+}

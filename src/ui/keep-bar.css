@@ -1,0 +1,51 @@
+.keep-bar {
+  margin: 12px var(--gutter) 0;
+  padding: 12px;
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.keep-bar .kicker {
+  margin: 0;
+  color: var(--accent-ink);
+}
+
+.keep-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.keep-actions button {
+  appearance: none;
+  touch-action: manipulation;
+  min-height: var(--target);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--plum);
+  color: var(--on-plum);
+  box-shadow: var(--shadow);
+  padding: 0 8px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.keep-actions button:active {
+  transform: translateY(2px);
+}
+
+.keep-actions button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.keep-status {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}

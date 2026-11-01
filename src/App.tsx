@@ -1,27 +1,36 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { featuresFromPlayers } from "./compare/features";
 import { formatSeason, shapeSummary } from "./compare/format";
 import { rankSides } from "./compare/nearest";
 import { loadShapeLibrary } from "./data/shape-library";
 import { loadStyleLibrary } from "./data/style-library";
 import { Pitch } from "./pitch/Pitch";
-import { chooseTemplate, createBoard, movePlayer, selectPlayer, setFreePlacement } from "./tactics/board";
+import { chooseTemplate, createBoard, movePlayer, selectPlayer, setFreePlacement, type BoardState } from "./tactics/board";
 import {
   DEFAULT_INSTRUCTIONS,
   dutyNudge,
   instructionNotes,
+  readInstructions,
   type TeamInstructions,
 } from "./tactics/instructions";
 import { labelSquad } from "./tactics/positions";
 import { arrivalNote, arrivalPoint, hasArrivalMark } from "./tactics/arrival";
+import { decodeTactic, encodeTactic, loadTactic, saveTactic, type SavedTactic } from "./tactics/persist";
 import { effectFor, rolesFor, type Duty, type RoleId } from "./tactics/roles";
+import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
+import { pickCorners, SITUATIONS } from "./testing/corners";
+import { liveSample, styleShiftNote } from "./testing/live";
 import { playersFromBoard, readStyle, resolveRole, STYLE_NOTE, WIDE_CODES } from "./testing/profile";
+import type { Situation } from "./testing/sample";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
+import { KeepBar } from "./ui/KeepBar";
+import { MatchReport } from "./ui/MatchReport";
 import { NearestSide } from "./ui/NearestSide";
 import { RoleSheet } from "./ui/RoleSheet";
 import { StyleReading } from "./ui/StyleReading";
 import { TemplateBar } from "./ui/TemplateBar";
+import { TestSheet } from "./ui/TestSheet";
 import "./styles/global.css";
 import "./ui/shell.css";
 
@@ -85,12 +94,42 @@ const SHOOTING: InstructionChoice<TeamInstructions["shooting"]>[] = [
 ];
 
 type PlayerSetup = { roleId: string; duty: Duty };
+type OpponentPick = "nearest" | "deepest" | "hardestPress" | "shortestPass" | "mostDirect";
+
+function openingFromLocation(): {
+  board: BoardState;
+  setups: Record<string, PlayerSetup>;
+  instructions: TeamInstructions;
+} | null {
+  const saved = decodeTactic(window.location.hash) ?? loadTactic(window.localStorage);
+  if (!saved || saved.players.length === 0) return null;
+  const templateId =
+    saved.templateId && TEMPLATES.some((template) => template.id === saved.templateId) ? saved.templateId : null;
+  return {
+    board: {
+      players: saved.players.map((player) => ({ id: player.id, x: player.x, y: player.y })),
+      freePlacement: saved.freePlacement,
+      selectedId: null,
+      templateId,
+    },
+    setups: saved.setups,
+    instructions: readInstructions(saved.instructions),
+  };
+}
 
 export function App() {
-  const [board, setBoard] = useState(() => createBoard());
+  const [opening] = useState(openingFromLocation);
+  const [board, setBoard] = useState(() => opening?.board ?? createBoard());
   const [preview, setPreview] = useState<Player | null>(null);
-  const [setups, setSetups] = useState<Record<string, PlayerSetup>>({});
-  const [instructions, setInstructions] = useState<TeamInstructions>(DEFAULT_INSTRUCTIONS);
+  const [setups, setSetups] = useState<Record<string, PlayerSetup>>(() => opening?.setups ?? {});
+  const [instructions, setInstructions] = useState<TeamInstructions>(
+    () => opening?.instructions ?? DEFAULT_INSTRUCTIONS,
+  );
+  const [situation, setSituation] = useState<Situation>("level");
+  const [opponentPick, setOpponentPick] = useState<OpponentPick>("nearest");
+  const [status, setStatus] = useState<string | null>(null);
+  const [roleShift, setRoleShift] = useState<string | null>(null);
+  const styleWatch = useRef<{ nearestId: string | null; setupsKey: string } | null>(null);
   const [pinnedId] = useState(() => new URLSearchParams(window.location.search).get("side"));
 
   const display = preview
@@ -109,15 +148,40 @@ export function App() {
   });
   const summary = shapeSummary(featuresFromPlayers(display));
   const nearest = rankSides(featuresFromPlayers(board.players), library.sides);
-  const reading = readStyle(
-    playersFromBoard(board.players, placed, setups).map((player) => ({
-      ...player,
-      duty: dutyNudge(player.duty, instructions.mentality),
-    })),
-    instructions,
-    styles.sides,
-  );
+  const profilePlayers = playersFromBoard(board.players, placed, setups).map((player) => ({
+    ...player,
+    duty: dutyNudge(player.duty, instructions.mentality),
+  }));
+  const reading = readStyle(profilePlayers, instructions, styles.sides);
   const styleSide = styles.sides.find((side) => side.id === reading.nearestId) ?? null;
+  const corners = pickCorners(styles.sides);
+  const cornerSide =
+    opponentPick === "nearest"
+      ? null
+      : styles.sides.find((side) => side.id === corners[opponentPick].id) ?? null;
+  const opponentSide = cornerSide ?? styleSide;
+  const match = opponentSide
+    ? liveSample({
+        players: profilePlayers,
+        instructions,
+        opponent: opponentSide,
+        situation,
+        styles: styles.sides,
+        seed: 1,
+      })
+    : null;
+  const setupsKey = JSON.stringify(setups);
+  useEffect(() => {
+    const previous = styleWatch.current;
+    setRoleShift(
+      styleShiftNote(
+        previous != null && previous.setupsKey !== setupsKey,
+        previous?.nearestId ?? null,
+        reading.nearestId,
+      ),
+    );
+    styleWatch.current = { nearestId: reading.nearestId, setupsKey };
+  }, [setupsKey, reading.nearestId]);
   const pinned = library.sides.find((side) => side.id === pinnedId) ?? null;
   const selected = board.selectedId ? labels.byId[board.selectedId] : null;
   const title = board.templateId ?? "Custom";
@@ -152,6 +216,47 @@ export function App() {
     const id = board.selectedId;
     setSetups((current) => ({ ...current, [id]: { roleId: nextRole, duty: nextDuty } }));
   }
+
+  function currentTactic(): SavedTactic {
+    return {
+      version: 1,
+      players: board.players.map((player) => ({ id: player.id, x: player.x, y: player.y })),
+      templateId: board.templateId,
+      freePlacement: board.freePlacement,
+      setups,
+      instructions,
+    };
+  }
+
+  function save() {
+    saveTactic(window.localStorage, currentTactic());
+    setStatus("Saved on this device");
+  }
+
+  async function share() {
+    const hash = encodeTactic(currentTactic());
+    const url = `${window.location.origin}${window.location.pathname}${window.location.search}#${hash}`;
+    window.history.replaceState(null, "", `#${hash}`);
+    try {
+      await navigator.clipboard.writeText(url);
+      setStatus("Link copied");
+    } catch {
+      setStatus("Link ready");
+    }
+  }
+
+  const situationLabel = SITUATIONS.find((item) => item.id === situation)?.label ?? "Level";
+  const opponentChoices = [
+    { id: "nearest", label: styleSide ? `Nearest · ${styleSide.team}` : "Nearest" },
+    { id: "deepest", label: `Deepest · ${corners.deepest.team}` },
+    { id: "hardestPress", label: `Hardest press · ${corners.hardestPress.team}` },
+    { id: "shortestPass", label: `Shortest pass · ${corners.shortestPass.team}` },
+    { id: "mostDirect", label: `Most direct · ${corners.mostDirect.team}` },
+  ];
+  const opponentLabel =
+    opponentChoices.find((choice) => choice.id === opponentPick)?.label ?? "Nearest";
+  const sampleLines = (match?.report.lines ?? []).filter((line) => !line.includes("passes the opponent completes"));
+  const reportLines = [...sampleLines, ...(match?.notes ?? []), roleShift].filter((line): line is string => Boolean(line));
 
   return (
     <div className="app">
@@ -232,7 +337,40 @@ export function App() {
           note={STYLE_NOTE}
           shotGrid={styleSide?.shotGrid ?? null}
         />
+        <TestSheet
+          situationLabel={situationLabel}
+          opponentLabel={opponentLabel}
+          situations={SITUATIONS.map((item) => ({ id: item.id, label: item.label }))}
+          situation={situation}
+          opponents={opponentChoices}
+          opponent={opponentPick}
+          onSituation={(id) => {
+            const next = SITUATIONS.find((item) => item.id === id);
+            if (next) setSituation(next.id);
+          }}
+          onOpponent={(id) => {
+            const next = opponentChoices.find((choice) => choice.id === id);
+            if (next) setOpponentPick(next.id as OpponentPick);
+          }}
+        />
+        {match && opponentSide ? (
+          <MatchReport
+            team={opponentSide.team}
+            season={formatSeason(opponentSide.season)}
+            competition={opponentSide.competition}
+            matches={opponentSide.matches}
+            situation={situationLabel}
+            modelXgFor={match.report.modelXgFor}
+            modelXgAgainst={match.report.modelXgAgainst}
+            tilt={match.report.tilt}
+            yourPpda={match.yourPpda}
+            theirPpda={opponentSide.ppda}
+            restDefence={match.report.restDefence}
+            lines={reportLines}
+          />
+        ) : null}
         <NearestSide ranked={nearest} pinned={pinned} />
+        <KeepBar status={status} onSave={save} onShare={() => void share()} />
         <p className="credit">
           {library.sides.length} team-seasons from{" "}
           <a href={library.sourceUrl}>{library.source}</a>. Shapes are starting lineups, not

@@ -195,3 +195,36 @@ export function instructionNotes(instructions: TeamInstructions): string[] {
   }
   return notes;
 }
+
+const PASSING_VALUES = ["shorter", "standard", "more direct"] as const;
+const TEMPO_VALUES = ["lower", "standard", "higher"] as const;
+const WIDTH_VALUES = ["narrower", "standard", "wider"] as const;
+const LINE_VALUES = ["deeper", "standard", "higher"] as const;
+const ENGAGEMENT_VALUES = ["lower", "standard", "higher"] as const;
+const PRESSING_VALUES = ["less", "standard", "more"] as const;
+const MENTALITY_VALUES = ["defensive", "balanced", "attacking"] as const;
+const TRANSITION_VALUES = ["regroup", "standard", "counter-press"] as const;
+const DISTRIBUTION_VALUES = ["play out", "mixed", "go long"] as const;
+const WIDTH_INTENTION_VALUES = ["underlap", "balanced", "overlap"] as const;
+const SHOOTING_VALUES = ["work the ball", "standard", "shoot on sight"] as const;
+
+function oneOf<T extends string>(value: unknown, allowed: readonly T[], fallback: T): T {
+  return typeof value === "string" && (allowed as readonly string[]).includes(value) ? (value as T) : fallback;
+}
+
+/** A saved tactic may predate mentality and the More group. Unknown values fall back. */
+export function readInstructions(value: Partial<Record<keyof TeamInstructions, unknown>>): TeamInstructions {
+  return {
+    passing: oneOf(value.passing, PASSING_VALUES, "standard"),
+    tempo: oneOf(value.tempo, TEMPO_VALUES, "standard"),
+    width: oneOf(value.width, WIDTH_VALUES, "standard"),
+    defensiveLine: oneOf(value.defensiveLine, LINE_VALUES, "standard"),
+    engagement: oneOf(value.engagement, ENGAGEMENT_VALUES, "standard"),
+    pressing: oneOf(value.pressing, PRESSING_VALUES, "standard"),
+    mentality: oneOf(value.mentality, MENTALITY_VALUES, "balanced"),
+    transition: oneOf(value.transition, TRANSITION_VALUES, "standard"),
+    distribution: oneOf(value.distribution, DISTRIBUTION_VALUES, "mixed"),
+    widthIntention: oneOf(value.widthIntention, WIDTH_INTENTION_VALUES, "balanced"),
+    shooting: oneOf(value.shooting, SHOOTING_VALUES, "standard"),
+  };
+}

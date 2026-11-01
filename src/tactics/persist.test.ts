@@ -93,6 +93,19 @@ describe("decodeTactic", () => {
     expect(decodeTactic(`#${hash}`)?.instructions.pressing).toBe("more");
   });
 
+  it("keeps mentality on the link and still opens a tactic saved before it existed", () => {
+    const withMentality = tactic();
+    withMentality.instructions.mentality = "attacking";
+    withMentality.instructions.transition = "regroup";
+    expect(decodeTactic(encodeTactic(withMentality))?.instructions.mentality).toBe("attacking");
+    expect(decodeTactic(encodeTactic(withMentality))?.instructions.transition).toBe("regroup");
+
+    const older = tactic();
+    const loaded = decodeTactic(encodeTactic(older));
+    expect(loaded?.instructions.passing).toBe("more direct");
+    expect(loaded?.instructions.mentality).toBeUndefined();
+  });
+
   it("rejects a hash that is not version 1", () => {
     const json = JSON.stringify({ ...tactic(), version: 2 });
     const payload = base64Url(json);

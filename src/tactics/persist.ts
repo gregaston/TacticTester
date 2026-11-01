@@ -13,6 +13,11 @@ export type SavedTactic = {
     defensiveLine: string;
     engagement: string;
     pressing: string;
+    mentality?: string;
+    transition?: string;
+    distribution?: string;
+    widthIntention?: string;
+    shooting?: string;
   };
 };
 

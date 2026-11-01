@@ -4,6 +4,7 @@ import {
   applyInstructions,
   dutyNudge,
   instructionNotes,
+  readInstructions,
   type TeamInstructions,
 } from "./instructions";
 
@@ -159,6 +160,24 @@ describe("dutyNudge", () => {
     expect(dutyNudge("defend", "attacking")).toBe("support");
     expect(dutyNudge("support", "attacking")).toBe("attack");
     expect(dutyNudge("attack", "attacking")).toBe("attack");
+  });
+});
+
+describe("readInstructions", () => {
+  it("fills mentality and the More group when an older tactic omits them", () => {
+    expect(readInstructions({ passing: "shorter" })).toEqual({
+      ...DEFAULT_INSTRUCTIONS,
+      passing: "shorter",
+    });
+  });
+
+  it("keeps a known mentality and drops a value that is not one of the choices", () => {
+    expect(readInstructions({ mentality: "attacking", transition: "counter-press" }).mentality).toBe("attacking");
+    expect(readInstructions({ mentality: "attacking", transition: "counter-press" }).transition).toBe("counter-press");
+    expect(readInstructions({ mentality: "siege", shooting: "shoot on sight" })).toMatchObject({
+      mentality: "balanced",
+      shooting: "shoot on sight",
+    });
   });
 });
 
