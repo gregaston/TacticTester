@@ -376,7 +376,7 @@ export function App() {
           </span>
         </section>
         <div className="pitch-frame">
-          <div className="pitch-rail is-attack">
+          <div className="pitch-rail">
             <LineSlider
               name="Engagement"
               mark="Eng"
@@ -388,6 +388,18 @@ export function App() {
               onLive={(y) => liveLine("engagement", y)}
               onCommit={(y) => commitLine("engagement", y)}
               onSelect={(value) => selectLine("engagement", value as Engagement)}
+            />
+            <LineSlider
+              name="Defensive line"
+              mark="Line"
+              half="defend"
+              y={defensiveY}
+              face={defensiveStop.face}
+              valueText={defensiveStop.label}
+              stops={DEFENSIVE_STOPS}
+              onLive={(y) => liveLine("defensive", y)}
+              onCommit={(y) => commitLine("defensive", y)}
+              onSelect={(value) => selectLine("defensive", value as LineHeight)}
             />
           </div>
           <Pitch
@@ -406,25 +418,11 @@ export function App() {
             onPreview={(id, point) => setPreview({ id, ...point })}
             onCommit={commit}
           />
-          <div className="pitch-rail is-defend">
-            <LineSlider
-              name="Defensive line"
-              mark="Line"
-              half="defend"
-              y={defensiveY}
-              face={defensiveStop.face}
-              valueText={defensiveStop.label}
-              stops={DEFENSIVE_STOPS}
-              onLive={(y) => liveLine("defensive", y)}
-              onCommit={(y) => commitLine("defensive", y)}
-              onSelect={(value) => selectLine("defensive", value as LineHeight)}
-            />
-          </div>
         </div>
         <InfoBanner>
           Drag players to change position. Select players to change role. Tap a selected player again to clear
-          them. The lines beside the pitch set engagement and the defensive line, and the shade shows where
-          players spend the match.
+          them. The controls to the left of the pitch set engagement and the defensive line, and the shade
+          shows where players spend the match.
         </InfoBanner>
         {selected && roleId ? (
           <RoleSheet

@@ -38,7 +38,10 @@ export function LineSlider({
   }
 
   function grab(event: ReactPointerEvent<HTMLDivElement>) {
+    const target = event.target instanceof Element ? event.target : null;
+    if (!target?.closest(".line-handle")) return;
     event.preventDefault();
+    event.currentTarget.focus();
     const pointerId = event.pointerId;
     onLive(pitchY(event.clientY));
     const move = (ev: PointerEvent) => {
@@ -68,7 +71,7 @@ export function LineSlider({
 
   return (
     <div
-      className="line-slider"
+      className={`line-slider is-${half}`}
       ref={track}
       role="slider"
       tabIndex={0}
