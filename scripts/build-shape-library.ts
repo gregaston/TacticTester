@@ -20,7 +20,13 @@ type LineupFile = Array<{
   lineup: Array<{ positions: Array<{ position: string; start_reason: string }> }>;
 }>;
 
-type Sample = { features: ShapeFeatures; key: string };
+type ShiftEvent = {
+  type?: { name?: string };
+  team?: { name?: string };
+  tactics?: { lineup?: Array<{ position?: { name?: string } }> };
+};
+
+type Sample = { features: ShapeFeatures; key: string; shiftKey: string | null };
 
 async function main(): Promise<void> {
   const buckets = new Map<string, { spec: SeasonSpec; team: string; samples: Sample[] }>();
@@ -38,6 +44,7 @@ async function main(): Promise<void> {
         `${ROOT}/lineups/${match.match_id}.json`,
         `lineups/${match.match_id}.json`,
       );
+      const events = await loadEvents(match.match_id);
       for (const team of lineup) {
         if (spec.teams && !spec.teams.includes(team.team_name)) continue;
         const sample = sampleTeam(team, unknown);
@@ -47,7 +54,7 @@ async function main(): Promise<void> {
         }
         const id = `${spec.competition}|${spec.season}|${team.team_name}`;
         const bucket = buckets.get(id) ?? { spec, team: team.team_name, samples: [] };
-        bucket.samples.push(sample);
+        bucket.samples.push({ ...sample, shiftKey: firstShiftKey(events, team.team_name, unknown) });
         buckets.set(id, bucket);
       }
     });
@@ -65,7 +72,7 @@ async function main(): Promise<void> {
   const library: ShapeLibrary = {
     source: "StatsBomb open data",
     sourceUrl: "https://github.com/statsbomb/open-data",
-    note: "Starting-lineup shapes. Counts use TacticTester position bands. Line height is the named position, not a measured defensive line.",
+    note: "Starting-lineup shapes, plus the in-game shape named most often after kickoff. Counts use TacticTester position bands. Line height is the named position, not a measured defensive line.",
     sides,
   };
   await mkdir(path.dirname(OUT), { recursive: true });
@@ -75,7 +82,7 @@ async function main(): Promise<void> {
   if (unknown.size > 0) console.log(`Unknown positions: ${[...unknown].join(", ")}`);
 }
 
-function sampleTeam(team: LineupFile[number], unknown: Set<string>): Sample | null {
+function sampleTeam(team: LineupFile[number], unknown: Set<string>): { features: ShapeFeatures; key: string } | null {
   const names = team.lineup.flatMap((player) =>
     player.positions.filter((spot) => spot.start_reason === "Starting XI").map((spot) => spot.position),
   );
@@ -91,9 +98,31 @@ function sampleTeam(team: LineupFile[number], unknown: Set<string>): Sample | nu
   return { features, key: formationKey(features) };
 }
 
+/** The first in-game lineup that places as eleven known positions. Shift events have no start reason. */
+function firstShiftKey(events: ShiftEvent[], teamName: string, unknown: Set<string>): string | null {
+  for (const event of events) {
+    if (event.type?.name !== "Tactical Shift" || event.team?.name !== teamName) continue;
+    const names = (event.tactics?.lineup ?? [])
+      .map((item) => item.position?.name)
+      .filter((name): name is string => typeof name === "string" && name.length > 0);
+    if (names.length !== 11) continue;
+    const points = names.map((name) => {
+      const point = placeStatsBombPosition(name);
+      if (!point) unknown.add(name);
+      return point;
+    });
+    if (points.some((point) => point === null)) continue;
+    const players = points.map((point, index) => ({ id: `s${index}`, ...point! }));
+    return formationKey(featuresFromPlayers(players));
+  }
+  return null;
+}
+
 function toSide(spec: SeasonSpec, team: string, samples: Sample[]): SideSummary {
   const keys = samples.map((sample) => sample.key);
   const modal = mode(keys);
+  const shifts = samples.map((sample) => sample.shiftKey).filter((key): key is string => key != null);
+  const shift = shifts.length > 0 ? mode(shifts) : null;
   return {
     id: slug(team, spec.competition, spec.season),
     team,
@@ -102,6 +131,8 @@ function toSide(spec: SeasonSpec, team: string, samples: Sample[]): SideSummary 
     matches: samples.length,
     formationKey: modal.value,
     formationShare: Math.round((modal.count / samples.length) * 100) / 100,
+    shiftKey: shift?.value ?? null,
+    shiftShare: shift ? Math.round((shift.count / samples.length) * 100) / 100 : 0,
     features: averageFeatures(samples.map((sample) => sample.features)),
   };
 }
@@ -139,6 +170,22 @@ function slug(...parts: string[]): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
+}
+
+async function loadEvents(matchId: number): Promise<ShiftEvent[]> {
+  const file = path.join(CACHE, "events", `${matchId}.json`);
+  try {
+    const parsed = JSON.parse(await readFile(file, "utf8")) as unknown;
+    if (Array.isArray(parsed)) return parsed as ShiftEvent[];
+  } catch {
+    // Fall through and fetch. The style build usually leaves this cache warm.
+  }
+  const body = await fetchText(`${ROOT}/events/${matchId}.json`);
+  const parsed = JSON.parse(body) as unknown;
+  if (!Array.isArray(parsed)) return [];
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, body);
+  return parsed as ShiftEvent[];
 }
 
 async function cachedJson<T>(url: string, name: string): Promise<T> {

@@ -36,6 +36,18 @@ import { SEASONS, type SeasonSpec } from "./seasons";
  * x >= 80 in that event team's attacking frame. On-ball events are Pass,
  * Carry, Dribble, Shot, and Ball Receipt. StatsBomb names the receipt
  * "Ball Receipt*".
+ *
+ * crossesPerMatch counts passes with pass.cross, completed or not.
+ * crossShotShare is the share of shots whose shot.key_pass_id is one of
+ * those crosses.
+ * regainShotsPerMatch counts shots within 8 seconds of a same-team Ball
+ * Recovery. Time is period * 100000 + minute * 60 + second, so a recovery
+ * in another period does not qualify. The window includes a recovery at
+ * the same second.
+ * keeperPassLength is the mean pass.length of passes whose position is
+ * Goalkeeper, completed or not.
+ * highPassShare is High Pass divided by passes that have a height, completed
+ * or not.
  */
 
 const ROOT = "https://raw.githubusercontent.com/statsbomb/open-data/master/data";
@@ -49,12 +61,22 @@ type MatchRow = {
 };
 
 type SbEvent = {
+  id?: string;
   period?: number;
+  minute?: number;
+  second?: number;
   type?: { name?: string };
   team?: { id?: number; name?: string };
   location?: number[];
-  pass?: { length?: number; outcome?: { name?: string } | null; end_location?: number[] };
-  shot?: { statsbomb_xg?: number };
+  position?: { name?: string };
+  pass?: {
+    length?: number;
+    outcome?: { name?: string } | null;
+    end_location?: number[];
+    cross?: boolean;
+    height?: { name?: string };
+  };
+  shot?: { statsbomb_xg?: number; key_pass_id?: string };
   duel?: { type?: { name?: string } };
 };
 
@@ -78,6 +100,13 @@ type Totals = {
   progressive: number;
   ownFinalThird: number;
   oppFinalThird: number;
+  crosses: number;
+  crossShots: number;
+  regainShots: number;
+  keeperLengthSum: number;
+  keeperPasses: number;
+  highPasses: number;
+  heightPasses: number;
 };
 
 type MatchStats = {
@@ -96,6 +125,13 @@ type MatchStats = {
   progressive: number;
   ownFinalThird: number;
   oppFinalThird: number;
+  crosses: number;
+  crossShots: number;
+  regainShots: number;
+  keeperLengthSum: number;
+  keeperPasses: number;
+  highPasses: number;
+  heightPasses: number;
 };
 
 type StyleSide = {
@@ -113,6 +149,11 @@ type StyleSide = {
   longPassShare: number;
   progressivePerMatch: number;
   fieldTilt: number;
+  crossesPerMatch: number;
+  crossShotShare: number;
+  regainShotsPerMatch: number;
+  keeperPassLength: number;
+  highPassShare: number;
 };
 
 const DEFENSIVE_TYPES = new Set(["Tackle", "Interception", "Foul Committed", "Block", "Dribbled Past"]);
@@ -155,7 +196,7 @@ async function main(): Promise<void> {
   const library = {
     source: "StatsBomb open data",
     sourceUrl: "https://github.com/statsbomb/open-data",
-    note: "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here. Long-pass share, progressive passes per match, and field tilt are computed from StatsBomb open data.",
+    note: "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here. Long-pass share, progressive passes per match, field tilt, crosses, shots within eight seconds of a recovery, goalkeeper pass length, and high-pass share are computed from StatsBomb open data.",
     sides,
   };
   await mkdir(path.dirname(OUT), { recursive: true });
@@ -171,6 +212,11 @@ async function main(): Promise<void> {
     if (side.longPassShare < 0 || side.longPassShare > 1) odd.push(`longPassShare ${side.longPassShare}`);
     if (side.progressivePerMatch < 0) odd.push(`progressivePerMatch ${side.progressivePerMatch}`);
     if (side.fieldTilt < 0 || side.fieldTilt > 1) odd.push(`fieldTilt ${side.fieldTilt}`);
+    if (side.crossesPerMatch < 0 || side.crossesPerMatch > 40) odd.push(`crossesPerMatch ${side.crossesPerMatch}`);
+    if (side.crossShotShare < 0 || side.crossShotShare > 1) odd.push(`crossShotShare ${side.crossShotShare}`);
+    if (side.regainShotsPerMatch < 0 || side.regainShotsPerMatch > 20) odd.push(`regainShotsPerMatch ${side.regainShotsPerMatch}`);
+    if (side.keeperPassLength < 5 || side.keeperPassLength > 70) odd.push(`keeperPassLength ${side.keeperPassLength}`);
+    if (side.highPassShare < 0 || side.highPassShare > 1) odd.push(`highPassShare ${side.highPassShare}`);
     if (odd.length > 0) console.warn(`${side.id}: ${odd.join(", ")}`);
   }
   reportRanges(sides);
@@ -199,10 +245,16 @@ function summarise(events: SbEvent[], names: Map<number, string>, focus: string[
   const towardOwnGoal = directionOf(events, names);
   const opponents = new Map<string, string>();
   const finalThird = new Map<string, number>();
+  const recoveries = new Map<string, number[]>();
+  const shotTimes = new Map<string, number[]>();
+  const crossIds = new Set<string>();
   const all = [...names.values()];
   for (const team of focus) {
     const other = all.find((name) => name !== team);
     if (other) opponents.set(team, other);
+  }
+  for (const event of events) {
+    if (event.type?.name === "Pass" && event.pass?.cross && event.id) crossIds.add(event.id);
   }
 
   for (const event of events) {
@@ -233,8 +285,32 @@ function summarise(events: SbEvent[], names: Map<number, string>, focus: string[
         if (isProgressive(startX, endX)) own.progressive += 1;
       }
     }
+    if (own && event.type?.name === "Pass") {
+      const height = event.pass?.height?.name;
+      if (height) {
+        own.heightPasses += 1;
+        if (height === "High Pass") own.highPasses += 1;
+      }
+      if (event.pass?.cross) own.crosses += 1;
+      if (event.position?.name === "Goalkeeper") {
+        const length = event.pass?.length;
+        if (typeof length === "number" && Number.isFinite(length)) {
+          own.keeperLengthSum += length;
+          own.keeperPasses += 1;
+        }
+      }
+    }
+    if (event.type?.name === "Ball Recovery" && own) {
+      const times = recoveries.get(team) ?? [];
+      times.push(eventStamp(event));
+      recoveries.set(team, times);
+    }
     if (own && event.type?.name === "Shot") {
       own.shots += 1;
+      const times = shotTimes.get(team) ?? [];
+      times.push(eventStamp(event));
+      shotTimes.set(team, times);
+      if (event.shot?.key_pass_id && crossIds.has(event.shot.key_pass_id)) own.crossShots += 1;
       const xg = event.shot?.statsbomb_xg;
       if (typeof xg === "number" && Number.isFinite(xg)) {
         own.xgSum += xg;
@@ -271,8 +347,36 @@ function summarise(events: SbEvent[], names: Map<number, string>, focus: string[
     const opponent = opponents.get(team);
     match.ownFinalThird = finalThird.get(team) ?? 0;
     match.oppFinalThird = opponent ? (finalThird.get(opponent) ?? 0) : 0;
+    match.regainShots = regainCount(recoveries.get(team) ?? [], shotTimes.get(team) ?? []);
   }
   return stats;
+}
+
+/** period * 100000 keeps a recovery in another period outside the 8-second window. */
+function eventStamp(event: SbEvent): number {
+  return (event.period ?? 1) * 100000 + (event.minute ?? 0) * 60 + (event.second ?? 0);
+}
+
+function regainCount(recoveries: number[], shots: number[]): number {
+  if (recoveries.length === 0 || shots.length === 0) return 0;
+  const times = [...recoveries].sort((a, b) => a - b);
+  let count = 0;
+  for (const shot of shots) {
+    let lo = 0;
+    let hi = times.length - 1;
+    let found = -1;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (times[mid] <= shot) {
+        found = mid;
+        lo = mid + 1;
+      } else {
+        hi = mid - 1;
+      }
+    }
+    if (found >= 0 && shot - times[found] <= 8) count += 1;
+  }
+  return count;
 }
 
 function directionOf(events: SbEvent[], names: Map<number, string>): (team: string, period: number) => boolean {
@@ -414,6 +518,13 @@ function emptyMatch(): MatchStats {
     progressive: 0,
     ownFinalThird: 0,
     oppFinalThird: 0,
+    crosses: 0,
+    crossShots: 0,
+    regainShots: 0,
+    keeperLengthSum: 0,
+    keeperPasses: 0,
+    highPasses: 0,
+    heightPasses: 0,
   };
 }
 
@@ -436,6 +547,13 @@ function emptyTotals(spec: SeasonSpec, team: string): Totals {
     progressive: 0,
     ownFinalThird: 0,
     oppFinalThird: 0,
+    crosses: 0,
+    crossShots: 0,
+    regainShots: 0,
+    keeperLengthSum: 0,
+    keeperPasses: 0,
+    highPasses: 0,
+    heightPasses: 0,
   };
 }
 
@@ -459,11 +577,19 @@ function addMatch(totals: Totals, match: MatchStats): void {
   totals.progressive += match.progressive;
   totals.ownFinalThird += match.ownFinalThird;
   totals.oppFinalThird += match.oppFinalThird;
+  totals.crosses += match.crosses;
+  totals.crossShots += match.crossShots;
+  totals.regainShots += match.regainShots;
+  totals.keeperLengthSum += match.keeperLengthSum;
+  totals.keeperPasses += match.keeperPasses;
+  totals.highPasses += match.highPasses;
+  totals.heightPasses += match.heightPasses;
 }
 
 function toSide(totals: Totals): StyleSide | null {
   if (totals.matches < 10) return null;
   if (totals.passCount === 0 || totals.xgCount === 0 || totals.pressCount === 0 || totals.ppdaMatches === 0) return null;
+  if (totals.shots === 0 || totals.keeperPasses === 0 || totals.heightPasses === 0) return null;
   return {
     id: slug(totals.team, totals.spec.competition, totals.spec.season),
     team: totals.team,
@@ -479,6 +605,11 @@ function toSide(totals: Totals): StyleSide | null {
     longPassShare: round2(totals.longPasses / totals.passCount),
     progressivePerMatch: round1(totals.progressive / totals.matches),
     fieldTilt: fieldTiltOf(totals.ownFinalThird, totals.oppFinalThird),
+    crossesPerMatch: round2(totals.crosses / totals.matches),
+    crossShotShare: round2(totals.crossShots / totals.shots),
+    regainShotsPerMatch: round2(totals.regainShots / totals.matches),
+    keeperPassLength: round2(totals.keeperLengthSum / totals.keeperPasses),
+    highPassShare: round2(totals.highPasses / totals.heightPasses),
   };
 }
 
@@ -497,11 +628,12 @@ function round2(value: number): number {
 }
 
 function reportRanges(sides: StyleSide[]): void {
-  for (const key of ["longPassShare", "progressivePerMatch", "fieldTilt"] as const) {
+  for (const key of ["longPassShare", "progressivePerMatch", "fieldTilt", "crossesPerMatch", "crossShotShare", "regainShotsPerMatch", "keeperPassLength", "highPassShare", "passLength"] as const) {
     const values = sides.map((side) => side[key]).sort((a, b) => a - b);
     if (values.length === 0) continue;
+    const at = (fraction: number) => values[Math.min(values.length - 1, Math.floor((values.length - 1) * fraction))];
     const mid = values.length % 2 === 1 ? values[(values.length - 1) / 2] : (values[values.length / 2 - 1] + values[values.length / 2]) / 2;
-    console.log(`${key}: min ${values[0]} median ${mid} max ${values[values.length - 1]}`);
+    console.log(`${key}: min ${values[0]} p25 ${at(0.25)} median ${mid} p75 ${at(0.75)} max ${values[values.length - 1]}`);
   }
 }
 

@@ -39,7 +39,7 @@ export type LiveMatch = {
 export function liveSample(input: {
   players: ProfilePlayer[];
   instructions: TeamInstructions;
-  opponent: StyleFingerprint & { shotGrid?: number[][] };
+  opponent: StyleFingerprint & { shotGrid?: number[][]; keeperPassLength?: number };
   situation: Situation;
   styles: StyleFingerprint[];
   seed?: number;

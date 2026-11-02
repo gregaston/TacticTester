@@ -17,6 +17,11 @@ export type StyleSide = {
   longPassShare: number;
   progressivePerMatch: number;
   fieldTilt: number;
+  crossesPerMatch: number;
+  crossShotShare: number;
+  regainShotsPerMatch: number;
+  keeperPassLength: number;
+  highPassShare: number;
 };
 
 export type StyleLibrary = {
