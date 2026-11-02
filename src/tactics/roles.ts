@@ -188,7 +188,7 @@ const CATALOG: CatalogRole[] = [
   {
     id: "wing-back",
     name: "Wing-Back",
-    lines: ["DEF", "DM"],
+    lines: ["DEF", "DM", "CM"],
     wide: "wide",
     summary: "With the ball, stretches the game high and wide; without it, still has the flank to cover.",
     duties: {
@@ -200,7 +200,7 @@ const CATALOG: CatalogRole[] = [
   {
     id: "inverted-wing-back",
     name: "Inverted Wing-Back",
-    lines: ["DEF", "DM"],
+    lines: ["DEF", "DM", "CM"],
     wide: "wide",
     summary: "With the ball, tucks into midfield to pass; without it, defends the full-back zone.",
     duties: {
@@ -236,8 +236,8 @@ const CATALOG: CatalogRole[] = [
   {
     id: "ball-winning-midfielder",
     name: "Ball-Winning Midfielder",
-    lines: ["DM"],
-    wide: "central",
+    lines: ["DM", "CM"],
+    wide: "any",
     summary: "With the ball, plays a safe short pass; without it, presses and tackles the midfield.",
     duties: {
       support: { x: 0, y: 2, passLength: -6, passRisk: 0.14, shooting: 0.1, pressing: 0.84, tackling: 0.86 },
@@ -375,7 +375,7 @@ const CATALOG: CatalogRole[] = [
   {
     id: "winger",
     name: "Winger",
-    lines: ["AM"],
+    lines: ["AM", "CM"],
     wide: "wide",
     summary: "With the ball, stays wide and crosses; without it, tracks the opposing full-back.",
     duties: {
@@ -387,7 +387,7 @@ const CATALOG: CatalogRole[] = [
   {
     id: "inverted-winger",
     name: "Inverted Winger",
-    lines: ["AM"],
+    lines: ["AM", "CM"],
     wide: "wide",
     summary: "With the ball, tucks inside to combine; without it, starts wide and squeezes the play inward.",
     duties: {

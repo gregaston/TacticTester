@@ -1,5 +1,5 @@
 import { formatSeason } from "../compare/format";
-import { applyInstructions, type TeamInstructions } from "../tactics/instructions";
+import { applyInstructions, DEFAULT_INSTRUCTIONS, type TeamInstructions } from "../tactics/instructions";
 import { ROLES, effectFor, rolesFor, type Duty, type RoleId } from "../tactics/roles";
 import type { SquadLabels } from "../tactics/positions";
 import type { Line, Player, PositionCode } from "../tactics/types";
@@ -13,14 +13,17 @@ import type { StyleFingerprint } from "./types";
  * Pass length starts at the median completed pass in the set. The team
  * passing instruction adds its yards. A role adds the yards it differs by
  * from that position's usual support role, so an untouched side stays in
- * the middle. A "more direct" choice lands beyond the longest side here.
+ * the middle. Shorter, on its own, lands on the shortest side in the set.
+ * More direct, on its own, lands on the longest. Go long or Play out on
+ * top of those can step just past the set, and the instruction note says so.
  *
  * Press height starts at the median height of defensive actions. The
- * instruction model counts engagement in its own units, so the gap from
- * a standard press is scaled onto the measured range: stacking a high
- * line with a hard press clears the highest side. Role pressing nudges
- * the same number. Each sentence names the side closest on that one
- * measure, so a change of passing does not rewrite the press.
+ * instruction model counts engagement in its own units. A higher line,
+ * a higher engagement, and pressing more, together, land on the highest
+ * side. The deep passive block lands on the deepest. Anything stacked
+ * past that steps just beyond the set. Role pressing nudges the same
+ * number. Each sentence names the side closest on that one measure, so
+ * a change of passing does not rewrite the press.
  *
  * Shots start at the median shot count and move with tempo and with how
  * often the attackers shoot. The place those shots come from is the
@@ -30,8 +33,22 @@ import type { StyleFingerprint } from "./types";
 
 export const WIDE_CODES = new Set<PositionCode>(["DL", "DR", "WBL", "WBR", "ML", "MR", "AML", "AMR"]);
 
-const PRESS_PER_INSTRUCTION = 0.2;
 const PRESS_PER_ROLE = 18;
+const STANDARD_PRESS_EFFECT = applyInstructions(DEFAULT_INSTRUCTIONS).pressHeight;
+const HIGH_PRESS_EFFECT = applyInstructions({
+  ...DEFAULT_INSTRUCTIONS,
+  defensiveLine: "higher",
+  engagement: "higher",
+  pressing: "more",
+}).pressHeight;
+const DEEP_PRESS_EFFECT = applyInstructions({
+  ...DEFAULT_INSTRUCTIONS,
+  defensiveLine: "deeper",
+  engagement: "lower",
+  pressing: "less",
+}).pressHeight;
+const DIRECT_PASS_EFFECT = applyInstructions({ ...DEFAULT_INSTRUCTIONS, passing: "more direct" }).passLength;
+const SHORT_PASS_EFFECT = Math.abs(applyInstructions({ ...DEFAULT_INSTRUCTIONS, passing: "shorter" }).passLength);
 const SHOT_FROM_ROLE = 0.5;
 
 const FALLBACK_PASS = 19;
@@ -123,6 +140,52 @@ export function readStyle(
   };
 }
 
+export type StyleBand = { mid: number; low: number; high: number };
+
+export type StyleSpread = {
+  passLength: StyleBand;
+  shotsPerMatch: StyleBand;
+  pressHeight: StyleBand;
+};
+
+export function recordedSpread(styles: { passLength: number; shotsPerMatch: number; pressHeight: number }[]): StyleSpread {
+  return {
+    passLength: band(styles.map((side) => side.passLength), FALLBACK_PASS),
+    shotsPerMatch: band(styles.map((side) => side.shotsPerMatch), FALLBACK_SHOTS),
+    pressHeight: band(styles.map((side) => side.pressHeight), FALLBACK_PRESS),
+  };
+}
+
+export type StyleControl = { name: string; amount: number };
+
+/**
+ * The instruction or the roles that add the most on one measure, in the
+ * same units as the profile. Amount is signed: positive lengthens the
+ * pass, raises the press, or adds shots.
+ */
+export function styleControl(
+  players: ProfilePlayer[],
+  instructions: TeamInstructions,
+  styles: { passLength: number; shotsPerMatch: number; pressHeight: number }[],
+  metric: "passLength" | "shotsPerMatch" | "pressHeight",
+): StyleControl | null {
+  const spread = recordedSpread(styles);
+  const pieces = controls(players, instructions, spread).filter((piece) => piece[metric] !== 0);
+  if (pieces.length === 0) return null;
+  const best = [...pieces].sort((a, b) => Math.abs(b[metric]) - Math.abs(a[metric]))[0];
+  return { name: best.name, amount: best[metric] };
+}
+
+export function passingStackNote(instructions: TeamInstructions): string | null {
+  if (instructions.passing === "more direct" && instructions.distribution === "go long") {
+    return "Go long is added on top of more direct.";
+  }
+  if (instructions.passing === "shorter" && instructions.distribution === "play out") {
+    return "Play out is added on top of shorter passing.";
+  }
+  return null;
+}
+
 function buildProfile(
   players: ProfilePlayer[],
   instructions: TeamInstructions,
@@ -132,25 +195,114 @@ function buildProfile(
   const attackers = players.filter((player) => player.line === "ST" || player.line === "AM");
   const shotGroup = attackers.length > 0 ? attackers : players;
   const spot = shotSpot(shotGroup, effect.width);
+  const spread = recordedSpread(styles);
+  const rolePass = mean(players.map((player) => delta(player, "passLength")));
+  const rolePress = mean(players.map((player) => delta(player, "pressing"))) * PRESS_PER_ROLE;
+  const roleShots = 1 + SHOT_FROM_ROLE * mean(shotGroup.map((player) => delta(player, "shooting")));
   return {
-    passLength: round1(
-      centre(styles.map((side) => side.passLength), FALLBACK_PASS) +
-        effect.passLength +
-        mean(players.map((player) => delta(player, "passLength"))),
-    ),
-    shotsPerMatch: round1(
-      centre(styles.map((side) => side.shotsPerMatch), FALLBACK_SHOTS) *
-        effect.shotVolume *
-        (1 + SHOT_FROM_ROLE * mean(shotGroup.map((player) => delta(player, "shooting")))),
-    ),
-    pressHeight: round1(
-      centre(styles.map((side) => side.pressHeight), FALLBACK_PRESS) +
-        (effect.pressHeight - 50) * PRESS_PER_INSTRUCTION +
-        mean(players.map((player) => delta(player, "pressing"))) * PRESS_PER_ROLE,
-    ),
+    passLength: round1(spread.passLength.mid + scaledPass(effect.passLength, spread.passLength) + rolePass),
+    shotsPerMatch: round1(spread.shotsPerMatch.mid * effect.shotVolume * roleShots),
+    pressHeight: round1(spread.pressHeight.mid + scaledPress(effect.pressHeight, spread.pressHeight) + rolePress),
     shotX: round1(spot.x),
     shotY: round1(spot.y),
   };
+}
+
+function band(values: number[], fallback: number): StyleBand {
+  if (values.length === 0) return { mid: fallback, low: fallback, high: fallback };
+  return { mid: centre(values, fallback), low: Math.min(...values), high: Math.max(...values) };
+}
+
+/** Positive instruction yards stretch across the long half of the set. Negative yards stretch across the short half. */
+function scaledPass(effectPass: number, range: StyleBand): number {
+  if (effectPass >= 0) return ((range.high - range.mid) * effectPass) / (DIRECT_PASS_EFFECT || 1);
+  return ((range.mid - range.low) * effectPass) / (SHORT_PASS_EFFECT || 1);
+}
+
+/** The named high press lands on the top of the set. The named deep block lands on the bottom. */
+function scaledPress(effectPress: number, range: StyleBand): number {
+  const delta = effectPress - STANDARD_PRESS_EFFECT;
+  if (delta >= 0) {
+    const span = HIGH_PRESS_EFFECT - STANDARD_PRESS_EFFECT || 1;
+    return ((range.high - range.mid) * delta) / span;
+  }
+  const span = STANDARD_PRESS_EFFECT - DEEP_PRESS_EFFECT || 1;
+  return ((range.mid - range.low) * delta) / span;
+}
+
+type ControlPiece = { name: string; passLength: number; shotsPerMatch: number; pressHeight: number };
+
+function controls(players: ProfilePlayer[], instructions: TeamInstructions, spread: StyleSpread): ControlPiece[] {
+  const pieces: ControlPiece[] = [];
+  const passFields: { field: "passing" | "mentality" | "distribution"; neutral: TeamInstructions["passing"] | TeamInstructions["mentality"] | TeamInstructions["distribution"] }[] = [
+    { field: "passing", neutral: "standard" },
+    { field: "mentality", neutral: "balanced" },
+    { field: "distribution", neutral: "mixed" },
+  ];
+  for (const item of passFields) {
+    const name = controlName(item.field, instructions[item.field]);
+    if (!name) continue;
+    const delta = applyInstructions(instructions).passLength - applyInstructions({ ...instructions, [item.field]: item.neutral }).passLength;
+    pieces.push({ name, passLength: scaledPass(delta, spread.passLength), shotsPerMatch: 0, pressHeight: 0 });
+  }
+  const pressFields: { field: "defensiveLine" | "engagement" | "pressing" | "mentality" | "transition"; neutral: string }[] = [
+    { field: "defensiveLine", neutral: "standard" },
+    { field: "engagement", neutral: "standard" },
+    { field: "pressing", neutral: "standard" },
+    { field: "mentality", neutral: "balanced" },
+    { field: "transition", neutral: "standard" },
+  ];
+  for (const item of pressFields) {
+    const name = controlName(item.field, instructions[item.field]);
+    if (!name) continue;
+    const delta =
+      applyInstructions(instructions).pressHeight -
+      applyInstructions({ ...instructions, [item.field]: item.neutral }).pressHeight;
+    const existing = pieces.find((piece) => piece.name === name);
+    const amount = scaledPress(STANDARD_PRESS_EFFECT + delta, spread.pressHeight);
+    if (existing) existing.pressHeight = amount;
+    else pieces.push({ name, passLength: 0, shotsPerMatch: 0, pressHeight: amount });
+  }
+  const shotFields: { field: "tempo" | "mentality" | "shooting"; neutral: string }[] = [
+    { field: "tempo", neutral: "standard" },
+    { field: "mentality", neutral: "balanced" },
+    { field: "shooting", neutral: "standard" },
+  ];
+  const attackers = players.filter((player) => player.line === "ST" || player.line === "AM");
+  const shotGroup = attackers.length > 0 ? attackers : players;
+  const roleShots = 1 + SHOT_FROM_ROLE * mean(shotGroup.map((player) => delta(player, "shooting")));
+  for (const item of shotFields) {
+    const name = controlName(item.field, instructions[item.field]);
+    if (!name) continue;
+    const full = applyInstructions(instructions).shotVolume;
+    const without = applyInstructions({ ...instructions, [item.field]: item.neutral }).shotVolume;
+    const amount = spread.shotsPerMatch.mid * (full - without) * roleShots;
+    const existing = pieces.find((piece) => piece.name === name);
+    if (existing) existing.shotsPerMatch = amount;
+    else pieces.push({ name, passLength: 0, shotsPerMatch: amount, pressHeight: 0 });
+  }
+  const rolePass = mean(players.map((player) => delta(player, "passLength")));
+  const rolePress = mean(players.map((player) => delta(player, "pressing"))) * PRESS_PER_ROLE;
+  const roleShotAmount = spread.shotsPerMatch.mid * applyInstructions(instructions).shotVolume * (roleShots - 1);
+  if (rolePass !== 0 || rolePress !== 0 || roleShotAmount !== 0) {
+    pieces.push({ name: "The roles", passLength: rolePass, shotsPerMatch: roleShotAmount, pressHeight: rolePress });
+  }
+  return pieces;
+}
+
+function controlName(field: string, value: string): string | null {
+  const names: Record<string, Record<string, string>> = {
+    passing: { shorter: "Shorter passing", "more direct": "More direct" },
+    mentality: { defensive: "Defensive mentality", attacking: "Attacking mentality" },
+    distribution: { "play out": "Play out", "go long": "Go long" },
+    defensiveLine: { deeper: "The deeper line", higher: "The higher line" },
+    engagement: { lower: "Lower engagement", higher: "Higher engagement" },
+    pressing: { less: "Pressing less", more: "Pressing more" },
+    transition: { regroup: "Regroup", "counter-press": "Counter-press" },
+    tempo: { lower: "Lower tempo", higher: "Higher tempo" },
+    shooting: { "work the ball": "Work the ball", "shoot on sight": "Shoot on sight" },
+  };
+  return names[field]?.[value] ?? null;
 }
 
 function delta(player: ProfilePlayer, key: "passLength" | "pressing" | "shooting"): number {

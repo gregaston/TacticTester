@@ -31,6 +31,11 @@ export const TEMPLATES: TacticTemplate[] = [
     players: players(["GK", "DL", "LCB", "RCB", "DR", "LCM", "CM", "RCM", "LW", "CF", "RW"]),
   },
   {
+    id: "4-1-2-3",
+    name: "4-1-2-3",
+    players: players(["GK", "DL", "LCB", "RCB", "DR", "CDM", "LCM", "RCM", "LW", "CF", "RW"]),
+  },
+  {
     id: "4-2-3-1",
     name: "4-2-3-1",
     players: players(["GK", "DL", "LCB", "RCB", "DR", "LDM", "RDM", "LW", "CAM", "RW", "CF"]),
@@ -68,6 +73,7 @@ export const TEMPLATES: TacticTemplate[] = [
   {
     id: "3-5-2",
     name: "3-5-2",
+    // Wide midfielders can take Wing-Back. The seat stays in the midfield band.
     players: players(["GK", "LCB", "CB", "RCB", "LM", "LCM", "CM", "RCM", "RM", "LCF", "RCF"]),
   },
   {
@@ -84,6 +90,11 @@ export const TEMPLATES: TacticTemplate[] = [
     id: "5-3-2",
     name: "5-3-2",
     players: players(["GK", "LWB", "LCB", "CB", "RCB", "RWB", "LCM", "CM", "RCM", "LCF", "RCF"]),
+  },
+  {
+    id: "5-1-2-2",
+    name: "5-1-2-2",
+    players: players(["GK", "LWB", "LCB", "CB", "RCB", "RWB", "CDM", "LCM", "RCM", "LCF", "RCF"]),
   },
   {
     id: "5-4-1",

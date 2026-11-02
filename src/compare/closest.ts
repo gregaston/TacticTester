@@ -1,6 +1,14 @@
 import type { StyleSide } from "../data/style-library";
 import type { SeasonRecord } from "../data/records";
-import { styleDistance, type StyleProfile } from "../testing/profile";
+import { lineNote, type TeamInstructions } from "../tactics/instructions";
+import {
+  passingStackNote,
+  recordedSpread,
+  styleControl,
+  styleDistance,
+  type ProfilePlayer,
+  type StyleProfile,
+} from "../testing/profile";
 import type { ShapeFeatures } from "./features";
 import { blockGap, comparableSides, formationGap, shapeDifference } from "./nearest";
 import type { SideSummary } from "./types";
@@ -21,7 +29,26 @@ export type ClosestMatch = {
   stylePercent: number;
   shapePercent: number;
   summary: string;
+  /** Style percent under this is too far to lead with the club as a match. */
+  weak: boolean;
+  figures: StyleFigure[];
+  /** The control behind the largest style gap, with the distance. */
+  lever: string | null;
+  /** Line height, kept off the formation counts. */
+  line: string | null;
 };
+
+export type StyleFigure = {
+  label: string;
+  yours: number;
+  theirs: number;
+  low: number;
+  high: number;
+  unit: string;
+};
+
+/** Below this, the card says the likeness is weak before the club name. */
+export const WEAK_STYLE = 25;
 
 const OUTFIELD = 10;
 const BACK_SPAN = 16;
@@ -52,7 +79,7 @@ const STYLE_GAPS = [
   {
     key: "pressHeight" as const,
     scale: 1.5,
-    minimum: 3,
+    minimum: 1.2,
     higher: "The press is higher than theirs",
     lower: "The press is deeper than theirs",
   },
@@ -90,6 +117,11 @@ export function closestMatch(
   shapes: SideSummary[],
   styles: StyleSide[],
   records: SeasonRecord[],
+  context?: {
+    players: ProfilePlayer[];
+    instructions: TeamInstructions;
+    styles: StyleSide[];
+  },
 ): ClosestMatch | null {
   const styleById = new Map(styles.map((side) => [side.id, side]));
   const recordById = new Map(records.map((side) => [side.id, side]));
@@ -126,7 +158,92 @@ export function closestMatch(
     stylePercent: best.styleScore,
     shapePercent: best.shapeScore,
     summary: differenceSummary(user, best.shape, profile, best.style),
+    weak: best.styleScore < WEAK_STYLE,
+    figures: styleFigures(profile, best.style, styles),
+    lever: context ? leverLine(context.players, context.instructions, context.styles, profile, best.style) : null,
+    line: context ? lineNote(context.instructions) : null,
   };
+}
+
+function styleFigures(profile: StyleProfile, side: StyleSide, styles: StyleSide[]): StyleFigure[] {
+  const spread = recordedSpread(styles);
+  return [
+    {
+      label: "Pass",
+      yours: profile.passLength,
+      theirs: side.passLength,
+      low: spread.passLength.low,
+      high: spread.passLength.high,
+      unit: "yd",
+    },
+    {
+      label: "Shots",
+      yours: profile.shotsPerMatch,
+      theirs: side.shotsPerMatch,
+      low: spread.shotsPerMatch.low,
+      high: spread.shotsPerMatch.high,
+      unit: "",
+    },
+    {
+      label: "Press",
+      yours: profile.pressHeight,
+      theirs: side.pressHeight,
+      low: spread.pressHeight.low,
+      high: spread.pressHeight.high,
+      unit: "",
+    },
+  ];
+}
+
+function leverLine(
+  players: ProfilePlayer[],
+  instructions: TeamInstructions,
+  styles: StyleSide[],
+  profile: StyleProfile,
+  side: StyleSide,
+): string | null {
+  const metric = leadingMetric(profile, side);
+  if (!metric) return null;
+  const control = styleControl(players, instructions, styles, metric.key);
+  if (!control || Math.abs(control.amount) < 0.3) return null;
+  const account = controlDistance(control.name, control.amount, metric.key);
+  const stack = metric.key === "passLength" ? passingStackNote(instructions) : null;
+  return stack ? `${stack} ${account}` : account;
+}
+
+function controlDistance(name: string, amount: number, key: "passLength" | "shotsPerMatch" | "pressHeight"): string {
+  const shown = formatTenths(Math.abs(amount));
+  if (key === "passLength") {
+    return amount > 0 ? `${name} lengthens the pass by ${shown} yards.` : `${name} shortens the pass by ${shown} yards.`;
+  }
+  if (key === "shotsPerMatch") {
+    return amount > 0 ? `${name} adds ${shown} shots.` : `${name} takes off ${shown} shots.`;
+  }
+  return amount > 0 ? `${name} raises the press by ${shown}.` : `${name} drops the press by ${shown}.`;
+}
+
+function leadingMetric(
+  profile: StyleProfile,
+  side: StyleSide,
+): { key: "passLength" | "shotsPerMatch" | "pressHeight" } | null {
+  let best: (typeof STYLE_GAPS)[number] | null = null;
+  let bestGap = 0;
+  for (const gap of STYLE_GAPS) {
+    const delta = Math.abs(profile[gap.key] - side[gap.key]);
+    if (delta < gap.minimum) continue;
+    const scaled = delta / gap.scale;
+    if (scaled > bestGap) {
+      best = gap;
+      bestGap = scaled;
+    }
+  }
+  if (!best) return null;
+  return { key: best.key };
+}
+
+function formatTenths(value: number): string {
+  const rounded = Math.round(value * 10) / 10;
+  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
 
 function axis(delta: number, span: number): number {

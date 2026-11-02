@@ -4,6 +4,7 @@ import {
   applyInstructions,
   dutyNudge,
   instructionNotes,
+  lineNote,
   readInstructions,
   type TeamInstructions,
 } from "./instructions";
@@ -144,22 +145,12 @@ describe("applyInstructions", () => {
 });
 
 describe("dutyNudge", () => {
-  it("returns the duty unchanged when mentality is balanced", () => {
-    expect(dutyNudge("defend", "balanced")).toBe("defend");
-    expect(dutyNudge("support", "balanced")).toBe("support");
-    expect(dutyNudge("attack", "balanced")).toBe("attack");
-  });
-
-  it("holds the duty back when mentality is defensive, and leaves defend", () => {
-    expect(dutyNudge("attack", "defensive")).toBe("support");
-    expect(dutyNudge("support", "defensive")).toBe("defend");
-    expect(dutyNudge("defend", "defensive")).toBe("defend");
-  });
-
-  it("pushes the duty on when mentality is attacking, and leaves attack", () => {
-    expect(dutyNudge("defend", "attacking")).toBe("support");
-    expect(dutyNudge("support", "attacking")).toBe("attack");
-    expect(dutyNudge("attack", "attacking")).toBe("attack");
+  it("keeps the tapped duty when mentality changes", () => {
+    for (const duty of ["defend", "support", "attack"] as const) {
+      expect(dutyNudge(duty, "balanced")).toBe(duty);
+      expect(dutyNudge(duty, "defensive")).toBe(duty);
+      expect(dutyNudge(duty, "attacking")).toBe(duty);
+    }
   });
 });
 
@@ -287,5 +278,25 @@ describe("instructionNotes", () => {
       expect(notes.some((note) => note.includes("drops off"))).toBe(false);
       expect(notes.some((note) => note.includes("deep side"))).toBe(false);
     }
+  });
+
+  it("says when go long is added on top of more direct", () => {
+    expect(instructionNotes(instructions({ passing: "more direct", distribution: "go long" }))).toEqual([
+      "Go long is added on top of more direct.",
+    ]);
+    expect(instructionNotes(instructions({ passing: "shorter", distribution: "play out" }))).toEqual([
+      "Play out is added on top of shorter passing.",
+    ]);
+    expect(instructionNotes(instructions({ passing: "more direct", distribution: "mixed" }))).toEqual([]);
+  });
+});
+
+describe("lineNote", () => {
+  it("describes a line stop without calling it a formation change", () => {
+    expect(lineNote(DEFAULT_INSTRUCTIONS)).toBeNull();
+    expect(lineNote(instructions({ defensiveLine: "higher" }))).toBe("The defensive line is on the higher stop.");
+    expect(lineNote(instructions({ defensiveLine: "higher", engagement: "lower" }))).toBe(
+      "The defensive line is on the higher stop, and engagement is on the lower stop.",
+    );
   });
 });

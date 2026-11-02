@@ -96,11 +96,11 @@ export function axisGaps(sides: MatchupSide[]): { id: string; gap: number }[] {
   });
 }
 
-export function readMatchups(sides: MatchupSide[]): MatchupRead {
+export function readMatchups(sides: MatchupSide[], prefer: string | null = null): MatchupRead {
   if (sides.length === 0) return { strength: null, weakness: null, comparison: null, harder: [], easier: [] };
   const { a, b } = fit(sides.map((side) => side.shotsPerMatch), sides.map((side) => side.modelXgFor - side.modelXgAgainst));
   const scored = sides.map((side) => ({ ...side, edge: side.modelXgFor - side.modelXgAgainst - (a + b * side.shotsPerMatch) }));
-  const pattern = bestAxis(scored);
+  const pattern = bestAxis(scored, prefer);
   if (!pattern) {
     const ordered = [...scored].sort((left, right) => left.edge - right.edge || left.team.localeCompare(right.team));
     return {
@@ -141,8 +141,8 @@ function lowerFirst(value: string): string {
   return value.length === 0 ? value : value[0].toLowerCase() + value.slice(1);
 }
 
-function bestAxis(sides: Scored[]): { axis: Axis; gap: number } | null {
-  let best: { axis: Axis; gap: number } | null = null;
+function bestAxis(sides: Scored[], prefer: string | null): { axis: Axis; gap: number } | null {
+  const cleared: { axis: Axis; gap: number }[] = [];
   for (const axis of AXES) {
     const known = sides.filter((side) => axis.value(side) != null);
     if (known.length < MIN_SIDES) continue;
@@ -152,9 +152,16 @@ function bestAxis(sides: Scored[]): { axis: Axis; gap: number } | null {
     if (grouped.high.length === 0 || grouped.low.length === 0) continue;
     const gap = mean(grouped.high.map((side) => side.edge)) - mean(grouped.low.map((side) => side.edge));
     if (Math.abs(gap) < GAP) continue;
-    if (!best || Math.abs(gap) > Math.abs(best.gap)) best = { axis, gap };
+    cleared.push({ axis, gap });
   }
-  return best;
+  const chosen = prefer ? cleared.find((item) => item.axis.id === prefer) : undefined;
+  if (chosen) return chosen;
+  return cleared.sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap))[0] ?? null;
+}
+
+/** Drop a residual side that actually concedes more than this tactic. */
+export function concedingLess(sides: SideNote[], meanAgainst: number): SideNote[] {
+  return sides.filter((side) => side.modelXgAgainst < meanAgainst);
 }
 
 function note(side: Scored, trait: string): SideNote {

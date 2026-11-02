@@ -51,24 +51,32 @@ describe("readStyle", () => {
     expect(text().match(/passes the opponent completes before a defensive action/g)).toHaveLength(1);
   });
 
-  it("sends more direct passing beyond the longest side without rewriting the press", () => {
+  it("lands more direct passing on the longest side without rewriting the press", () => {
     const standard = reading();
     const result = reading({ ...DEFAULT_INSTRUCTIONS, passing: "more direct" });
     const longest = Math.max(...library.sides.map((side) => side.passLength));
-    expect(result.profile.passLength).toBeGreaterThan(longest);
-    expect(result.lines[1]).toMatch(/longer than .+ the most direct side in this set/);
+    expect(result.profile.passLength).toBeCloseTo(longest, 0);
+    expect(result.lines[1]).not.toMatch(/longer than .+ the most direct side in this set/);
     expect(result.lines[2]).toBe(standard.lines[2]);
     expect(result.lines.join(" ")).not.toMatch(/very close/i);
   });
 
-  it("sends shorter passing below the shortest side in the set", () => {
+  it("lands shorter passing on the shortest side in the set", () => {
     const result = reading({ ...DEFAULT_INSTRUCTIONS, passing: "shorter" });
     const shortest = Math.min(...library.sides.map((side) => side.passLength));
-    expect(result.profile.passLength).toBeLessThan(shortest);
-    expect(result.lines[1]).toMatch(/shorter than .+ the shortest-passing side in this set/);
+    expect(result.profile.passLength).toBeCloseTo(shortest, 0);
+    expect(result.lines[1]).not.toMatch(/shorter than .+ the shortest-passing side in this set/);
   });
 
-  it("stacks a high press above every recorded side", () => {
+  it("steps just past the set when go long is added to more direct", () => {
+    const result = reading({ ...DEFAULT_INSTRUCTIONS, passing: "more direct", distribution: "go long" });
+    const longest = Math.max(...library.sides.map((side) => side.passLength));
+    expect(result.profile.passLength).toBeGreaterThan(longest);
+    expect(result.profile.passLength).toBeLessThan(longest + 3);
+    expect(result.lines[1]).toMatch(/longer than .+ the most direct side in this set/);
+  });
+
+  it("lands the named high press on the highest side", () => {
     const result = reading({
       ...DEFAULT_INSTRUCTIONS,
       defensiveLine: "higher",
@@ -76,11 +84,11 @@ describe("readStyle", () => {
       pressing: "more",
     });
     const highest = Math.max(...library.sides.map((side) => side.pressHeight));
-    expect(result.profile.pressHeight).toBeGreaterThan(highest);
-    expect(result.lines.join(" ")).toMatch(/higher than .+ the highest side in this set/);
+    expect(result.profile.pressHeight).toBeCloseTo(highest, 0);
+    expect(result.lines.join(" ")).not.toMatch(/higher than .+ the highest side in this set/);
   });
 
-  it("drops a deep passive block below every recorded side", () => {
+  it("lands the named deep block on the deepest side", () => {
     const result = reading({
       ...DEFAULT_INSTRUCTIONS,
       defensiveLine: "deeper",
@@ -88,8 +96,8 @@ describe("readStyle", () => {
       pressing: "less",
     });
     const deepest = Math.min(...library.sides.map((side) => side.pressHeight));
-    expect(result.profile.pressHeight).toBeLessThan(deepest);
-    expect(result.lines.join(" ")).toMatch(/deeper than .+ the deepest side in this set/);
+    expect(result.profile.pressHeight).toBeCloseTo(deepest, 0);
+    expect(result.lines.join(" ")).not.toMatch(/deeper than .+ the deepest side in this set/);
   });
 
   it("moves poachers onto the goal and a deep forward away from it", () => {

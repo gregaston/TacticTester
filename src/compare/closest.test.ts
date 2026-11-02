@@ -3,11 +3,12 @@ import { loadSeasonRecords } from "../data/records";
 import { loadShapeLibrary } from "../data/shape-library";
 import { loadStyleLibrary } from "../data/style-library";
 import { createBoard } from "../tactics/board";
+import { shiftedPoint } from "../tactics/block";
 import { DEFAULT_INSTRUCTIONS } from "../tactics/instructions";
 import { labelSquad } from "../tactics/positions";
 import { playersFromBoard, readStyle, type StyleProfile } from "../testing/profile";
 import { closestMatch, differenceSummary, shapePercent, stylePercent } from "./closest";
-import { featuresFromPlayers, type ShapeFeatures } from "./features";
+import { closestShape, featuresFromPlayers, type ShapeFeatures } from "./features";
 import { placeLabel } from "./format";
 import type { SideSummary } from "./types";
 import type { StyleSide } from "../data/style-library";
@@ -45,6 +46,35 @@ describe("closestMatch", () => {
     expect(match!.shapePercent).toBeLessThanOrEqual(100);
     expect(match!.summary.split(".").filter((part) => part.trim()).length).toBeLessThanOrEqual(2);
     expect(match!.summary).not.toMatch(/shot map|xG|where .* shot/i);
+    expect(match!.figures.map((figure) => figure.label)).toEqual(["Pass", "Shots", "Press"]);
+    expect(match!.figures[0].high).toBeGreaterThan(match!.figures[0].low);
+  });
+
+  it("names the passing control by the yards it adds", () => {
+    const board = createBoard();
+    const labels = labelSquad(board.players);
+    const players = playersFromBoard(board.players, labels, {});
+    const instructions = { ...DEFAULT_INSTRUCTIONS, passing: "more direct" as const, distribution: "go long" as const };
+    const profile = readStyle(players, instructions, styles).profile;
+    const match = closestMatch(closestShape(board.players), profile, shapes, styles, records, {
+      players,
+      instructions,
+      styles,
+    });
+    expect(match?.lever).toMatch(/Go long is added on top of more direct\./);
+    expect(match?.lever).toMatch(/lengthens the pass by \d/);
+    expect(match?.lever).not.toMatch(/accounts for/);
+  });
+
+  it("keeps a higher line from deleting the back four", () => {
+    const board = createBoard();
+    const labels = labelSquad(board.players);
+    const drawn = board.players.map((player) => {
+      const line = labels.byId[player.id].line;
+      return { ...player, ...shiftedPoint(player, line, 38, 86) };
+    });
+    expect(closestShape(board.players).def).toBe(4);
+    expect(featuresFromPlayers(drawn).def).toBe(0);
   });
 
   it("rewards the side that matches both, not a perfect shape with a distant style", () => {

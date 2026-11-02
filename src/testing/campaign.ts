@@ -2,7 +2,7 @@ import type { TeamInstructions } from "../tactics/instructions";
 import type { TestOpponent } from "./battery";
 import { SITUATIONS } from "./corners";
 import { liveSample, restDefenceCount } from "./live";
-import { readMatchups, type MatchupRead, type SideNote } from "./matchups";
+import { concedingLess, readMatchups, type MatchupRead, type SideNote } from "./matchups";
 import { readStyle, type ProfilePlayer } from "./profile";
 import type { Situation } from "./sample";
 
@@ -98,20 +98,23 @@ export function runCampaign(input: {
   const rows = input.opponents.map((opponent) => averageRow(input.players, input.instructions, opponent, input.opponents, situations, seed));
   const meanFor = mean(rows.map((row) => row.modelXgFor));
   const meanAgainst = mean(rows.map((row) => row.modelXgAgainst));
-  const pattern = readMatchups(rows.map((row) => ({
-    id: row.opponent.id,
-    team: row.opponent.team,
-    season: row.opponent.season,
-    competition: row.opponent.competition,
-    shotsPerMatch: row.opponent.shotsPerMatch,
-    modelXgFor: row.modelXgFor,
-    modelXgAgainst: row.modelXgAgainst,
-    shotGrid: row.opponent.shotGrid,
-    pressHeight: row.opponent.pressHeight,
-    longPassShare: row.opponent.longPassShare,
-    fieldTilt: row.opponent.fieldTilt,
-    shapeWidth: row.opponent.shapeWidth,
-  })));
+  const pattern = readMatchups(
+    rows.map((row) => ({
+      id: row.opponent.id,
+      team: row.opponent.team,
+      season: row.opponent.season,
+      competition: row.opponent.competition,
+      shotsPerMatch: row.opponent.shotsPerMatch,
+      modelXgFor: row.modelXgFor,
+      modelXgAgainst: row.modelXgAgainst,
+      shotGrid: row.opponent.shotGrid,
+      pressHeight: row.opponent.pressHeight,
+      longPassShare: row.opponent.longPassShare,
+      fieldTilt: row.opponent.fieldTilt,
+      shapeWidth: row.opponent.shapeWidth,
+    })),
+    preferredAxis(input.instructions),
+  );
   const notes = findings(
     input.players,
     input.instructions,
@@ -122,6 +125,8 @@ export function runCampaign(input: {
     profile.shotsPerMatch,
     rest,
     pattern,
+    meanFor,
+    meanAgainst,
   );
 
   return {
@@ -138,8 +143,14 @@ export function runCampaign(input: {
     weaknesses: notes.weaknesses,
     comparison: pattern.comparison,
     worst: pattern.harder,
-    best: pattern.easier,
+    best: concedingLess(pattern.easier, meanAgainst),
   };
+}
+
+function preferredAxis(instructions: TeamInstructions): string | null {
+  if (instructions.defensiveLine === "higher" && instructions.engagement !== "lower") return "direct";
+  if (instructions.width === "wider" || instructions.widthIntention === "overlap") return "shape";
+  return null;
 }
 
 function averageRow(
@@ -177,12 +188,44 @@ function findings(
   shotsPerMatch: number,
   rest: number,
   pattern: MatchupRead,
+  meanFor: number,
+  meanAgainst: number,
 ): { strengths: string[]; weaknesses: string[] } {
   const strengths: string[] = [];
   const weaknesses: string[] = [];
+  if (rows.length === 0) return { strengths, weaknesses };
+
+  const shotCounts = rows.map((row) => row.opponent.shotsPerMatch);
+  const lowShots = shotsPerMatch <= quartile(shotCounts, 0.25);
+  const highShots = shotsPerMatch >= quartile(shotCounts, 0.75);
+  const emptyRest = instructions.defensiveLine === "higher" && instructions.engagement === "lower";
+  const deepBlock = instructions.defensiveLine === "deeper";
+  const againstStory = emptyRest || meanAgainst >= meanFor + 0.8;
+
+  if (emptyRest) {
+    weaknesses.push("The defence is high and the press is passive, so balls over the top are easier.");
+  }
+  if (instructions.engagement === "higher" && instructions.defensiveLine === "deeper") {
+    weaknesses.push("The press steps up and the defence sits, so the gap between them shows up in the model's xG against.");
+  }
+  if (rest < OPEN_REST) {
+    weaknesses.push("Fewer than three players stay behind the ball, so the model's xG against is marked up.");
+  }
+  const passLengths = rows.map((row) => row.opponent.passLength);
+  const longest = passLengths.length === 0 ? passLength : Math.max(...passLengths);
+  if (passLength > longest + 0.4) {
+    weaknesses.push(
+      `Passes average ${formatTenths(passLength)} yards, ${formatTenths(passLength - longest)} longer than the most direct side in this set.`,
+    );
+  }
+  if (deepBlock && lowShots) {
+    weaknesses.push(
+      `The shot count is lower than most sides in this set, and the deeper block leaves xG against at ${meanAgainst.toFixed(2)}.`,
+    );
+  }
+
   if (pattern.strength) strengths.push(pattern.strength);
   if (pattern.weakness) weaknesses.push(pattern.weakness);
-  if (rows.length === 0) return { strengths, weaknesses };
 
   const ahead = rows.filter((row) => row.modelXgFor > row.modelXgAgainst).length;
   if (ahead === rows.length) {
@@ -191,12 +234,29 @@ function findings(
     strengths.push(`The model's xG for is ahead against ${ahead} of ${rows.length} sides.`);
   }
 
-  const shotCounts = rows.map((row) => row.opponent.shotsPerMatch);
-  if (shotsPerMatch >= quartile(shotCounts, 0.75)) {
+  if (highShots && !againstStory) {
     strengths.push("The shot count is among the higher ones in this set.");
   }
-  if (shotsPerMatch <= quartile(shotCounts, 0.25)) {
+  if (lowShots && !deepBlock) {
     weaknesses.push("The shot count is lower than most sides in this set.");
+  }
+
+  const presses = rows.map((row) => row.opponent.pressHeight);
+  if (passLength <= 17 && pressHeight + PRESS_GAP <= quartile(presses, 0.5)) {
+    weaknesses.push("Short passes run into the higher presses in this set, and the model's xG for comes down.");
+  }
+  if (pressHeight >= quartile(presses, 0.5) + PRESS_GAP && rest < 4) {
+    weaknesses.push("The press is higher than most sides here and leaves space behind the ball.");
+  }
+
+  const widest = widestDefender(players);
+  if (widest != null && widest < NARROW_WIDTH) {
+    const wide = wideTrouble(rows);
+    weaknesses.push(
+      wide
+        ? "The full-backs sit inside, and the sides that cause the most trouble take more of their shots from wide areas."
+        : "The full-backs sit inside a narrow back line.",
+    );
   }
 
   const levelEdge = situationEdge(rows, "level");
@@ -219,34 +279,12 @@ function findings(
   if (bestSituation) strengths.push(`The model's chances are strongest when ${SITUATION_NAME[bestSituation]}.`);
   if (worstSituation) weaknesses.push(`The model's chances drop when ${SITUATION_NAME[worstSituation]}.`);
 
-  if (rest < OPEN_REST) {
-    weaknesses.push("Fewer than three players stay behind the ball, so the model's xG against is marked up.");
-  }
-  if (instructions.engagement === "higher" && instructions.defensiveLine === "deeper") {
-    weaknesses.push("The press steps up and the defence sits, so the gap between them shows up in the model's xG against.");
-  }
-  if (instructions.engagement === "lower" && instructions.defensiveLine === "higher") {
-    weaknesses.push("The defence is high and the press is passive, so balls over the top are easier.");
-  }
-  const presses = rows.map((row) => row.opponent.pressHeight);
-  if (passLength <= 17 && pressHeight + PRESS_GAP <= quartile(presses, 0.5)) {
-    weaknesses.push("Short passes run into the higher presses in this set, and the model's xG for comes down.");
-  }
-  if (pressHeight >= quartile(presses, 0.5) + PRESS_GAP && rest < 4) {
-    weaknesses.push("The press is higher than most sides here and leaves space behind the ball.");
-  }
-
-  const widest = widestDefender(players);
-  if (widest != null && widest < NARROW_WIDTH) {
-    const wide = wideTrouble(rows);
-    weaknesses.push(
-      wide
-        ? "The full-backs sit inside, and the sides that cause the most trouble take more of their shots from wide areas."
-        : "The full-backs sit inside a narrow back line.",
-    );
-  }
-
   return { strengths: strengths.slice(0, 3), weaknesses: weaknesses.slice(0, 3) };
+}
+
+function formatTenths(value: number): string {
+  const rounded = Math.round(value * 10) / 10;
+  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
 
 function situationEdge(rows: Row[], situation: Situation): number {

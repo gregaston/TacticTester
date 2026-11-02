@@ -33,6 +33,14 @@ type Placed = {
   line: Line;
 };
 
+/**
+ * Formation counts for the closest card.
+ * Line sliders move the drawn pitch. They do not change this shape.
+ */
+export function closestShape(players: Player[]): ShapeFeatures {
+  return featuresFromPlayers(players);
+}
+
 export function featuresFromPlayers(players: Player[]): ShapeFeatures {
   const labels = labelSquad(players);
   return shapeFeatures(

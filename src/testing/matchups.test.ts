@@ -6,7 +6,7 @@ import { loadShapeLibrary } from "../data/shape-library";
 import { loadStyleLibrary } from "../data/style-library";
 import { playersFromBoard } from "./profile";
 import { priceChances } from "./chance";
-import { readMatchups, type MatchupSide } from "./matchups";
+import { concedingLess, readMatchups, type MatchupSide, type SideNote } from "./matchups";
 import { runCampaign } from "./campaign";
 
 function grid(kind: "central" | "wide"): number[][] {
@@ -124,6 +124,21 @@ describe("style prices", () => {
       - priceChances({ ...shared, instructions: deep, opponent: patient }).modelXgAgainst;
     expect(highGap).toBeGreaterThan(0.05);
     expect(highGap).toBeGreaterThan(deepGap);
+  });
+});
+
+describe("concedingLess", () => {
+  it("drops a residual side that concedes more than this tactic", () => {
+    const note = (against: number): SideNote => ({
+      id: String(against),
+      team: "Side",
+      season: "2015/2016",
+      competition: "Serie A",
+      modelXgFor: 0.7,
+      modelXgAgainst: against,
+      note: "Narrow starting shapes. 0.20 better than their shot count.",
+    });
+    expect(concedingLess([note(2.18), note(1.49)], 1.86).map((side) => side.modelXgAgainst)).toEqual([1.49]);
   });
 });
 

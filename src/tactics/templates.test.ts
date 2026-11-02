@@ -14,6 +14,6 @@ describe("templatesByBackLine", () => {
       TEMPLATES.length,
     );
     expect(groups[0].templates.map((template) => template.id)).toEqual(["3-5-2", "3-4-3", "3-4-2-1"]);
-    expect(groups[2].templates.map((template) => template.id)).toEqual(["5-3-2", "5-4-1", "5-2-3"]);
+    expect(groups[2].templates.map((template) => template.id)).toEqual(["5-3-2", "5-1-2-2", "5-4-1", "5-2-3"]);
   });
 });

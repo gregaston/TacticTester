@@ -264,6 +264,16 @@ describe("rolesFor", () => {
       "full-back",
       "wing-back",
       "inverted-wing-back",
+      "ball-winning-midfielder",
+    ]);
+    expect(rolesFor("CM", true).map((role) => role.id)).toEqual([
+      "wing-back",
+      "inverted-wing-back",
+      "ball-winning-midfielder",
+      "central-midfielder",
+      "box-to-box",
+      "winger",
+      "inverted-winger",
     ]);
     expect(rolesFor("ST", true).every((role) => role.lines.includes("ST"))).toBe(true);
     expect(rolesFor("CM", false).some((role) => role.lines.includes("ST"))).toBe(false);
