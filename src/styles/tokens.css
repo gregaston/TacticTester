@@ -15,6 +15,8 @@
   --line: #e4dcec;
   --pitch: #215c3a;
   --on-plum: #ffffff;
+  --bar: var(--plum);
+  --on-bar: var(--on-plum);
   --radius: 6px;
   --shadow: 0 3px 0 0 rgba(29, 10, 48, 0.12);
   --shadow-accent: 0 3px 0 0 #fd4890;
@@ -25,4 +27,23 @@
   --target: 44px;
   --page: 32rem;
   --gutter: 16px;
+}
+
+/* Black page, pastel green type, green selected controls. */
+[data-theme="night"] {
+  --plum: #b7f0c6;
+  --plum-deep: #04140a;
+  --accent: #d8ffb0;
+  --accent-ink: #8ed9a8;
+  --paper: #000000;
+  --card: #101410;
+  --muted: #7da88a;
+  --line: #24382c;
+  --pitch: #143022;
+  --on-plum: #04140a;
+  --bar: #000000;
+  --on-bar: #b7f0c6;
+  --shadow: 0 3px 0 0 rgba(183, 240, 198, 0.22);
+  --shadow-accent: 0 3px 0 0 #3d7a52;
+  color-scheme: dark;
 }

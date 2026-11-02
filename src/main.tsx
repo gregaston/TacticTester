@@ -9,6 +9,13 @@ import "@fontsource/lora/latin-700";
 import "@fontsource/lora/latin-ext-400";
 import "@fontsource/lora/latin-ext-700";
 import { App } from "./App";
+import { applyTheme, loadTheme } from "./ui/theme";
+
+try {
+  applyTheme(loadTheme(window.localStorage));
+} catch {
+  applyTheme("day");
+}
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Missing root element");

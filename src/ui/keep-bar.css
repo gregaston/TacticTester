@@ -12,7 +12,7 @@
   border: 0;
   border-radius: var(--radius);
   background: transparent;
-  color: var(--on-plum);
+  color: inherit;
 }
 
 .disk:active {
