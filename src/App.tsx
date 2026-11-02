@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { closestMatch } from "./compare/closest";
 import { closestShape, featuresFromPlayers } from "./compare/features";
 import { shapeSummary } from "./compare/format";
@@ -33,6 +33,7 @@ import { decodeTactic, encodeTactic, loadTactic, saveTactic, type SavedTactic } 
 import { effectFor, roleMark, roleName, rolesFor, type Duty, type RoleId } from "./tactics/roles";
 import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
+import { clearTestHistory } from "./testing/history";
 import { playersFromBoard, readStyle, resolveRole, WIDE_CODES } from "./testing/profile";
 import { InfoBanner } from "./ui/InfoBanner";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
@@ -259,9 +260,29 @@ export function App() {
     };
   }
 
+  const persistKey = JSON.stringify(currentTactic());
+  const openedKey = useRef(persistKey);
+
+  useEffect(() => {
+    try {
+      saveTactic(window.localStorage, currentTactic());
+    } catch {
+      // The board still works. Storage can be full or blocked.
+    }
+    if (persistKey === openedKey.current) return;
+    if (decodeTactic(window.location.hash)) {
+      window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+    }
+  }, [persistKey]);
+
   function save() {
     saveTactic(window.localStorage, currentTactic());
     setStatus("Saved on this device");
+  }
+
+  function clearHistory() {
+    clearTestHistory(window.localStorage);
+    setStatus("Test history cleared");
   }
 
   async function share() {
@@ -281,7 +302,12 @@ export function App() {
       <header className="masthead">
         <div className="masthead-inner">
           <h1>TacticTester</h1>
-          <KeepBar status={status} onSave={save} onShare={() => void share()} />
+          <KeepBar
+            status={status}
+            onSave={save}
+            onShare={() => void share()}
+            onClearHistory={clearHistory}
+          />
         </div>
       </header>
       <main className="sheet">

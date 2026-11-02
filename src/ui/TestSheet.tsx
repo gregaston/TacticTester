@@ -6,11 +6,10 @@ import { PITCH_VIEW, toView } from "../pitch/view";
 import { gradeMove, runCampaign, type CampaignOpponent, type CampaignRun, type SideNote } from "../testing/campaign";
 import { SITUATIONS } from "../testing/corners";
 import type { ProfilePlayer } from "../testing/profile";
+import { loadTestHistory, saveTestHistory, subscribeTestHistory } from "../testing/history";
 import { countMove, placeMove, type FigureMove, type ReportMark } from "../testing/report";
 import "./test-sheet.css";
 
-const STORAGE_KEY = "tactictester.tests";
-const KEEP = 12;
 const RUN_PAUSE_MS = 800;
 
 export type TestSheetProps = {
@@ -26,11 +25,20 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
   const buttonRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const request = useRef(0);
-  const [runs, setRuns] = useState<CampaignRun[]>(loadRuns);
+  const [runs, setRuns] = useState<CampaignRun[]>(() => loadTestHistory(window.localStorage));
   const [openId, setOpenId] = useState<string | null>(null);
   const [phase, setPhase] = useState<"running" | "ready">("ready");
   const open = openId != null;
   const active = runs.find((run) => run.id === openId) ?? null;
+
+  useEffect(() => {
+    return subscribeTestHistory(() => {
+      request.current += 1;
+      setRuns(loadTestHistory(window.localStorage));
+      setOpenId(null);
+      setPhase("ready");
+    });
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -55,10 +63,10 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
 
   function remember(run: CampaignRun) {
     setRuns((current) => {
-      const next = [run, ...current.filter((item) => item.id !== run.id)]
-        .sort((a, b) => b.createdAt - a.createdAt)
-        .slice(0, KEEP);
-      saveRuns(next);
+      const next = [run, ...current.filter((item) => item.id !== run.id)].sort(
+        (a, b) => b.createdAt - a.createdAt,
+      );
+      saveTestHistory(next, window.localStorage);
       return next;
     });
   }
@@ -321,30 +329,4 @@ function earlierRun(runs: CampaignRun[], id: string): CampaignRun | null {
 function signed(value: number): string {
   const shown = value.toFixed(2);
   return value > 0 ? `+${shown}` : shown;
-}
-
-function loadRuns(): CampaignRun[] {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as unknown;
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter(isRun).slice(0, KEEP);
-  } catch {
-    return [];
-  }
-}
-
-function saveRuns(runs: CampaignRun[]) {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(runs));
-  } catch {
-    // The test still shows. Storage can be full or blocked.
-  }
-}
-
-function isRun(value: unknown): value is CampaignRun {
-  if (!value || typeof value !== "object") return false;
-  const run = value as Partial<CampaignRun>;
-  return typeof run.id === "string" && typeof run.place === "number" && typeof run.label === "string" && Array.isArray(run.strengths) && Array.isArray(run.weaknesses);
 }

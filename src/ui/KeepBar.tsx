@@ -5,6 +5,7 @@ export type KeepBarProps = {
   status: string | null;
   onSave: () => void;
   onShare: () => void;
+  onClearHistory: () => void;
 };
 
 function DiskIcon() {
@@ -23,7 +24,7 @@ function DiskIcon() {
   );
 }
 
-export function KeepBar({ status, onSave, onShare }: KeepBarProps) {
+export function KeepBar({ status, onSave, onShare, onClearHistory }: KeepBarProps) {
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const menuId = useId();
@@ -65,8 +66,11 @@ export function KeepBar({ status, onSave, onShare }: KeepBarProps) {
           <button type="button" role="menuitem" onClick={onShare}>
             Copy link
           </button>
+          <button type="button" role="menuitem" className="keep-clear" onClick={onClearHistory}>
+            Clear history
+          </button>
           <p className="keep-status" role="status">
-            {status ?? "Save on this device, or copy a link to the tactic."}
+            {status ?? "The tactic stays on this device. Copy a link to share it."}
           </p>
         </div>
       ) : null}
