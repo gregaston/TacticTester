@@ -35,7 +35,6 @@ import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
 import { clearTestHistory } from "./testing/history";
 import { playersFromBoard, readStyle, resolveRole, WIDE_CODES } from "./testing/profile";
-import { InfoBanner } from "./ui/InfoBanner";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { KeepBar } from "./ui/KeepBar";
 import { ClosestSide } from "./ui/ClosestSide";
@@ -272,6 +271,11 @@ export function App() {
     }
   }, [persistKey]);
 
+  useEffect(() => {
+    if (!board.selectedId) return;
+    document.querySelector(".role-sheet")?.scrollIntoView({ block: "nearest" });
+  }, [board.selectedId]);
+
   function save() {
     saveTactic(window.localStorage, currentTactic());
     setStatus("Saved on this device");
@@ -328,6 +332,15 @@ export function App() {
             ) : null}
           </span>
         </section>
+        {selected && roleId ? (
+          <RoleSheet
+            positionName={selected.name}
+            roles={roleChoices}
+            roleId={roleId}
+            arrival={arrival}
+            onRole={assign}
+          />
+        ) : null}
         <div className="pitch-frame">
           <div className="pitch-rail">
             <LineSlider
@@ -372,20 +385,6 @@ export function App() {
             onCommit={commit}
           />
         </div>
-        <InfoBanner>
-          Drag players to change position. Select players to change role. Tap a selected player again to clear
-          them. The controls to the left of the pitch set engagement and the defensive line, and the shade
-          shows where players spend the match.
-        </InfoBanner>
-        {selected && roleId ? (
-          <RoleSheet
-            positionName={selected.name}
-            roles={roleChoices}
-            roleId={roleId}
-            arrival={arrival}
-            onRole={assign}
-          />
-        ) : null}
         <InstructionSheet
           passing={PASSING}
           tempo={TEMPO}
