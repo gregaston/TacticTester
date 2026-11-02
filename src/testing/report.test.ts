@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_INSTRUCTIONS } from "../tactics/instructions";
 import { gradeMove } from "./campaign";
-import { countMove, placeMove, problemMarks } from "./report";
+import { countMove, placeMove, problemMarks, reportPages } from "./report";
 
 describe("placeMove", () => {
   it("uses the same sentence as the grade, and treats a lower place as a gain", () => {
@@ -58,5 +58,22 @@ describe("problemMarks", () => {
       ],
     );
     expect(marks.length).toBeLessThanOrEqual(4);
+  });
+});
+
+describe("reportPages", () => {
+  it("keeps the grade first and leaves out an empty pitch or an empty side list", () => {
+    expect(reportPages({ shape: [{ x: 50, y: 80 }], worst: [{}], best: [] }).map((page) => page.id)).toEqual([
+      "grade",
+      "pitch",
+      "reading",
+      "sides",
+    ]);
+    expect(reportPages({ shape: [], worst: [], best: [] }).map((page) => page.id)).toEqual(["grade", "reading"]);
+    expect(reportPages({ worst: [], best: [{}] }).map((page) => page.title)).toEqual([
+      "Grade",
+      "Strengths and weaknesses",
+      "The sides",
+    ]);
   });
 });

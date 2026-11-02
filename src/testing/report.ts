@@ -28,6 +28,20 @@ export type ReportMark = {
 
 const MARK_LIMIT = 4;
 
+export type ReportPage = {
+  id: "grade" | "pitch" | "reading" | "sides";
+  title: string;
+};
+
+/** The analyst report, one phone screen at a time. Empty parts are left out. */
+export function reportPages(run: { shape?: { x: number; y: number }[]; worst: unknown[]; best: unknown[] }): ReportPage[] {
+  const pages: ReportPage[] = [{ id: "grade", title: "Grade" }];
+  if (run.shape && run.shape.length > 0) pages.push({ id: "pitch", title: "Where it hurts" });
+  pages.push({ id: "reading", title: "Strengths and weaknesses" });
+  if (run.worst.length > 0 || run.best.length > 0) pages.push({ id: "sides", title: "The sides" });
+  return pages;
+}
+
 export function placeMove(place: number, previous: number | null): FigureMove {
   if (previous == null) return { tone: "first", text: "First test", label: "First test." };
   const delta = previous - place;

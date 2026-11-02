@@ -7,7 +7,7 @@ import { gradeMove, runCampaign, type CampaignOpponent, type CampaignRun, type S
 import { SITUATIONS } from "../testing/corners";
 import type { ProfilePlayer } from "../testing/profile";
 import { loadTestHistory, saveTestHistory, subscribeTestHistory } from "../testing/history";
-import { countMove, placeMove, type FigureMove, type ReportMark } from "../testing/report";
+import { countMove, placeMove, reportPages, type FigureMove, type ReportMark, type ReportPage } from "../testing/report";
 import "./test-sheet.css";
 
 const RUN_PAUSE_MS = 800;
@@ -28,6 +28,8 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
   const [runs, setRuns] = useState<CampaignRun[]>(() => loadTestHistory(window.localStorage));
   const [openId, setOpenId] = useState<string | null>(null);
   const [phase, setPhase] = useState<"running" | "ready">("ready");
+  const [page, setPage] = useState(0);
+  const panelRef = useRef<HTMLDivElement>(null);
   const open = openId != null;
   const active = runs.find((run) => run.id === openId) ?? null;
 
@@ -37,6 +39,7 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
       setRuns(loadTestHistory(window.localStorage));
       setOpenId(null);
       setPhase("ready");
+      setPage(0);
     });
   }, []);
 
@@ -58,7 +61,15 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
     request.current += 1;
     setOpenId(null);
     setPhase("ready");
+    setPage(0);
     buttonRef.current?.focus();
+  }
+
+  function show(id: string) {
+    request.current += 1;
+    setPhase("ready");
+    setPage(0);
+    setOpenId(id);
   }
 
   function remember(run: CampaignRun) {
@@ -83,6 +94,7 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
       window.setTimeout(() => {
         remember(run);
         if (request.current !== mine) return;
+        setPage(0);
         setOpenId(run.id);
         setPhase("ready");
       }, wait);
@@ -107,11 +119,7 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
               <li key={run.id}>
                 <button
                   type="button"
-                  onClick={() => {
-                    request.current += 1;
-                    setPhase("ready");
-                    setOpenId(run.id);
-                  }}
+                  onClick={() => show(run.id)}
                 >
                   <span className="test-history-label">{run.label}</span>
                   <strong>{placeLabel(run.place)}</strong>
@@ -126,6 +134,7 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
       {open ? (
         <div className="test-overlay" role="presentation" onClick={close}>
           <div
+            ref={panelRef}
             className="test-panel"
             role="dialog"
             aria-modal="true"
@@ -144,7 +153,16 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
                 </p>
               </div>
             ) : (
-              <Result run={active} earlier={earlierRun(runs, active.id)} titleId={titleId} />
+              <Result
+                run={active}
+                earlier={earlierRun(runs, active.id)}
+                titleId={titleId}
+                page={page}
+                onPage={(next) => {
+                  setPage(next);
+                  panelRef.current?.scrollTo(0, 0);
+                }}
+              />
             )}
           </div>
         </div>
@@ -153,7 +171,22 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
   );
 }
 
-function Result({ run, earlier, titleId }: { run: CampaignRun; earlier: CampaignRun | null; titleId: string }) {
+function Result({
+  run,
+  earlier,
+  titleId,
+  page,
+  onPage,
+}: {
+  run: CampaignRun;
+  earlier: CampaignRun | null;
+  titleId: string;
+  page: number;
+  onPage: (page: number) => void;
+}) {
+  const pages = reportPages(run);
+  const index = Math.min(page, pages.length - 1);
+  const current = pages[index];
   const grade = placeMove(run.place, earlier?.place ?? null);
   const margin = run.meanFor - run.meanAgainst;
   const previousMargin = earlier ? earlier.meanFor - earlier.meanAgainst : null;
@@ -161,48 +194,79 @@ function Result({ run, earlier, titleId }: { run: CampaignRun; earlier: Campaign
     <div className="test-result">
       <header className="report-mast">
         <p className="kicker">Analyst report</p>
-        <p className="report-label">{run.label}</p>
+        <p id={titleId} className="report-label">{run.label}</p>
         <p className="test-count">
           {run.tested} sides, {run.situations} situations. Not a league finish.
         </p>
       </header>
-      <section className="report-grade" aria-label="Table grade">
-        <p className="kicker">Table grade</p>
-        <h2 id={titleId}>{placeLabel(run.place)}</h2>
-        {grade.tone === "first" ? <p className="delta delta-flat">First test</p> : <Delta move={grade} keepFlat />}
-        <p className="test-note">A grade from this model's results against every side.</p>
-      </section>
-      <dl className="test-figures">
-        <div>
-          <dt>xG for</dt>
-          <dd>{run.meanFor.toFixed(2)}</dd>
-          <Delta move={countMove(run.meanFor, earlier?.meanFor ?? null, "higher", 2)} keepFlat />
-        </div>
-        <div>
-          <dt>xG against</dt>
-          <dd>{run.meanAgainst.toFixed(2)}</dd>
-          <Delta move={countMove(run.meanAgainst, earlier?.meanAgainst ?? null, "lower", 2)} keepFlat />
-        </div>
-      </dl>
-      <p className="report-margin">
-        <span>Margin</span>
-        <strong>{signed(margin)}</strong>
-        <Delta move={countMove(margin, previousMargin, "higher", 2)} keepFlat />
-      </p>
-      <p className="test-count">xG is TacticTester's zone sketch.</p>
-      {run.chanceNote ? <p className="test-note">{run.chanceNote}</p> : null}
-      {run.shape && run.shape.length > 0 ? <ReportPitch dots={run.shape} marks={run.marks ?? []} /> : null}
-      <Finding title="Strengths" lines={run.strengths} empty="No strength stands out in this run." tone="strong" />
-      <Finding title="Weaknesses" lines={run.weaknesses} empty="No weakness stands out in this run." tone="weak" />
-      {run.comparison ? (
-        <section className="test-pattern">
-          <h3>The comparison</h3>
-          <p>{run.comparison}</p>
-        </section>
+      {current.id === "grade" ? (
+        <>
+          <section className="report-grade" aria-label="Table grade">
+            <p className="kicker">Table grade</p>
+            <h2>{placeLabel(run.place)}</h2>
+            {grade.tone === "first" ? <p className="delta delta-flat">First test</p> : <Delta move={grade} keepFlat />}
+            <p className="test-note">A grade from this model's results against every side.</p>
+          </section>
+          <dl className="test-figures">
+            <div>
+              <dt>xG for</dt>
+              <dd>{run.meanFor.toFixed(2)}</dd>
+              <Delta move={countMove(run.meanFor, earlier?.meanFor ?? null, "higher", 2)} keepFlat />
+            </div>
+            <div>
+              <dt>xG against</dt>
+              <dd>{run.meanAgainst.toFixed(2)}</dd>
+              <Delta move={countMove(run.meanAgainst, earlier?.meanAgainst ?? null, "lower", 2)} keepFlat />
+            </div>
+          </dl>
+          <p className="report-margin">
+            <span>Margin</span>
+            <strong>{signed(margin)}</strong>
+            <Delta move={countMove(margin, previousMargin, "higher", 2)} keepFlat />
+          </p>
+          <p className="test-count">xG is TacticTester's zone sketch.</p>
+          {run.chanceNote ? <p className="test-note">{run.chanceNote}</p> : null}
+        </>
       ) : null}
-      <SideList title="Worse than the shot count" rows={run.worst} earlier={earlier} />
-      <SideList title="Better than the shot count" rows={run.best} earlier={earlier} />
+      {current.id === "pitch" && run.shape ? <ReportPitch dots={run.shape} marks={run.marks ?? []} /> : null}
+      {current.id === "reading" ? (
+        <>
+          <Finding title="Strengths" lines={run.strengths} empty="No strength stands out in this run." tone="strong" />
+          <Finding title="Weaknesses" lines={run.weaknesses} empty="No weakness stands out in this run." tone="weak" />
+          {run.comparison ? (
+            <section className="test-pattern">
+              <h3>The comparison</h3>
+              <p>{run.comparison}</p>
+            </section>
+          ) : null}
+        </>
+      ) : null}
+      {current.id === "sides" ? (
+        <>
+          <SideList title="Worse than the shot count" rows={run.worst} earlier={earlier} />
+          <SideList title="Better than the shot count" rows={run.best} earlier={earlier} />
+        </>
+      ) : null}
+      <ReportPager pages={pages} index={index} onPage={onPage} />
     </div>
+  );
+}
+
+function ReportPager({ pages, index, onPage }: { pages: ReportPage[]; index: number; onPage: (page: number) => void }) {
+  const current = pages[index];
+  return (
+    <nav className="test-pager" aria-label="Report pages">
+      <button type="button" onClick={() => onPage(index - 1)} disabled={index === 0}>
+        Previous
+      </button>
+      <p>
+        {index + 1} of {pages.length}
+        <span>{current.title}</span>
+      </p>
+      <button type="button" onClick={() => onPage(index + 1)} disabled={index === pages.length - 1}>
+        Next
+      </button>
+    </nav>
   );
 }
 
