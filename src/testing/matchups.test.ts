@@ -220,7 +220,7 @@ describe("a full test names one pattern", () => {
     expect(run.chanceNote ?? null).toBeNull();
   });
 
-  it("says a wide attack meets shots from crosses, and a high line meets direct sides", () => {
+  it("says a wide attack meets wide shapes, and a high line meets direct sides", () => {
     const styles = loadStyleLibrary().sides;
     const widths = new Map(loadShapeLibrary().sides.map((side) => [side.id, side.features.width]));
     const opponents = styles.map((side) => ({ ...side, shapeWidth: widths.get(side.id) }));
@@ -245,9 +245,9 @@ describe("a full test names one pattern", () => {
       seed: 1,
       now: 3,
     });
-    expect(wide.weaknesses[0]).toMatch(/Sides who shoot more often from crosses/);
-    expect(wide.strengths[0]).toMatch(/Sides who rarely shoot from a cross/);
-    expect(wide.comparison).toMatch(/crosses a match/);
+    expect(wide.weaknesses[0]).toMatch(/Wide starting shapes cost more than their shot count/);
+    expect(wide.strengths[0]).toMatch(/Narrow starting shapes cost less than their shot count/);
+    expect(wide.comparison).toMatch(/Wide starting shapes cost .* more than narrow starting shapes/);
     expect(wide.comparison).not.toMatch(/counter/i);
     expect(wide.worst.every((row) => busiest.includes(row.team))).toBe(false);
     expect(new Set(wide.worst.map((row) => row.note.split(". ")[0])).size).toBe(1);

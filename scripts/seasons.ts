@@ -25,10 +25,10 @@ export type SeasonSpec = {
 };
 
 /**
- * Domestic league seasons in StatsBomb open data that are complete for the
- * clubs they include. Men's league files after 2015/16 are one club and
- * short of a full season, apart from Bayer Leverkusen's two Bundesliga
- * seasons. 2024/25 and 2025/26 are not in the open data.
+ * Men's league seasons in StatsBomb open data that are complete for the
+ * clubs they include. Files after 2015/16 are one club and short of a full
+ * season, apart from Bayer Leverkusen's two Bundesliga seasons. 2024/25
+ * and 2025/26 are not in the open data. Women's leagues are not included.
  */
 export const SEASONS: SeasonSpec[] = [
   { competitionId: 2, seasonId: 27, competition: "Premier League", season: "2015/2016", teams: null, tieBreak: "goalDifference", matchesEach: 38 },
@@ -38,8 +38,4 @@ export const SEASONS: SeasonSpec[] = [
   { competitionId: 2, seasonId: 44, competition: "Premier League", season: "2003/2004", teams: ["Arsenal"], tieBreak: "goalDifference", matchesEach: 38, publishedPlace: 1 },
   { competitionId: 9, seasonId: 27, competition: "1. Bundesliga", season: "2015/2016", teams: ["Bayer Leverkusen"], tieBreak: "goalDifference", matchesEach: 34, publishedPlace: 3 },
   { competitionId: 9, seasonId: 281, competition: "1. Bundesliga", season: "2023/2024", teams: ["Bayer Leverkusen"], tieBreak: "goalDifference", matchesEach: 34, publishedPlace: 1 },
-  { competitionId: 37, seasonId: 281, competition: "FA Women's Super League", season: "2023/2024", teams: null, tieBreak: "goalDifference", matchesEach: 22 },
-  { competitionId: 135, seasonId: 281, competition: "Frauen Bundesliga", season: "2023/2024", teams: null, tieBreak: "goalDifference", matchesEach: 22 },
-  { competitionId: 182, seasonId: 281, competition: "Liga F", season: "2023/2024", teams: null, tieBreak: "headToHead", matchesEach: 30 },
-  { competitionId: 131, seasonId: 281, competition: "Serie A Women", season: "2023/2024", teams: null, tieBreak: "headToHead", matchesEach: 26, splitAfter: { matches: 90, groupSize: 5 } },
 ];

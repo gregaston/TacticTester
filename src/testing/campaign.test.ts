@@ -68,7 +68,7 @@ describe("runCampaign", () => {
       seed: 1,
       now: 2,
     });
-    expect(run.tested).toBe(133);
+    expect(run.tested).toBe(83);
     expect(run.situations).toBe(7);
     expect(run.place).toBe(again.place);
     expect(run.place).toBe(gradePlace(run.meanFor, run.meanAgainst));

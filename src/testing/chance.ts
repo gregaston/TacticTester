@@ -40,8 +40,8 @@ const NORMAL_PASS = 19;
  * stays at 1 and either extreme moves opponent xG by 15% on goal kicks only.
  * Both numbers are filled from the rebuilt library.
  */
-export const KEEPER_PASS_MEDIAN = 42.06;
-export const KEEPER_PASS_SPAN = 21.34;
+export const KEEPER_PASS_MEDIAN = 48.68;
+export const KEEPER_PASS_SPAN = 17.67;
 
 export type ShotSpot = { x: number; y: number; weight: number };
 

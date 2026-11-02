@@ -33,7 +33,7 @@ Raw StatsBomb files are cached under `.cache/` and are not committed.
 
 ## Data
 
-Starting shapes come from [StatsBomb open data](https://github.com/statsbomb/open-data). The complete league seasons are the 2015/16 Premier League, La Liga, Serie A, and Ligue 1, plus the 2023/24 FA Women's Super League, Frauen-Bundesliga, Liga F, and Serie A Women. Arsenal's 2003/04 Premier League season and Bayer Leverkusen's 2015/16 and 2023/24 Bundesliga seasons are included because those files contain every league match that club played. A side is included only when the file has at least 15 of their matches.
+Starting shapes come from [StatsBomb open data](https://github.com/statsbomb/open-data). The complete league seasons are the 2015/16 Premier League, La Liga, Serie A, and Ligue 1. Arsenal's 2003/04 Premier League season and Bayer Leverkusen's 2015/16 and 2023/24 Bundesliga seasons are included because those files contain every league match that club played. Women's leagues are not included. A side is included only when the file has at least 15 of their matches.
 
 The open data has no 2024/25 or 2025/26 season, and no full men's league after 2015/16 except those two Leverkusen seasons. Later La Liga and Ligue 1 files are one club and short of a season, so the missing results are not filled in.
 
