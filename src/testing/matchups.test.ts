@@ -7,7 +7,7 @@ import { loadStyleLibrary } from "../data/style-library";
 import { playersFromBoard } from "./profile";
 import { priceChances } from "./chance";
 import { concedingLess, readMatchups, type MatchupSide, type SideNote } from "./matchups";
-import { runCampaign } from "./campaign";
+import { preferredAxis, runCampaign } from "./campaign";
 
 function grid(kind: "central" | "wide"): number[][] {
   if (kind === "wide") {
@@ -126,7 +126,7 @@ describe("readMatchups", () => {
     const read = readMatchups(sides);
     expect(read.strength).toBeNull();
     expect(read.weakness).toBeNull();
-    expect(read.comparison).toMatch(/No opponent style/);
+    expect(read.comparison).toMatch(/No shared opponent style/);
     expect(read.harder[0].note).toMatch(/No shared style/);
     expect(read.harder[0].note).not.toMatch(/Their result|score/i);
   });
@@ -256,10 +256,31 @@ describe("a full test names one pattern", () => {
     expect(high.comparison).toMatch(/Direct sides/);
     expect(high.comparison).toMatch(/progressive passes a match/);
     expect(high.chanceNote).toMatch(/Recorded chances average \d\.\d\d xG a shot/);
-    expect(high.chanceNote).toMatch(/This model prices those maps at \d\.\d\d a shot/);
+    expect(high.chanceNote).toMatch(/TacticTester prices those maps at \d\.\d\d a shot/);
     expect(new Set(high.worst.map((row) => row.note.split(". ")[0])).size).toBe(1);
     expect(wide.worst[0].note).not.toMatch(/score|counter/i);
     expect(high.worst[0].note).not.toMatch(/score|counter/i);
+    const regroup = {
+      ...DEFAULT_INSTRUCTIONS,
+      width: "wider" as const,
+      widthIntention: "overlap" as const,
+      transition: "regroup" as const,
+    };
+    expect(preferredAxis(regroup)).toBe("regain");
+    expect(preferredAxis({ ...regroup, defensiveLine: "higher" })).toBe("direct");
+    const recovery = Array.from({ length: 8 }, (_, index) => {
+      const soon = index >= 6;
+      return {
+        ...side(soon ? `Soon ${index}` : `Wait ${index}`, 12, "central"),
+        regainShotsPerMatch: soon ? 8 : 3,
+        crossesPerMatch: soon ? 6 : 24,
+        crossShotShare: soon ? 0.08 : 0.28,
+        modelXgAgainst: 1.2 + (soon ? 0.5 : 0),
+      };
+    });
+    const regained = readMatchups(recovery, preferredAxis(regroup));
+    expect(regained.weakness).toMatch(/Sides who shoot soon after a recovery/);
+    expect(regained.comparison ?? "").not.toMatch(/counter/i);
     const press = runCampaign({
       players,
       instructions: { ...DEFAULT_INSTRUCTIONS, transition: "counter-press" },

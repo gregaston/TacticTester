@@ -1,6 +1,6 @@
 import { formatSeason } from "../compare/format";
 import { applyInstructions, DEFAULT_INSTRUCTIONS, type TeamInstructions } from "../tactics/instructions";
-import { ROLES, effectFor, rolesFor, type RoleId } from "../tactics/roles";
+import { ROLES, effectFor, roleName, rolesFor, type RoleId } from "../tactics/roles";
 import type { SquadLabels } from "../tactics/positions";
 import type { Line, Player, PositionCode } from "../tactics/types";
 import { shotSentence } from "./run";
@@ -70,6 +70,8 @@ export const STYLE_NOTE =
 
 export type Assignment = { roleId: string };
 
+export type RoleRefusal = { asked: RoleId; used: RoleId };
+
 export type ProfilePlayer = {
   x: number;
   y: number;
@@ -77,6 +79,8 @@ export type ProfilePlayer = {
   wide: boolean;
   left: boolean;
   roleId: RoleId;
+  /** Set when a stored role is not legal for this seat. The roleId is the fallback. */
+  refusal?: RoleRefusal;
 };
 
 export type StyleProfile = {
@@ -104,6 +108,22 @@ export function resolveRole(line: Line, wide: boolean, stored?: Assignment): Rol
   return chosen.id;
 }
 
+/** Null when nothing was stored, or the stored role is legal and stays pressed. */
+export function roleRefusal(line: Line, wide: boolean, stored?: Assignment): RoleRefusal | null {
+  if (!stored?.roleId) return null;
+  const used = resolveRole(line, wide, stored);
+  if (stored.roleId === used) return null;
+  const asked = ROLES.find((role) => role.id === stored.roleId);
+  if (!asked) return null;
+  return { asked: asked.id, used };
+}
+
+export function refusalLine(refusal: RoleRefusal): string {
+  const seat = roleName(refusal.used).toLowerCase();
+  const article = /^[aeiou]/i.test(seat) ? "an" : "a";
+  return `${roleName(refusal.asked)} does not play here. This seat is ${article} ${seat}.`;
+}
+
 export function playersFromBoard(
   players: Player[],
   labels: SquadLabels,
@@ -111,13 +131,17 @@ export function playersFromBoard(
 ): ProfilePlayer[] {
   return players.map((player) => {
     const label = labels.byId[player.id];
+    const wide = WIDE_CODES.has(label.code);
+    const stored = setups[player.id];
+    const refusal = roleRefusal(label.line, wide, stored);
     return {
       x: player.x,
       y: player.y,
       line: label.line,
-      wide: WIDE_CODES.has(label.code),
+      wide,
       left: player.x < 50,
-      roleId: resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]),
+      roleId: resolveRole(label.line, wide, stored),
+      ...(refusal ? { refusal } : {}),
     };
   });
 }
@@ -182,11 +206,74 @@ export function passingStackNote(instructions: TeamInstructions): string | null 
   return null;
 }
 
-function buildProfile(
-  players: ProfilePlayer[],
-  instructions: TeamInstructions,
-  styles: StyleFingerprint[],
-): StyleProfile {
+const IMPACT_MIN = 0.3;
+
+type SpreadSource = { passLength: number; shotsPerMatch: number; pressHeight: number };
+type ImpactKey = "passLength" | "shotsPerMatch" | "pressHeight";
+
+/**
+ * One line per control that moves pass, shots, or press by at least 0.3.
+ * The line uses the measure that moved the most. "The roles" agrees in the plural,
+ * unless one role is at least 60% of that delta.
+ */
+export function instructionImpacts(players: ProfilePlayer[], instructions: TeamInstructions, styles: SpreadSource[]): string[] {
+  const pieces = controls(players, instructions, recordedSpread(styles));
+  const lines: { abs: number; line: string }[] = [];
+  for (const piece of pieces) {
+    const lead = leadingImpact(piece);
+    if (!lead || Math.abs(lead.amount) < IMPACT_MIN) continue;
+    lines.push({
+      abs: Math.abs(lead.amount),
+      line: controlSentence(impactName(piece.name, players, lead.key), lead.amount, lead.key),
+    });
+  }
+  lines.sort((a, b) => b.abs - a.abs);
+  return lines.map((item) => item.line);
+}
+
+/** The named high press, with one extra still pushing it past the set. */
+export function pressStackNote(players: ProfilePlayer[], instructions: TeamInstructions, styles: SpreadSource[]): string | null {
+  const named =
+    instructions.defensiveLine === "higher" && instructions.engagement === "higher" && instructions.pressing === "more";
+  if (!named) return null;
+  const spread = recordedSpread(styles);
+  const profile = buildProfile(players, instructions, styles);
+  if (profile.pressHeight <= spread.pressHeight.high + 0.3) return null;
+  const extras = controls(players, instructions, spread).filter(
+    (piece) =>
+      piece.pressHeight > 0 &&
+      (piece.name === "Attacking mentality" ||
+        piece.name === "Defensive mentality" ||
+        piece.name === "Counter-press" ||
+        piece.name === "Regroup" ||
+        piece.name === "The roles"),
+  );
+  if (extras.length === 0) return null;
+  const best = [...extras].sort((a, b) => b.pressHeight - a.pressHeight)[0];
+  const name = impactName(best.name, players, "pressHeight");
+  const verb = name === "Roles" ? "are" : "is";
+  return `${name} ${verb} added on top of the high press.`;
+}
+
+/** Pass, shots, or press, in the same words as the closest-match lever. "Roles" takes the plural. */
+export function controlSentence(name: string, amount: number, key: ImpactKey): string {
+  const subject = name === "The roles" ? "Roles" : name;
+  const shown = formatTenths(Math.abs(amount));
+  const plural = subject === "Roles";
+  if (key === "passLength") {
+    const verb = amount >= 0 ? (plural ? "lengthen" : "lengthens") : plural ? "shorten" : "shortens";
+    return `${subject} ${verb} the pass by ${shown} yards.`;
+  }
+  if (key === "shotsPerMatch") {
+    const unit = shown === "1" ? "shot" : "shots";
+    if (amount >= 0) return `${subject} ${plural ? "add" : "adds"} ${shown} ${unit}.`;
+    return `${subject} ${plural ? "take" : "takes"} off ${shown} ${unit}.`;
+  }
+  if (amount >= 0) return `${subject} ${plural ? "raise" : "raises"} the press by ${shown}.`;
+  return `${subject} ${plural ? "drop" : "drops"} the press by ${shown}.`;
+}
+
+function buildProfile(players: ProfilePlayer[], instructions: TeamInstructions, styles: SpreadSource[]): StyleProfile {
   const effect = applyInstructions(instructions);
   const attackers = players.filter((player) => player.line === "ST" || player.line === "AM");
   const shotGroup = attackers.length > 0 ? attackers : players;
@@ -299,6 +386,53 @@ function controlName(field: string, value: string): string | null {
     shooting: { "work the ball": "Work the ball", "shoot on sight": "Shoot on sight" },
   };
   return names[field]?.[value] ?? null;
+}
+
+function leadingImpact(piece: ControlPiece): { key: ImpactKey; amount: number } | null {
+  const options: { key: ImpactKey; amount: number }[] = [
+    { key: "passLength", amount: piece.passLength },
+    { key: "shotsPerMatch", amount: piece.shotsPerMatch },
+    { key: "pressHeight", amount: piece.pressHeight },
+  ];
+  let best = options[0];
+  for (const option of options) {
+    if (Math.abs(option.amount) > Math.abs(best.amount)) best = option;
+  }
+  if (best.amount === 0) return null;
+  return best;
+}
+
+function impactName(name: string, players: ProfilePlayer[], key: ImpactKey): string {
+  if (name !== "The roles") return name;
+  const attackers = players.filter((player) => player.line === "ST" || player.line === "AM");
+  const shotGroup = attackers.length > 0 ? attackers : players;
+  const group = key === "shotsPerMatch" ? shotGroup : players;
+  const metric = key === "passLength" ? "passLength" : key === "pressHeight" ? "pressing" : "shooting";
+  const roleId = dominantRole(group, metric);
+  if (!roleId) return "Roles";
+  return `The ${roleName(roleId).toLowerCase()}`;
+}
+
+/** One role id whose share of the summed delta is at least 60%. */
+function dominantRole(players: ProfilePlayer[], key: "passLength" | "pressing" | "shooting"): RoleId | null {
+  const totals = new Map<RoleId, number>();
+  let sum = 0;
+  for (const player of players) {
+    const value = delta(player, key);
+    sum += value;
+    totals.set(player.roleId, (totals.get(player.roleId) ?? 0) + value);
+  }
+  if (sum === 0) return null;
+  let best: RoleId | null = null;
+  let bestShare = 0;
+  for (const [roleId, value] of totals) {
+    const share = value / sum;
+    if (share >= 0.6 && share > bestShare) {
+      best = roleId;
+      bestShare = share;
+    }
+  }
+  return best;
 }
 
 function delta(player: ProfilePlayer, key: "passLength" | "pressing" | "shooting"): number {

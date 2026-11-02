@@ -1,8 +1,9 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, type RefObject } from "react";
 import { formatSeason, placeLabel } from "../compare/format";
 import type { TeamInstructions } from "../tactics/instructions";
 import { Markings } from "../pitch/Markings";
 import { PITCH_VIEW, toView } from "../pitch/view";
+import type { ClosestMatch } from "../compare/closest";
 import { gradeMove, runCampaign, type CampaignOpponent, type CampaignRun, type SideNote } from "../testing/campaign";
 import { SITUATIONS } from "../testing/corners";
 import type { ProfilePlayer } from "../testing/profile";
@@ -18,9 +19,10 @@ export type TestSheetProps = {
   players: ProfilePlayer[];
   instructions: TeamInstructions;
   opponents: CampaignOpponent[];
+  match: ClosestMatch | null;
 };
 
-export function TestSheet({ label, tacticKey, players, instructions, opponents }: TestSheetProps) {
+export function TestSheet({ label, tacticKey, players, instructions, opponents, match }: TestSheetProps) {
   const titleId = useId();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -29,7 +31,7 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
   const [openId, setOpenId] = useState<string | null>(null);
   const [phase, setPhase] = useState<"running" | "ready">("ready");
   const [page, setPage] = useState(0);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
   const open = openId != null;
   const active = runs.find((run) => run.id === openId) ?? null;
 
@@ -85,11 +87,27 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
   function start() {
     const mine = ++request.current;
     const started = performance.now();
-    const snapshot = { players, instructions, opponents, label, tacticKey };
+    const snapshot = { players, instructions, opponents, label, tacticKey, match };
     setOpenId("pending");
     setPhase("running");
     window.setTimeout(() => {
-      const run = runCampaign({ ...snapshot, seed: 1 });
+      const run = runCampaign({
+        players: snapshot.players,
+        instructions: snapshot.instructions,
+        opponents: snapshot.opponents,
+        label: snapshot.label,
+        tacticKey: snapshot.tacticKey,
+        seed: 1,
+        closest: snapshot.match
+          ? {
+              team: snapshot.match.team,
+              stylePercent: snapshot.match.stylePercent,
+              shapePercent: snapshot.match.shapePercent,
+              weak: snapshot.match.weak,
+              closerStyle: snapshot.match.closerStyle,
+            }
+          : null,
+      });
       const wait = Math.max(0, RUN_PAUSE_MS - (performance.now() - started));
       window.setTimeout(() => {
         remember(run);
@@ -134,7 +152,6 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
       {open ? (
         <div className="test-overlay" role="presentation" onClick={close}>
           <div
-            ref={panelRef}
             className="test-panel"
             role="dialog"
             aria-modal="true"
@@ -153,14 +170,15 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
                 </p>
               </div>
             ) : (
-              <Result
+              <ReportView
                 run={active}
                 earlier={earlierRun(runs, active.id)}
                 titleId={titleId}
                 page={page}
+                bodyRef={bodyRef}
                 onPage={(next) => {
                   setPage(next);
-                  panelRef.current?.scrollTo(0, 0);
+                  bodyRef.current?.scrollTo(0, 0);
                 }}
               />
             )}
@@ -171,25 +189,53 @@ export function TestSheet({ label, tacticKey, players, instructions, opponents }
   );
 }
 
-function Result({
+function ReportView({
   run,
   earlier,
   titleId,
   page,
+  bodyRef,
   onPage,
 }: {
   run: CampaignRun;
   earlier: CampaignRun | null;
   titleId: string;
   page: number;
+  bodyRef: RefObject<HTMLDivElement | null>;
   onPage: (page: number) => void;
 }) {
   const pages = reportPages(run);
   const index = Math.min(page, pages.length - 1);
-  const current = pages[index];
+  return (
+    <>
+      <div className="test-body" ref={bodyRef}>
+        <Result run={run} earlier={earlier} titleId={titleId} page={index} />
+      </div>
+      <ReportPager pages={pages} index={index} onPage={onPage} />
+    </>
+  );
+}
+
+function Result({
+  run,
+  earlier,
+  titleId,
+  page,
+}: {
+  run: CampaignRun;
+  earlier: CampaignRun | null;
+  titleId: string;
+  page: number;
+}) {
+  const pages = reportPages(run);
+  const current = pages[page] ?? pages[0];
   const grade = placeMove(run.place, earlier?.place ?? null);
   const margin = run.meanFor - run.meanAgainst;
   const previousMargin = earlier ? earlier.meanFor - earlier.meanAgainst : null;
+  const held =
+    run.closestTeam && earlier?.closestTeam === run.closestTeam && earlier.tacticKey !== run.tacticKey
+      ? `The shape held ${run.closestTeam}.`
+      : null;
   return (
     <div className="test-result">
       <header className="report-mast">
@@ -205,7 +251,6 @@ function Result({
             <p className="kicker">Table grade</p>
             <h2>{placeLabel(run.place)}</h2>
             {grade.tone === "first" ? <p className="delta delta-flat">First test</p> : <Delta move={grade} keepFlat />}
-            <p className="test-note">A grade from this model's results against every side.</p>
           </section>
           <dl className="test-figures">
             <div>
@@ -224,7 +269,31 @@ function Result({
             <strong>{signed(margin)}</strong>
             <Delta move={countMove(margin, previousMargin, "higher", 2)} keepFlat />
           </p>
-          <p className="test-count">xG is TacticTester's zone sketch.</p>
+          {run.styleLine ? <p className="test-note">{run.styleLine}</p> : null}
+          {run.impacts?.map((line, index) => (
+            <p key={`impact-${index}`} className="test-note">
+              {line}
+            </p>
+          ))}
+          {run.band ? <p className="test-note">{run.band}</p> : null}
+          {run.refusals?.map((line, index) => (
+            <p key={`refusal-${index}`} className="test-note">
+              {line}
+            </p>
+          ))}
+          {run.closestTeam ? (
+            <p className="test-note">
+              {run.closestWeak
+                ? `Weak likeness. ${run.closestTeam}, style ${run.closestStyle}%, shape ${run.closestShape}%.`
+                : `${run.closestTeam}. Style ${run.closestStyle}%, shape ${run.closestShape}%.`}
+            </p>
+          ) : null}
+          {held ? <p className="test-note">{held}</p> : null}
+          {run.closerStyleTeam ? (
+            <p className="test-note">
+              {run.closerStyleTeam} is closer in style, {run.closerStylePercent}%.
+            </p>
+          ) : null}
           {run.chanceNote ? <p className="test-note">{run.chanceNote}</p> : null}
         </>
       ) : null}
@@ -247,7 +316,6 @@ function Result({
           <SideList title="Better than the shot count" rows={run.best} earlier={earlier} />
         </>
       ) : null}
-      <ReportPager pages={pages} index={index} onPage={onPage} />
     </div>
   );
 }
@@ -280,7 +348,7 @@ function Delta({ move, name, keepFlat = false }: { move: FigureMove; name?: stri
 function ReportPitch({ dots, marks }: { dots: { x: number; y: number }[]; marks: ReportMark[] }) {
   const summary =
     marks.length === 0
-      ? "No problem in this run sits on one part of the pitch."
+      ? "Nothing in this run sits on one part of the pitch."
       : `Problem areas: ${marks.map((mark, index) => `${index + 1} ${mark.label}`).join(". ")}.`;
   return (
     <figure className="report-pitch">
@@ -305,7 +373,6 @@ function ReportPitch({ dots, marks }: { dots: { x: number; y: number }[]; marks:
           );
         })}
       </svg>
-      <p className="report-pitch-note">Attack is toward the top.</p>
       {marks.length > 0 ? (
         <ol className="report-key">
           {marks.map((mark, index) => (

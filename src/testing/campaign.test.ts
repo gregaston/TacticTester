@@ -6,7 +6,7 @@ import { loadStyleLibrary } from "../data/style-library";
 import { shapeSummary } from "../compare/format";
 import { featuresFromPlayers } from "../compare/features";
 import { playersFromBoard, type ProfilePlayer } from "./profile";
-import { gradeMove, gradePlace, runCampaign, type CampaignOpponent } from "./campaign";
+import { gradeBand, gradeMove, gradePlace, runCampaign, type CampaignOpponent } from "./campaign";
 
 function opponent(patch: Partial<CampaignOpponent> & Pick<CampaignOpponent, "id" | "team">): CampaignOpponent {
   return {
@@ -42,6 +42,16 @@ describe("gradePlace", () => {
     expect(gradeMove(8, 8)).toBe("Same grade as the test before it.");
     expect(gradeMove(6, 8)).toBe("2 places higher than the test before it.");
     expect(gradeMove(9, 8)).toBe("1 place lower than the test before it.");
+  });
+});
+
+describe("gradeBand", () => {
+  it("is null at 4th, names the middle at 12th, and stays quiet once passing leaves standard", () => {
+    expect(gradeBand(4, DEFAULT_INSTRUCTIONS)).toBeNull();
+    expect(gradeBand(12, DEFAULT_INSTRUCTIONS)).toBe(
+      "12th is the middle. One button stays in this band. A high line with the press left deep drops out.",
+    );
+    expect(gradeBand(12, { ...DEFAULT_INSTRUCTIONS, passing: "more direct" })).toBeNull();
   });
 });
 

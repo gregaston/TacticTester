@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { closestMatch } from "./compare/closest";
 import { closestShape, featuresFromPlayers } from "./compare/features";
-import { shapeSummary } from "./compare/format";
+import { compactShape, shapeSummary } from "./compare/format";
 import { loadSeasonRecords } from "./data/records";
 import { loadShapeLibrary } from "./data/shape-library";
 import { loadStyleLibrary } from "./data/style-library";
@@ -34,7 +34,7 @@ import { effectFor, roleMark, roleName, rolesFor, type RoleId } from "./tactics/
 import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
 import { clearTestHistory } from "./testing/history";
-import { playersFromBoard, readStyle, resolveRole, WIDE_CODES } from "./testing/profile";
+import { playersFromBoard, readStyle, resolveRole, roleRefusal, WIDE_CODES } from "./testing/profile";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { KeepBar } from "./ui/KeepBar";
 import { applyTheme, loadTheme, saveTheme, type ThemeName } from "./ui/theme";
@@ -176,6 +176,9 @@ export function App() {
   }
   const heat = heatField(heatPlayers, instructions, { defensiveY, engagementY });
   const summary = shapeSummary(featuresFromPlayers(storedDisplay));
+  const sameShape =
+    board.templateId != null &&
+    (summary === board.templateId || summary === compactShape(board.templateId));
   const profilePlayers = playersFromBoard(board.players, placed, setups);
   const reading = readStyle(profilePlayers, instructions, styles.sides);
   const match = closestMatch(
@@ -232,6 +235,8 @@ export function App() {
   const stored = board.selectedId ? setups[board.selectedId] : undefined;
   const roleId: RoleId | null =
     roleChoices.find((role) => role.id === stored?.roleId)?.id ?? roleChoices[0]?.id ?? null;
+  const refusal = selected ? roleRefusal(selected.line, WIDE_CODES.has(selected.code), stored) : null;
+  const refused = refusal ? `${roleName(refusal.asked)} does not play here.` : null;
   const selectedPlayer = visualPlayers.find((player) => player.id === board.selectedId) ?? null;
   const arrival =
     selectedPlayer && roleId && selected
@@ -344,8 +349,8 @@ export function App() {
           <span className="formation-label">Current formation:</span>
           <span className="formation-value">
             {board.templateId ? <span className="formation-name">{board.templateId}</span> : null}
-            {board.templateId && summary !== board.templateId ? " " : null}
-            {!board.templateId || summary !== board.templateId ? (
+            {board.templateId && !sameShape ? " " : null}
+            {!board.templateId || !sameShape ? (
               <span className={board.templateId ? "formation-code" : "formation-name"}>{summary}</span>
             ) : null}
           </span>
@@ -400,6 +405,7 @@ export function App() {
             roles={roleChoices}
             roleId={roleId}
             arrival={arrival}
+            refused={refused}
             onRole={assign}
           />
         ) : null}
@@ -423,6 +429,7 @@ export function App() {
           tacticKey={tacticKey}
           players={profilePlayers}
           instructions={instructions}
+          match={match}
           opponents={styles.sides.map((side) => ({
             ...side,
             shapeWidth: library.sides.find((shape) => shape.id === side.id)?.features.width,

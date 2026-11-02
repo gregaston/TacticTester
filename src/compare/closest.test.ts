@@ -7,7 +7,7 @@ import { shiftedPoint } from "../tactics/block";
 import { DEFAULT_INSTRUCTIONS } from "../tactics/instructions";
 import { labelSquad } from "../tactics/positions";
 import { playersFromBoard, readStyle, type StyleProfile } from "../testing/profile";
-import { closestMatch, differenceSummary, shapePercent, stylePercent } from "./closest";
+import { WEAK_STYLE, closestMatch, differenceSummary, shapePercent, stylePercent } from "./closest";
 import { closestShape, featuresFromPlayers, type ShapeFeatures } from "./features";
 import { placeLabel } from "./format";
 import type { SideSummary } from "./types";
@@ -183,6 +183,74 @@ describe("recorded figures on the card", () => {
       "Their shorter passes are played in the air.",
     );
     expect(closestMatch(user, profile, [shapeFor("plain")], [...library, plain], [recordFor("plain")])?.loft).toBeNull();
+  });
+});
+
+describe("weak likeness", () => {
+  it("treats a 34 style score as weak", () => {
+    expect(WEAK_STYLE).toBe(40);
+    const user = featuresFromPlayers(createBoard().players);
+    const shape = shapes[0];
+    const style = styles.find((side) => side.id === shape.id)!;
+    const record = records.find((side) => side.id === shape.id)!;
+    const profile: StyleProfile = {
+      passLength: style.passLength,
+      shotsPerMatch: style.shotsPerMatch,
+      pressHeight: style.pressHeight + 8.1,
+      shotX: 50,
+      shotY: 80,
+    };
+    const match = closestMatch(user, profile, [shape], [style], [record]);
+    expect(match?.stylePercent).toBe(34);
+    expect(match?.weak).toBe(true);
+    expect(match?.closerStyle).toBeNull();
+  });
+
+  it("names a side that lost despite a better style", () => {
+    const user = featuresFromPlayers(createBoard().players);
+    const style = styles[0];
+    const record = records[0];
+    const shape = shapes[0];
+    const profile: StyleProfile = {
+      passLength: style.passLength,
+      shotsPerMatch: style.shotsPerMatch,
+      pressHeight: style.pressHeight,
+      shotX: 50,
+      shotY: 80,
+    };
+    const key = [user.def, user.dm, user.cm, user.am, user.st].map((count) => Math.round(count)).join("-");
+    const winner = {
+      ...shape,
+      id: "winner",
+      team: "Leicester",
+      formationShare: 1,
+      formationKey: key,
+      features: { ...user },
+    };
+    const other = {
+      ...shape,
+      id: "closer",
+      team: "Marseille",
+      formationShare: 1,
+      formationKey: "0-0-0-0-0",
+      features: { ...user, backLine: user.backLine + 40, forwardLine: user.forwardLine - 40, width: user.width + 30 },
+    };
+    const match = closestMatch(
+      user,
+      profile,
+      [winner, other],
+      [
+        { ...style, id: "winner", pressHeight: style.pressHeight + 5.2 },
+        { ...style, id: "closer" },
+      ],
+      [
+        { ...record, id: "winner" },
+        { ...record, id: "closer" },
+      ],
+    );
+    expect(match?.team).toBe("Leicester");
+    expect(match?.closerStyle?.team).toBe("Marseille");
+    expect(match?.closerStyle?.stylePercent).toBeGreaterThanOrEqual((match?.stylePercent ?? 0) + 8);
   });
 });
 

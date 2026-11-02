@@ -40,10 +40,27 @@ describe("problemMarks", () => {
     expect(wide.map((mark) => mark.label)).toEqual(["Left channel", "Right channel"]);
   });
 
-  it("marks central shots, and stays empty when the sentence has no place", () => {
+  it("marks central shots and a low shot count, and stays empty when the sentence has no place", () => {
     const central = problemMarks(DEFAULT_INSTRUCTIONS, ["Sides who shoot through the middle cost more than their shot count."]);
     expect(central.map((mark) => mark.id)).toEqual(["central"]);
-    expect(problemMarks(DEFAULT_INSTRUCTIONS, ["The shot count is lower than most sides in this set."])).toEqual([]);
+    expect(problemMarks(DEFAULT_INSTRUCTIONS, ["The shot count is lower than most sides in this set."])).toMatchObject([
+      { id: "few-shots", label: "Few shots", x: 50, y: 82, r: 9 },
+    ]);
+    expect(problemMarks(DEFAULT_INSTRUCTIONS, ["Ahead against 4 of 10 sides."])).toEqual([]);
+  });
+
+  it("keeps a long pass off the channels and tucks narrow full-backs inside", () => {
+    const long = problemMarks(DEFAULT_INSTRUCTIONS, ["Ease More direct. Passes are 1.9 yards past Torino."]);
+    expect(long.map((mark) => mark.id)).toEqual(["long-passes"]);
+    expect(long.some((mark) => mark.id === "wide-left" || mark.x === 14)).toBe(false);
+
+    const narrow = problemMarks(DEFAULT_INSTRUCTIONS, [
+      "Widen the full-backs. The full-backs sit inside, and the sides that cause the most trouble take more of their shots from wide areas.",
+    ]);
+    expect(narrow.map((mark) => mark.x)).toEqual([32, 68]);
+    expect(narrow.every((mark) => mark.x !== 14)).toBe(true);
+    expect(narrow.map((mark) => mark.label)).toEqual(["Left full-back", "Right full-back"]);
+    expect(narrow[0].y).toBe(24);
   });
 
   it("stops at four marks", () => {

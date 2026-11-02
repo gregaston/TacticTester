@@ -2,6 +2,7 @@ import type { StyleSide } from "../data/style-library";
 import type { SeasonRecord } from "../data/records";
 import { lineNote, type TeamInstructions } from "../tactics/instructions";
 import {
+  controlSentence,
   passingStackNote,
   recordedSpread,
   styleControl,
@@ -41,6 +42,8 @@ export type ClosestMatch = {
   shift: string | null;
   /** Loft against length, only when the two disagree. */
   loft: string | null;
+  /** A side that lost on shape despite a style score at least 8 points higher. */
+  closerStyle: { team: string; stylePercent: number } | null;
 };
 
 export type StyleFigure = {
@@ -52,8 +55,8 @@ export type StyleFigure = {
   unit: string;
 };
 
-/** Below this, the card says the likeness is weak before the club name. */
-export const WEAK_STYLE = 25;
+/** Below this style percent, the likeness is too weak to lead with the club. */
+export const WEAK_STYLE = 40;
 
 const OUTFIELD = 10;
 const BACK_SPAN = 16;
@@ -147,6 +150,9 @@ export function closestMatch(
   });
   const best = pool[0];
   if (!best) return null;
+  const closer = pool
+    .filter((side) => side.shape.id !== best.shape.id && side.styleScore >= best.styleScore + 8)
+    .sort((a, b) => b.styleScore - a.styleScore || a.shape.team.localeCompare(b.shape.team))[0];
   return {
     id: best.shape.id,
     team: best.shape.team,
@@ -169,6 +175,7 @@ export function closestMatch(
     line: context ? lineNote(context.instructions) : null,
     shift: shiftSentence(best.shape),
     loft: loftSentence(best.style, styles),
+    closerStyle: closer ? { team: closer.shape.team, stylePercent: closer.styleScore } : null,
   };
 }
 
@@ -243,20 +250,9 @@ function leverLine(
   if (!metric) return null;
   const control = styleControl(players, instructions, styles, metric.key);
   if (!control || Math.abs(control.amount) < 0.3) return null;
-  const account = controlDistance(control.name, control.amount, metric.key);
+  const account = controlSentence(control.name, control.amount, metric.key);
   const stack = metric.key === "passLength" ? passingStackNote(instructions) : null;
   return stack ? `${stack} ${account}` : account;
-}
-
-function controlDistance(name: string, amount: number, key: "passLength" | "shotsPerMatch" | "pressHeight"): string {
-  const shown = formatTenths(Math.abs(amount));
-  if (key === "passLength") {
-    return amount > 0 ? `${name} lengthens the pass by ${shown} yards.` : `${name} shortens the pass by ${shown} yards.`;
-  }
-  if (key === "shotsPerMatch") {
-    return amount > 0 ? `${name} adds ${shown} shots.` : `${name} takes off ${shown} shots.`;
-  }
-  return amount > 0 ? `${name} raises the press by ${shown}.` : `${name} drops the press by ${shown}.`;
 }
 
 function leadingMetric(
@@ -276,11 +272,6 @@ function leadingMetric(
   }
   if (!best) return null;
   return { key: best.key };
-}
-
-function formatTenths(value: number): string {
-  const rounded = Math.round(value * 10) / 10;
-  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
 }
 
 function axis(delta: number, span: number): number {

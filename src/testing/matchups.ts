@@ -122,7 +122,7 @@ export function readMatchups(sides: MatchupSide[], prefer: string | null = null)
     return {
       strength: null,
       weakness: null,
-      comparison: "No opponent style separates this run. These are the results furthest from the shot count.",
+      comparison: "No shared opponent style. These results sit furthest from the shot count.",
       harder: ordered.slice(0, SHOW).map((side) => note(side, "No shared style")),
       easier: ordered.slice(-SHOW).reverse().map((side) => note(side, "No shared style")),
     };

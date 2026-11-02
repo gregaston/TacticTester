@@ -72,24 +72,28 @@ export function countMove(current: number, previous: number | null, better: "hig
 export function problemMarks(instructions: TeamInstructions, weaknesses: string[]): ReportMark[] {
   const lineY = defensiveAnchor(instructions.defensiveLine);
   const engageY = engagementAnchor(instructions.engagement);
-  const text = weaknesses.join(" ");
   const marks: ReportMark[] = [];
-  for (const rule of RULES) {
-    if (!rule.test.test(text)) continue;
-    const next = rule.marks(lineY, engageY);
-    if (marks.length + next.length > MARK_LIMIT) continue;
-    marks.push(...next);
+  const seen = new Set<string>();
+  for (const text of weaknesses) {
+    for (const rule of RULES) {
+      if (!rule.test.test(text)) continue;
+      if (rule.unless?.test(text)) continue;
+      const next = rule.marks(lineY, engageY).filter((mark) => !seen.has(mark.id));
+      if (next.length === 0 || marks.length + next.length > MARK_LIMIT) continue;
+      for (const mark of next) seen.add(mark.id);
+      marks.push(...next);
+    }
   }
   return marks;
 }
 
-const RULES: { test: RegExp; marks: (lineY: number, engageY: number) => ReportMark[] }[] = [
+const RULES: { test: RegExp; unless?: RegExp; marks: (lineY: number, engageY: number) => ReportMark[] }[] = [
   {
     test: /balls over the top|space behind the ball|Direct sides who see less of the final third/,
     marks: (lineY) => [{ id: "behind", label: "Space behind the line", x: 50, y: clamp(lineY - 10, 12, 34), r: 12 }],
   },
   {
-    test: /gap between them/,
+    test: /gap between them|gap shows in xG against/,
     marks: (lineY, engageY) => [{ id: "gap", label: "Gap between the lines", x: 50, y: (lineY + engageY) / 2, r: 11 }],
   },
   {
@@ -97,7 +101,30 @@ const RULES: { test: RegExp; marks: (lineY: number, engageY: number) => ReportMa
     marks: () => [{ id: "rest", label: "Too few behind the ball", x: 50, y: 14, r: 10 }],
   },
   {
-    test: /full-backs sit inside|wide areas|from crosses|Wide starting shapes/,
+    test: /full-backs sit inside/,
+    marks: (lineY) => [
+      { id: "narrow-left", label: "Left full-back", x: 32, y: lineY, r: 8 },
+      { id: "narrow-right", label: "Right full-back", x: 68, y: lineY, r: 8 },
+    ],
+  },
+  {
+    test: /yards past|longer than the most direct/,
+    marks: () => [{ id: "long-passes", label: "Long passes", x: 50, y: 62, r: 11 }],
+  },
+  {
+    test: /shot count is low|shot count is lower/,
+    marks: () => [{ id: "few-shots", label: "Few shots", x: 50, y: 82, r: 9 }],
+  },
+  {
+    test: /press is higher than most|High press/,
+    marks: (lineY, engageY) => {
+      void lineY;
+      return [{ id: "high-press", label: "High press", x: 50, y: engageY, r: 10 }];
+    },
+  },
+  {
+    test: /Wide starting shapes|from crosses|wide areas/,
+    unless: /full-backs sit inside/,
     marks: (lineY) => [
       { id: "wide-left", label: "Left channel", x: 14, y: clamp(lineY, 16, 42), r: 8 },
       { id: "wide-right", label: "Right channel", x: 86, y: clamp(lineY, 16, 42), r: 8 },
@@ -108,7 +135,7 @@ const RULES: { test: RegExp; marks: (lineY: number, engageY: number) => ReportMa
     marks: () => [{ id: "central", label: "Central shots", x: 50, y: 18, r: 10 }],
   },
   {
-    test: /Short passes run into the higher presses|higher presses cost more/,
+    test: /Ease Shorter passing|Short passes run into|higher presses cost more/,
     marks: () => [{ id: "press", label: "Pressed in the build-up", x: 50, y: 48, r: 10 }],
   },
   {
