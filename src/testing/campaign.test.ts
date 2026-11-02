@@ -72,6 +72,8 @@ describe("runCampaign", () => {
     expect(run.situations).toBe(7);
     expect(run.place).toBe(again.place);
     expect(run.place).toBe(gradePlace(run.meanFor, run.meanAgainst));
+    expect(run.shape).toHaveLength(11);
+    expect(run.marks?.some((mark) => mark.id === "central")).toBe(true);
     expect(run.place).toBeGreaterThan(1);
     expect(run.place).toBeLessThan(20);
     expect(run.strengths.length).toBeGreaterThan(0);
