@@ -9,8 +9,8 @@ describe("shape library", () => {
 
   it("keeps a full sample for every side and credits StatsBomb", () => {
     expect(library.source).toBe("StatsBomb open data");
-    expect(library.sides.length).toBe(81);
-    expect(new Set(library.sides.map((side) => side.id)).size).toBe(81);
+    expect(library.sides.length).toBe(133);
+    expect(new Set(library.sides.map((side) => side.id)).size).toBe(133);
     for (const side of library.sides) {
       expect(side.matches).toBeGreaterThanOrEqual(15);
       expect(side.formationKey.split("-")).toHaveLength(5);

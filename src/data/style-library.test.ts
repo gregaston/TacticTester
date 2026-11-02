@@ -18,7 +18,7 @@ describe("style library", () => {
   it("matches shape-library ids and stays inside broad ranges", () => {
     const ids = library.sides.map((side) => side.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(library.sides).toHaveLength(81);
+    expect(library.sides).toHaveLength(133);
     for (const side of library.sides) {
       expect(shapeIds.has(side.id)).toBe(true);
       expect(side.matches).toBeGreaterThanOrEqual(10);
