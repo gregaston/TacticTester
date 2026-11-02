@@ -1,7 +1,7 @@
 {
   "source": "StatsBomb open data",
   "sourceUrl": "https://github.com/statsbomb/open-data",
-  "note": "Wins, draws, losses, goals, and points are counted from each season's matches. Places follow that league's tie-break. Three Ligue 1 2015/16 fixtures missing from the open data are filled from the published results. Arsenal 2003/04 contains only Arsenal's matches, so their place is the published final standing.",
+  "note": "Wins, draws, losses, goals, and points are counted from each season's matches. Places follow that league's tie-break. Three Ligue 1 2015/16 fixtures missing from the open data are filled from the published results. Arsenal 2003/04 and Bayer Leverkusen's two Bundesliga seasons contain only that club's matches, so their place is the published final standing. Serie A Women 2023/24 keeps the championship group above the relegation group.",
   "sides": [
     {
       "id": "ac-milan-serie-a-2015-2016",
@@ -14,6 +14,18 @@
       "goalsFor": 49,
       "goalsAgainst": 43,
       "points": 57
+    },
+    {
+      "id": "ac-milan-w-serie-a-women-2023-2024",
+      "manager": "Davide Corti",
+      "place": 6,
+      "played": 26,
+      "won": 11,
+      "drawn": 8,
+      "lost": 7,
+      "goalsFor": 43,
+      "goalsAgainst": 30,
+      "points": 41
     },
     {
       "id": "afc-bournemouth-premier-league-2015-2016",
@@ -64,6 +76,18 @@
       "points": 71
     },
     {
+      "id": "arsenal-wfc-fa-women-s-super-league-2023-2024",
+      "manager": "Jonas Eidevall",
+      "place": 3,
+      "played": 22,
+      "won": 16,
+      "drawn": 2,
+      "lost": 4,
+      "goalsFor": 53,
+      "goalsAgainst": 20,
+      "points": 50
+    },
+    {
       "id": "as-monaco-ligue-1-2015-2016",
       "manager": "Leonardo Jardim",
       "place": 3,
@@ -88,6 +112,18 @@
       "points": 80
     },
     {
+      "id": "as-roma-w-serie-a-women-2023-2024",
+      "manager": "Alessandro Spugna",
+      "place": 1,
+      "played": 26,
+      "won": 23,
+      "drawn": 1,
+      "lost": 2,
+      "goalsFor": 74,
+      "goalsAgainst": 24,
+      "points": 70
+    },
+    {
       "id": "aston-villa-premier-league-2015-2016",
       "manager": "Rémi Garde",
       "place": 20,
@@ -100,6 +136,18 @@
       "points": 17
     },
     {
+      "id": "aston-villa-w-fa-women-s-super-league-2023-2024",
+      "manager": "Carla Ward",
+      "place": 7,
+      "played": 22,
+      "won": 7,
+      "drawn": 3,
+      "lost": 12,
+      "goalsFor": 27,
+      "goalsAgainst": 43,
+      "points": 24
+    },
+    {
       "id": "atalanta-serie-a-2015-2016",
       "manager": "Edoardo Reja",
       "place": 13,
@@ -110,6 +158,18 @@
       "goalsFor": 41,
       "goalsAgainst": 47,
       "points": 45
+    },
+    {
+      "id": "athletic-club-bilbao-liga-f-2023-2024",
+      "manager": "David Aznar",
+      "place": 5,
+      "played": 30,
+      "won": 17,
+      "drawn": 2,
+      "lost": 11,
+      "goalsFor": 38,
+      "goalsAgainst": 37,
+      "points": 53
     },
     {
       "id": "athletic-club-la-liga-2015-2016",
@@ -136,6 +196,18 @@
       "points": 88
     },
     {
+      "id": "atletico-madrid-w-liga-f-2023-2024",
+      "manager": "Manolo Cano",
+      "place": 3,
+      "played": 30,
+      "won": 18,
+      "drawn": 7,
+      "lost": 5,
+      "goalsFor": 53,
+      "goalsAgainst": 22,
+      "points": 61
+    },
+    {
       "id": "barcelona-la-liga-2015-2016",
       "manager": "Luis Enrique",
       "place": 1,
@@ -148,6 +220,18 @@
       "points": 91
     },
     {
+      "id": "barcelona-wfc-liga-f-2023-2024",
+      "manager": "Jonatan Giráldez",
+      "place": 1,
+      "played": 30,
+      "won": 29,
+      "drawn": 1,
+      "lost": 0,
+      "goalsFor": 137,
+      "goalsAgainst": 10,
+      "points": 88
+    },
+    {
       "id": "bastia-ligue-1-2015-2016",
       "manager": "Ghislain Printant",
       "place": 10,
@@ -158,6 +242,42 @@
       "goalsFor": 36,
       "goalsAgainst": 42,
       "points": 50
+    },
+    {
+      "id": "bayer-leverkusen-1-bundesliga-2015-2016",
+      "manager": "Roger Schmidt",
+      "place": 3,
+      "played": 34,
+      "won": 18,
+      "drawn": 6,
+      "lost": 10,
+      "goalsFor": 56,
+      "goalsAgainst": 40,
+      "points": 60
+    },
+    {
+      "id": "bayer-leverkusen-1-bundesliga-2023-2024",
+      "manager": "Xabi Alonso",
+      "place": 1,
+      "played": 34,
+      "won": 28,
+      "drawn": 6,
+      "lost": 0,
+      "goalsFor": 89,
+      "goalsAgainst": 24,
+      "points": 90
+    },
+    {
+      "id": "bayern-munchen-w-frauen-bundesliga-2023-2024",
+      "manager": "Alexander Straus",
+      "place": 1,
+      "played": 22,
+      "won": 19,
+      "drawn": 3,
+      "lost": 0,
+      "goalsFor": 60,
+      "goalsAgainst": 8,
+      "points": 60
     },
     {
       "id": "bologna-serie-a-2015-2016",
@@ -184,6 +304,30 @@
       "points": 50
     },
     {
+      "id": "brighton-hove-albion-wfc-fa-women-s-super-league-2023-2024",
+      "manager": "Melissa Phillips",
+      "place": 9,
+      "played": 22,
+      "won": 5,
+      "drawn": 4,
+      "lost": 13,
+      "goalsFor": 26,
+      "goalsAgainst": 48,
+      "points": 19
+    },
+    {
+      "id": "bristol-city-wfc-fa-women-s-super-league-2023-2024",
+      "manager": "Lauren Smith",
+      "place": 12,
+      "played": 22,
+      "won": 1,
+      "drawn": 3,
+      "lost": 18,
+      "goalsFor": 20,
+      "goalsAgainst": 70,
+      "points": 6
+    },
+    {
       "id": "carpi-serie-a-2015-2016",
       "manager": "Fabrizio Castori",
       "place": 18,
@@ -196,6 +340,18 @@
       "points": 38
     },
     {
+      "id": "cd-sporting-de-huelva-liga-f-2023-2024",
+      "manager": "Francisco Romero",
+      "place": 16,
+      "played": 30,
+      "won": 2,
+      "drawn": 3,
+      "lost": 25,
+      "goalsFor": 20,
+      "goalsAgainst": 63,
+      "points": 9
+    },
+    {
       "id": "celta-vigo-la-liga-2015-2016",
       "manager": "Eduardo Berizzo",
       "place": 6,
@@ -206,6 +362,18 @@
       "goalsFor": 51,
       "goalsAgainst": 59,
       "points": 60
+    },
+    {
+      "id": "chelsea-fcw-fa-women-s-super-league-2023-2024",
+      "manager": "Emma Hayes",
+      "place": 1,
+      "played": 22,
+      "won": 18,
+      "drawn": 1,
+      "lost": 3,
+      "goalsFor": 71,
+      "goalsAgainst": 18,
+      "points": 55
     },
     {
       "id": "chelsea-premier-league-2015-2016",
@@ -232,6 +400,30 @@
       "points": 50
     },
     {
+      "id": "como-w-serie-a-women-2023-2024",
+      "manager": "Marco Bruzzano",
+      "place": 7,
+      "played": 26,
+      "won": 9,
+      "drawn": 5,
+      "lost": 12,
+      "goalsFor": 30,
+      "goalsAgainst": 43,
+      "points": 32
+    },
+    {
+      "id": "costa-adeje-tenerife-liga-f-2023-2024",
+      "manager": "José Herrera",
+      "place": 9,
+      "played": 30,
+      "won": 8,
+      "drawn": 8,
+      "lost": 14,
+      "goalsFor": 35,
+      "goalsAgainst": 48,
+      "points": 32
+    },
+    {
       "id": "crystal-palace-premier-league-2015-2016",
       "manager": "Alan Pardew",
       "place": 15,
@@ -244,6 +436,18 @@
       "points": 42
     },
     {
+      "id": "duisburg-wfc-frauen-bundesliga-2023-2024",
+      "manager": "Thomas Gerstner",
+      "place": 12,
+      "played": 22,
+      "won": 0,
+      "drawn": 4,
+      "lost": 18,
+      "goalsFor": 16,
+      "goalsAgainst": 64,
+      "points": 4
+    },
+    {
       "id": "eibar-la-liga-2015-2016",
       "manager": "José Luis Mendilibar",
       "place": 14,
@@ -254,6 +458,18 @@
       "goalsFor": 49,
       "goalsAgainst": 61,
       "points": 43
+    },
+    {
+      "id": "eintracht-frankfurt-w-frauen-bundesliga-2023-2024",
+      "manager": "Niko Arnautis",
+      "place": 3,
+      "played": 22,
+      "won": 14,
+      "drawn": 2,
+      "lost": 6,
+      "goalsFor": 42,
+      "goalsAgainst": 25,
+      "points": 44
     },
     {
       "id": "empoli-serie-a-2015-2016",
@@ -280,6 +496,18 @@
       "points": 43
     },
     {
+      "id": "everton-lfc-fa-women-s-super-league-2023-2024",
+      "manager": "Brian Sørensen",
+      "place": 8,
+      "played": 22,
+      "won": 6,
+      "drawn": 5,
+      "lost": 11,
+      "goalsFor": 24,
+      "goalsAgainst": 37,
+      "points": 23
+    },
+    {
       "id": "everton-premier-league-2015-2016",
       "manager": "Roberto Martínez",
       "place": 11,
@@ -292,6 +520,30 @@
       "points": 47
     },
     {
+      "id": "fc-internazionale-milano-w-serie-a-women-2023-2024",
+      "manager": "Rita Guarino",
+      "place": 5,
+      "played": 26,
+      "won": 10,
+      "drawn": 4,
+      "lost": 12,
+      "goalsFor": 45,
+      "goalsAgainst": 46,
+      "points": 34
+    },
+    {
+      "id": "fc-levante-badalona-liga-f-2023-2024",
+      "manager": "Ferrán Cabello",
+      "place": 13,
+      "played": 30,
+      "won": 6,
+      "drawn": 10,
+      "lost": 14,
+      "goalsFor": 38,
+      "goalsAgainst": 58,
+      "points": 28
+    },
+    {
       "id": "fiorentina-serie-a-2015-2016",
       "manager": "Paulo Sousa",
       "place": 5,
@@ -302,6 +554,18 @@
       "goalsFor": 60,
       "goalsAgainst": 42,
       "points": 64
+    },
+    {
+      "id": "fiorentina-w-serie-a-women-2023-2024",
+      "manager": "de la Fuente",
+      "place": 3,
+      "played": 26,
+      "won": 12,
+      "drawn": 6,
+      "lost": 8,
+      "goalsFor": 42,
+      "goalsAgainst": 40,
+      "points": 42
     },
     {
       "id": "frosinone-serie-a-2015-2016",
@@ -364,6 +628,18 @@
       "points": 39
     },
     {
+      "id": "granada-w-liga-f-2023-2024",
+      "manager": "Roger Lamesa",
+      "place": 14,
+      "played": 30,
+      "won": 8,
+      "drawn": 3,
+      "lost": 19,
+      "goalsFor": 33,
+      "goalsAgainst": 58,
+      "points": 27
+    },
+    {
       "id": "guingamp-ligue-1-2015-2016",
       "manager": "Jocelyn Gourvennec",
       "place": 16,
@@ -388,6 +664,18 @@
       "points": 28
     },
     {
+      "id": "hoffenheim-w-frauen-bundesliga-2023-2024",
+      "manager": "Stephan Lerch",
+      "place": 5,
+      "played": 22,
+      "won": 10,
+      "drawn": 4,
+      "lost": 8,
+      "goalsFor": 43,
+      "goalsAgainst": 35,
+      "points": 34
+    },
+    {
       "id": "inter-milan-serie-a-2015-2016",
       "manager": "Roberto Mancini",
       "place": 4,
@@ -410,6 +698,30 @@
       "goalsFor": 75,
       "goalsAgainst": 20,
       "points": 91
+    },
+    {
+      "id": "juventus-w-serie-a-women-2023-2024",
+      "manager": "Joseph Montemurro",
+      "place": 2,
+      "played": 26,
+      "won": 19,
+      "drawn": 2,
+      "lost": 5,
+      "goalsFor": 65,
+      "goalsAgainst": 27,
+      "points": 59
+    },
+    {
+      "id": "koln-frauen-bundesliga-2023-2024",
+      "manager": "Daniel Weber",
+      "place": 10,
+      "played": 22,
+      "won": 5,
+      "drawn": 3,
+      "lost": 14,
+      "goalsFor": 25,
+      "goalsAgainst": 43,
+      "points": 18
     },
     {
       "id": "las-palmas-la-liga-2015-2016",
@@ -448,6 +760,30 @@
       "points": 81
     },
     {
+      "id": "leicester-city-wfc-fa-women-s-super-league-2023-2024",
+      "manager": "Willie Kirk",
+      "place": 10,
+      "played": 22,
+      "won": 4,
+      "drawn": 6,
+      "lost": 12,
+      "goalsFor": 26,
+      "goalsAgainst": 45,
+      "points": 18
+    },
+    {
+      "id": "levante-ud-femenino-liga-f-2023-2024",
+      "manager": "José Luis Sánchez",
+      "place": 4,
+      "played": 30,
+      "won": 17,
+      "drawn": 9,
+      "lost": 4,
+      "goalsFor": 59,
+      "goalsAgainst": 28,
+      "points": 60
+    },
+    {
       "id": "levante-ud-la-liga-2015-2016",
       "manager": "Rubí",
       "place": 20,
@@ -484,6 +820,18 @@
       "points": 60
     },
     {
+      "id": "liverpool-wfc-fa-women-s-super-league-2023-2024",
+      "manager": "Matt Beard",
+      "place": 4,
+      "played": 22,
+      "won": 12,
+      "drawn": 5,
+      "lost": 5,
+      "goalsFor": 36,
+      "goalsAgainst": 28,
+      "points": 41
+    },
+    {
       "id": "lorient-ligue-1-2015-2016",
       "manager": "Sylvain Ripoll",
       "place": 15,
@@ -506,6 +854,18 @@
       "goalsFor": 67,
       "goalsAgainst": 43,
       "points": 65
+    },
+    {
+      "id": "madrid-cff-liga-f-2023-2024",
+      "manager": "Victor Martín",
+      "place": 6,
+      "played": 30,
+      "won": 15,
+      "drawn": 5,
+      "lost": 10,
+      "goalsFor": 61,
+      "goalsAgainst": 54,
+      "points": 50
     },
     {
       "id": "malaga-la-liga-2015-2016",
@@ -532,6 +892,18 @@
       "points": 66
     },
     {
+      "id": "manchester-city-wfc-fa-women-s-super-league-2023-2024",
+      "manager": "Gareth Taylor",
+      "place": 2,
+      "played": 22,
+      "won": 18,
+      "drawn": 1,
+      "lost": 3,
+      "goalsFor": 61,
+      "goalsAgainst": 15,
+      "points": 55
+    },
+    {
       "id": "manchester-united-premier-league-2015-2016",
       "manager": "Louis van Gaal",
       "place": 5,
@@ -542,6 +914,18 @@
       "goalsFor": 49,
       "goalsAgainst": 35,
       "points": 66
+    },
+    {
+      "id": "manchester-united-w-fa-women-s-super-league-2023-2024",
+      "manager": "Marc Skinner",
+      "place": 5,
+      "played": 22,
+      "won": 10,
+      "drawn": 5,
+      "lost": 7,
+      "goalsFor": 42,
+      "goalsAgainst": 32,
+      "points": 35
     },
     {
       "id": "montpellier-ligue-1-2015-2016",
@@ -580,6 +964,18 @@
       "points": 82
     },
     {
+      "id": "napoli-w-serie-a-women-2023-2024",
+      "manager": "Biagio Seno",
+      "place": 9,
+      "played": 26,
+      "won": 2,
+      "drawn": 7,
+      "lost": 17,
+      "goalsFor": 20,
+      "goalsAgainst": 48,
+      "points": 13
+    },
+    {
       "id": "newcastle-united-premier-league-2015-2016",
       "manager": "Steve McClaren",
       "place": 18,
@@ -602,6 +998,18 @@
       "goalsFor": 39,
       "goalsAgainst": 67,
       "points": 34
+    },
+    {
+      "id": "nurnberg-w-frauen-bundesliga-2023-2024",
+      "manager": "Thomas Oostendorp",
+      "place": 11,
+      "played": 22,
+      "won": 4,
+      "drawn": 3,
+      "lost": 15,
+      "goalsFor": 16,
+      "goalsAgainst": 61,
+      "points": 15
     },
     {
       "id": "ogc-nice-ligue-1-2015-2016",
@@ -652,6 +1060,18 @@
       "points": 96
     },
     {
+      "id": "pomigliano-serie-a-women-2023-2024",
+      "manager": "Roberto Carannante",
+      "place": 10,
+      "played": 26,
+      "won": 2,
+      "drawn": 6,
+      "lost": 18,
+      "goalsFor": 23,
+      "goalsAgainst": 65,
+      "points": 12
+    },
+    {
       "id": "rayo-vallecano-la-liga-2015-2016",
       "manager": "Paco Jémez",
       "place": 18,
@@ -662,6 +1082,18 @@
       "goalsFor": 52,
       "goalsAgainst": 73,
       "points": 38
+    },
+    {
+      "id": "rb-leipzig-w-frauen-bundesliga-2023-2024",
+      "manager": "Ş. Uzun",
+      "place": 8,
+      "played": 22,
+      "won": 7,
+      "drawn": 5,
+      "lost": 10,
+      "goalsFor": 26,
+      "goalsAgainst": 41,
+      "points": 26
     },
     {
       "id": "rc-deportivo-la-coruna-la-liga-2015-2016",
@@ -676,6 +1108,18 @@
       "points": 42
     },
     {
+      "id": "real-betis-balompie-liga-f-2023-2024",
+      "manager": "María Pry",
+      "place": 11,
+      "played": 30,
+      "won": 8,
+      "drawn": 6,
+      "lost": 16,
+      "goalsFor": 31,
+      "goalsAgainst": 69,
+      "points": 30
+    },
+    {
       "id": "real-betis-la-liga-2015-2016",
       "manager": "Juan Merino",
       "place": 10,
@@ -688,6 +1132,18 @@
       "points": 45
     },
     {
+      "id": "real-madrid-cf-w-liga-f-2023-2024",
+      "manager": "Alberto Toril",
+      "place": 2,
+      "played": 30,
+      "won": 24,
+      "drawn": 1,
+      "lost": 5,
+      "goalsFor": 74,
+      "goalsAgainst": 33,
+      "points": 73
+    },
+    {
       "id": "real-madrid-la-liga-2015-2016",
       "manager": "Zinédine Zidane",
       "place": 2,
@@ -698,6 +1154,18 @@
       "goalsFor": 110,
       "goalsAgainst": 34,
       "points": 90
+    },
+    {
+      "id": "real-sociedad-de-futbol-liga-f-2023-2024",
+      "manager": "Natalia Arroyo",
+      "place": 8,
+      "played": 30,
+      "won": 9,
+      "drawn": 9,
+      "lost": 12,
+      "goalsFor": 40,
+      "goalsAgainst": 55,
+      "points": 36
     },
     {
       "id": "real-sociedad-la-liga-2015-2016",
@@ -748,6 +1216,18 @@
       "points": 40
     },
     {
+      "id": "sampdoria-w-serie-a-women-2023-2024",
+      "manager": "Salvatore Mango",
+      "place": 8,
+      "played": 26,
+      "won": 8,
+      "drawn": 4,
+      "lost": 14,
+      "goalsFor": 25,
+      "goalsAgainst": 42,
+      "points": 28
+    },
+    {
       "id": "sassuolo-serie-a-2015-2016",
       "manager": "Eusebio Di Francesco",
       "place": 6,
@@ -760,6 +1240,54 @@
       "points": 61
     },
     {
+      "id": "sassuolo-w-serie-a-women-2023-2024",
+      "manager": "Gianpiero Piovani",
+      "place": 4,
+      "played": 26,
+      "won": 11,
+      "drawn": 3,
+      "lost": 12,
+      "goalsFor": 39,
+      "goalsAgainst": 41,
+      "points": 36
+    },
+    {
+      "id": "sc-freiburg-frauen-bundesliga-2023-2024",
+      "manager": "Theresa Merk",
+      "place": 9,
+      "played": 22,
+      "won": 6,
+      "drawn": 6,
+      "lost": 10,
+      "goalsFor": 26,
+      "goalsAgainst": 44,
+      "points": 24
+    },
+    {
+      "id": "sd-eibar-liga-f-2023-2024",
+      "manager": "Yerai Martín",
+      "place": 10,
+      "played": 30,
+      "won": 8,
+      "drawn": 7,
+      "lost": 15,
+      "goalsFor": 22,
+      "goalsAgainst": 48,
+      "points": 31
+    },
+    {
+      "id": "sevilla-fc-liga-f-2023-2024",
+      "manager": "Cristian Toro",
+      "place": 7,
+      "played": 30,
+      "won": 13,
+      "drawn": 5,
+      "lost": 12,
+      "goalsFor": 53,
+      "goalsAgainst": 56,
+      "points": 44
+    },
+    {
       "id": "sevilla-la-liga-2015-2016",
       "manager": "Unai Emery",
       "place": 7,
@@ -770,6 +1298,18 @@
       "goalsFor": 51,
       "goalsAgainst": 50,
       "points": 52
+    },
+    {
+      "id": "sgs-essen-19-68-frauen-bundesliga-2023-2024",
+      "manager": "Markus Högner",
+      "place": 4,
+      "played": 22,
+      "won": 10,
+      "drawn": 5,
+      "lost": 7,
+      "goalsFor": 33,
+      "goalsAgainst": 26,
+      "points": 35
     },
     {
       "id": "southampton-premier-league-2015-2016",
@@ -844,6 +1384,18 @@
       "points": 39
     },
     {
+      "id": "sv-werder-bremen-frauen-bundesliga-2023-2024",
+      "manager": "Thomas Horsch",
+      "place": 7,
+      "played": 22,
+      "won": 8,
+      "drawn": 4,
+      "lost": 10,
+      "goalsFor": 34,
+      "goalsAgainst": 31,
+      "points": 28
+    },
+    {
       "id": "swansea-city-premier-league-2015-2016",
       "manager": "Francesco Guidolin",
       "place": 12,
@@ -880,6 +1432,18 @@
       "points": 70
     },
     {
+      "id": "tottenham-hotspur-women-fa-women-s-super-league-2023-2024",
+      "manager": "Robert Vilahamn",
+      "place": 6,
+      "played": 22,
+      "won": 8,
+      "drawn": 7,
+      "lost": 7,
+      "goalsFor": 31,
+      "goalsAgainst": 36,
+      "points": 31
+    },
+    {
       "id": "toulouse-ligue-1-2015-2016",
       "manager": "Dominique Arribagé",
       "place": 17,
@@ -904,6 +1468,18 @@
       "points": 18
     },
     {
+      "id": "tsv-bayer-04-leverkusen-frauen-bundesliga-2023-2024",
+      "manager": "Robert de Pauw",
+      "place": 6,
+      "played": 22,
+      "won": 8,
+      "drawn": 7,
+      "lost": 7,
+      "goalsFor": 34,
+      "goalsAgainst": 25,
+      "points": 31
+    },
+    {
       "id": "udinese-serie-a-2015-2016",
       "manager": "Stefano Colantuono",
       "place": 17,
@@ -914,6 +1490,18 @@
       "goalsFor": 35,
       "goalsAgainst": 60,
       "points": 39
+    },
+    {
+      "id": "valencia-cf-liga-f-2023-2024",
+      "manager": "Jesús Oliva",
+      "place": 12,
+      "played": 30,
+      "won": 8,
+      "drawn": 5,
+      "lost": 17,
+      "goalsFor": 35,
+      "goalsAgainst": 64,
+      "points": 29
     },
     {
       "id": "valencia-la-liga-2015-2016",
@@ -928,6 +1516,18 @@
       "points": 44
     },
     {
+      "id": "vfl-wolfsburg-wfc-frauen-bundesliga-2023-2024",
+      "manager": "Tommy Stroot",
+      "place": 2,
+      "played": 22,
+      "won": 17,
+      "drawn": 2,
+      "lost": 3,
+      "goalsFor": 67,
+      "goalsAgainst": 19,
+      "points": 53
+    },
+    {
       "id": "villarreal-la-liga-2015-2016",
       "manager": "Marcelino",
       "place": 4,
@@ -938,6 +1538,18 @@
       "goalsFor": 44,
       "goalsAgainst": 35,
       "points": 64
+    },
+    {
+      "id": "villarreal-liga-f-2023-2024",
+      "manager": "Sara Monforte Mestre",
+      "place": 15,
+      "played": 30,
+      "won": 6,
+      "drawn": 7,
+      "lost": 17,
+      "goalsFor": 26,
+      "goalsAgainst": 52,
+      "points": 25
     },
     {
       "id": "watford-premier-league-2015-2016",
@@ -962,6 +1574,18 @@
       "goalsFor": 34,
       "goalsAgainst": 48,
       "points": 43
+    },
+    {
+      "id": "west-ham-united-lfc-fa-women-s-super-league-2023-2024",
+      "manager": "Rehanne Skinner",
+      "place": 11,
+      "played": 22,
+      "won": 3,
+      "drawn": 6,
+      "lost": 13,
+      "goalsFor": 20,
+      "goalsAgainst": 45,
+      "points": 15
     },
     {
       "id": "west-ham-united-premier-league-2015-2016",

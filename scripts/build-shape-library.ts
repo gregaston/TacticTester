@@ -3,26 +3,11 @@ import path from "node:path";
 import { FEATURE_KEYS, featuresFromPlayers, formationKey, type ShapeFeatures } from "../src/compare/features";
 import type { ShapeLibrary, SideSummary } from "../src/compare/types";
 import { placeStatsBombPosition } from "../src/tactics/slots";
+import { SEASONS, type SeasonSpec } from "./seasons";
 
 const ROOT = "https://raw.githubusercontent.com/statsbomb/open-data/master/data";
 const CACHE = path.resolve(".cache/statsbomb");
 const OUT = path.resolve("src/data/shape-library.json");
-
-type SeasonSpec = {
-  competitionId: number;
-  seasonId: number;
-  competition: string;
-  season: string;
-  teams: string[] | null;
-};
-
-const SEASONS: SeasonSpec[] = [
-  { competitionId: 2, seasonId: 27, competition: "Premier League", season: "2015/2016", teams: null },
-  { competitionId: 11, seasonId: 27, competition: "La Liga", season: "2015/2016", teams: null },
-  { competitionId: 12, seasonId: 27, competition: "Serie A", season: "2015/2016", teams: null },
-  { competitionId: 7, seasonId: 27, competition: "Ligue 1", season: "2015/2016", teams: null },
-  { competitionId: 2, seasonId: 44, competition: "Premier League", season: "2003/2004", teams: ["Arsenal"] },
-];
 
 type MatchRow = {
   match_id: number;

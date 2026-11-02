@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { SEASONS, type SeasonSpec } from "./seasons";
 
 /**
  * Season style fingerprints from StatsBomb open data.
@@ -40,22 +41,6 @@ import path from "node:path";
 const ROOT = "https://raw.githubusercontent.com/statsbomb/open-data/master/data";
 const CACHE = path.resolve(".cache/statsbomb");
 const OUT = path.resolve("src/data/style-library.json");
-
-type SeasonSpec = {
-  competitionId: number;
-  seasonId: number;
-  competition: string;
-  season: string;
-  teams: string[] | null;
-};
-
-const SEASONS: SeasonSpec[] = [
-  { competitionId: 2, seasonId: 27, competition: "Premier League", season: "2015/2016", teams: null },
-  { competitionId: 11, seasonId: 27, competition: "La Liga", season: "2015/2016", teams: null },
-  { competitionId: 12, seasonId: 27, competition: "Serie A", season: "2015/2016", teams: null },
-  { competitionId: 7, seasonId: 27, competition: "Ligue 1", season: "2015/2016", teams: null },
-  { competitionId: 2, seasonId: 44, competition: "Premier League", season: "2003/2004", teams: ["Arsenal"] },
-];
 
 type MatchRow = {
   match_id: number;

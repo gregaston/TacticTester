@@ -1,25 +1,10 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { loadShapeLibrary } from "../src/data/shape-library";
+import { SEASONS, type SeasonSpec } from "./seasons";
 
 const CACHE = path.resolve(".cache/statsbomb");
 const OUT = path.resolve("src/data/season-records.json");
-
-type SeasonSpec = {
-  file: string;
-  competition: string;
-  season: string;
-  tieBreak: "goalDifference" | "headToHead";
-  arsenalOnly?: boolean;
-};
-
-const SEASONS: SeasonSpec[] = [
-  { file: "matches-2-27.json", competition: "Premier League", season: "2015/2016", tieBreak: "goalDifference" },
-  { file: "matches-11-27.json", competition: "La Liga", season: "2015/2016", tieBreak: "headToHead" },
-  { file: "matches-12-27.json", competition: "Serie A", season: "2015/2016", tieBreak: "headToHead" },
-  { file: "matches-7-27.json", competition: "Ligue 1", season: "2015/2016", tieBreak: "goalDifference" },
-  { file: "matches-2-44.json", competition: "Premier League", season: "2003/2004", tieBreak: "goalDifference", arsenalOnly: true },
-];
 
 /**
  * StatsBomb's 2015/16 Ligue 1 file has 377 of 380 matches. These three return
@@ -53,6 +38,7 @@ const SHORT_NAMES: Record<string, string> = {
   "Ricardo Miguel Moreira da Costa": "Ricardo Costa",
   "Víctor Sánchez del Amo": "Víctor Sánchez",
   "Diego Pablo Simeone": "Diego Simeone",
+  "Sebastián de la Fuente": "de la Fuente",
 };
 
 type Manager = { name: string; nickname: string | null };
@@ -98,8 +84,8 @@ type Standing = {
 async function main(): Promise<void> {
   const records: Standing[] = [];
   for (const spec of SEASONS) {
-    const rows = JSON.parse(await readFile(path.join(CACHE, spec.file), "utf8")) as MatchRow[];
-    if (spec.competition === "Ligue 1") {
+    const rows = JSON.parse(await readFile(path.join(CACHE, `matches-${spec.competitionId}-${spec.seasonId}.json`), "utf8")) as MatchRow[];
+    if (spec.fillLigue201516) {
       for (const extra of LIGUE_1_MISSING) {
         rows.push({
           match_date: extra.date,
@@ -111,19 +97,31 @@ async function main(): Promise<void> {
       }
     }
     const table = standings(rows, spec);
-    if (spec.arsenalOnly) {
-      const arsenal = table.find((row) => row.team === "Arsenal");
-      if (!arsenal) throw new Error("Arsenal are missing from 2003/04");
-      records.push(toRecord(arsenal, spec, 1));
+    const kept = spec.teams ? table.filter((row) => spec.teams?.includes(row.team)) : table;
+    if (spec.teams && kept.length !== spec.teams.length) {
+      throw new Error(`${spec.competition} ${spec.season} is missing ${spec.teams.filter((team) => !kept.some((row) => row.team === team)).join(", ")}`);
+    }
+    for (const row of kept) {
+      if (row.played !== spec.matchesEach) {
+        throw new Error(`${row.team} ${spec.season} played ${row.played}, expected ${spec.matchesEach}`);
+      }
+    }
+    if (spec.publishedPlace != null) {
+      if (kept.length !== 1) throw new Error(`${spec.competition} ${spec.season} needs one club for a published place`);
+      records.push(toRecord(kept[0], spec, spec.publishedPlace));
       continue;
     }
-    table.forEach((row, index) => records.push(toRecord(row, spec, index + 1)));
+    const ordered = spec.splitAfter ? splitPlaces(rows, spec) : kept;
+    ordered.forEach((row, index) => records.push(toRecord(row, spec, index + 1)));
   }
 
   const library = loadShapeLibrary();
+  const shapeIds = new Set(library.sides.map((side) => side.id));
   const byId = new Map(records.map((row) => [row.id, row]));
   const missing = library.sides.filter((side) => !byId.has(side.id)).map((side) => side.id);
   if (missing.length > 0) throw new Error(`No record for ${missing.join(", ")}`);
+  const extra = records.filter((row) => !shapeIds.has(row.id)).map((row) => row.id);
+  if (extra.length > 0) throw new Error(`No shape for ${extra.join(", ")}`);
 
   const long = records.filter((row) => row.manager.split(" ").length > 3).map((row) => row.manager);
   if (long.length > 0) throw new Error(`Manager names still long: ${[...new Set(long)].join("; ")}`);
@@ -131,12 +129,26 @@ async function main(): Promise<void> {
   const file = {
     source: "StatsBomb open data",
     sourceUrl: "https://github.com/statsbomb/open-data",
-    note: "Wins, draws, losses, goals, and points are counted from each season's matches. Places follow that league's tie-break. Three Ligue 1 2015/16 fixtures missing from the open data are filled from the published results. Arsenal 2003/04 contains only Arsenal's matches, so their place is the published final standing.",
+    note: "Wins, draws, losses, goals, and points are counted from each season's matches. Places follow that league's tie-break. Three Ligue 1 2015/16 fixtures missing from the open data are filled from the published results. Arsenal 2003/04 and Bayer Leverkusen's two Bundesliga seasons contain only that club's matches, so their place is the published final standing. Serie A Women 2023/24 keeps the championship group above the relegation group.",
     sides: records.sort((a, b) => a.id.localeCompare(b.id)),
   };
   await mkdir(path.dirname(OUT), { recursive: true });
   await writeFile(OUT, `${JSON.stringify(file, null, 2)}\n`);
   console.log(`Wrote ${records.length} records`);
+}
+
+function splitPlaces(rows: MatchRow[], spec: SeasonSpec): Tally[] {
+  const split = spec.splitAfter;
+  if (!split) return standings(rows, spec);
+  const dated = [...rows].sort((a, b) => a.match_date.localeCompare(b.match_date));
+  if (dated.length <= split.matches) throw new Error(`${spec.competition} ${spec.season} has no split`);
+  const regular = standings(dated.slice(0, split.matches), spec);
+  const top = new Set(regular.slice(0, split.groupSize).map((row) => row.team));
+  const finalTable = standings(rows, spec);
+  const upper = finalTable.filter((row) => top.has(row.team));
+  const lower = finalTable.filter((row) => !top.has(row.team));
+  if (upper.length !== split.groupSize) throw new Error(`${spec.competition} ${spec.season} split is short`);
+  return [...upper, ...lower];
 }
 
 function standings(rows: MatchRow[], spec: SeasonSpec): Tally[] {

@@ -91,11 +91,11 @@ describe("testTactic", () => {
       seed: 1,
     });
 
-    expect(result.tested).toBe(81);
+    expect(result.tested).toBe(133);
     expect(result.weakest).toHaveLength(3);
     expect(result.weakest[0].margin).toBeGreaterThanOrEqual(result.weakest[1].margin);
     expect(result.weakest[0].why.length).toBeGreaterThan(20);
     expect(`${result.summary} ${result.weakest.map((row) => row.why).join(" ")}`).not.toMatch(/score|very close/i);
-    expect(result.summary).toMatch(/81/);
+    expect(result.summary).toMatch(/133/);
   });
 });
