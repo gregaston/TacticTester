@@ -355,74 +355,81 @@ export function App() {
             ) : null}
           </span>
         </section>
-        <div className="pitch-frame">
-          <div className="pitch-rail">
-            <LineSlider
-              name="Engagement"
-              mark="Eng"
-              half="attack"
-              y={engagementY}
-              face={engagementStop.face}
-              valueText={engagementStop.label}
-              stops={ENGAGEMENT_STOPS}
-              onLive={(y) => liveLine("engagement", y)}
-              onCommit={(y) => commitLine("engagement", y)}
-              onSelect={(value) => selectLine("engagement", value as Engagement)}
-            />
-            <LineSlider
-              name="Defensive line"
-              mark="Line"
-              half="defend"
-              y={defensiveY}
-              face={defensiveStop.face}
-              valueText={defensiveStop.label}
-              stops={DEFENSIVE_STOPS}
-              onLive={(y) => liveLine("defensive", y)}
-              onCommit={(y) => commitLine("defensive", y)}
-              onSelect={(value) => selectLine("defensive", value as LineHeight)}
+        <div className="bench">
+          <div className="pitch-frame">
+            <div className="pitch-rail">
+              <LineSlider
+                name="Engagement"
+                mark="Eng"
+                half="attack"
+                y={engagementY}
+                face={engagementStop.face}
+                valueText={engagementStop.label}
+                stops={ENGAGEMENT_STOPS}
+                onLive={(y) => liveLine("engagement", y)}
+                onCommit={(y) => commitLine("engagement", y)}
+                onSelect={(value) => selectLine("engagement", value as Engagement)}
+              />
+              <LineSlider
+                name="Defensive line"
+                mark="Line"
+                half="defend"
+                y={defensiveY}
+                face={defensiveStop.face}
+                valueText={defensiveStop.label}
+                stops={DEFENSIVE_STOPS}
+                onLive={(y) => liveLine("defensive", y)}
+                onCommit={(y) => commitLine("defensive", y)}
+                onSelect={(value) => selectLine("defensive", value as LineHeight)}
+              />
+            </div>
+            <Pitch
+              players={visualPlayers}
+              labels={labels}
+              faces={faces}
+              heat={heat}
+              engagementY={engagementY}
+              defensiveY={defensiveY}
+              selectedId={board.selectedId}
+              onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
+              onDeselect={() => {
+                setPreview(null);
+                setBoard((state) => selectPlayer(state, null));
+              }}
+              onPreview={(id, point) => setPreview({ id, ...point })}
+              onCommit={commit}
             />
           </div>
-          <Pitch
-            players={visualPlayers}
-            labels={labels}
-            faces={faces}
-            heat={heat}
-            engagementY={engagementY}
-            defensiveY={defensiveY}
-            selectedId={board.selectedId}
-            onSelect={(id) => setBoard((state) => selectPlayer(state, id))}
-            onDeselect={() => {
-              setPreview(null);
-              setBoard((state) => selectPlayer(state, null));
-            }}
-            onPreview={(id, point) => setPreview({ id, ...point })}
-            onCommit={commit}
+          {selected && roleId ? (
+            <RoleSheet
+              positionName={selected.name}
+              roles={roleChoices}
+              roleId={roleId}
+              arrival={arrival}
+              refused={refused}
+              onRole={assign}
+            />
+          ) : (
+            <section className="role-wait" aria-label="Player role">
+              <p className="kicker">Player role</p>
+              <p>Select a player.</p>
+            </section>
+          )}
+          <InstructionSheet
+            passing={PASSING}
+            tempo={TEMPO}
+            width={WIDTH}
+            pressing={PRESSING}
+            mentality={MENTALITY}
+            transition={TRANSITION}
+            distribution={DISTRIBUTION}
+            widthIntention={WIDTH_INTENTION}
+            shooting={SHOOTING}
+            value={instructions}
+            notes={instructionNotes(instructions)}
+            onChange={setInstructions}
           />
         </div>
-        {selected && roleId ? (
-          <RoleSheet
-            positionName={selected.name}
-            roles={roleChoices}
-            roleId={roleId}
-            arrival={arrival}
-            refused={refused}
-            onRole={assign}
-          />
-        ) : null}
-        <InstructionSheet
-          passing={PASSING}
-          tempo={TEMPO}
-          width={WIDTH}
-          pressing={PRESSING}
-          mentality={MENTALITY}
-          transition={TRANSITION}
-          distribution={DISTRIBUTION}
-          widthIntention={WIDTH_INTENTION}
-          shooting={SHOOTING}
-          value={instructions}
-          notes={instructionNotes(instructions)}
-          onChange={setInstructions}
-        />
         <ClosestSide match={match} />
         <TestSheet
           label={`${board.templateId ?? summary} · ${instructions.mentality}`}
