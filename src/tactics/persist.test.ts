@@ -21,7 +21,7 @@ function tactic(): SavedTactic {
     templateId: null,
     freePlacement: false,
     setups: {
-      st: { roleId: "poacher", duty: "attack" },
+      st: { roleId: "poacher" },
     },
     instructions: {
       passing: "more direct",
@@ -51,8 +51,18 @@ describe("loadTactic", () => {
     expect([...storage.items.keys()]).toEqual(["tactic-tester"]);
     expect(storage.items.get("tactic-tester")).toBe(JSON.stringify(saved));
     expect(loadTactic(storage)).toEqual(saved);
-    expect(loadTactic(storage)?.setups.st).toEqual({ roleId: "poacher", duty: "attack" });
+    expect(loadTactic(storage)?.setups.st).toEqual({ roleId: "poacher" });
     expect(loadTactic(storage)?.instructions.passing).toBe("more direct");
+  });
+
+  it("keeps the role when an older tactic also stored a duty", () => {
+    const storage = memoryStorage();
+    const saved = tactic();
+    storage.setItem(
+      "tactic-tester",
+      JSON.stringify({ ...saved, setups: { st: { roleId: "poacher", duty: "attack" } } }),
+    );
+    expect(loadTactic(storage)?.setups.st).toEqual({ roleId: "poacher" });
   });
 
   it("returns null when the key is missing, the JSON is bad, or the version is not 1", () => {
@@ -89,7 +99,7 @@ describe("decodeTactic", () => {
     expect(hash.endsWith("=")).toBe(false);
     expect(decodeTactic(hash)).toEqual(saved);
     expect(decodeTactic(`#${hash}`)).toEqual(saved);
-    expect(decodeTactic(hash)?.setups.st).toEqual({ roleId: "poacher", duty: "attack" });
+    expect(decodeTactic(hash)?.setups.st).toEqual({ roleId: "poacher" });
     expect(decodeTactic(`#${hash}`)?.instructions.pressing).toBe("more");
   });
 

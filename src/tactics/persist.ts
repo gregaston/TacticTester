@@ -5,7 +5,7 @@ export type SavedTactic = {
   players: { id: string; x: number; y: number }[];
   templateId: string | null;
   freePlacement: boolean;
-  setups: Record<string, { roleId: string; duty: "defend" | "support" | "attack" }>;
+  setups: Record<string, { roleId: string }>;
   instructions: {
     passing: string;
     tempo: string;
@@ -61,7 +61,13 @@ export function decodeTactic(hash: string): SavedTactic | null {
 function parseTactic(raw: string): SavedTactic | null {
   try {
     const value: unknown = JSON.parse(raw);
-    return isSavedTactic(value) ? value : null;
+    if (!isSavedTactic(value)) return null;
+    return {
+      ...value,
+      setups: Object.fromEntries(
+        Object.entries(value.setups).map(([id, setup]) => [id, { roleId: setup.roleId }]),
+      ),
+    };
   } catch {
     return null;
   }
@@ -91,9 +97,7 @@ function isSetups(value: unknown): value is SavedTactic["setups"] {
   if (!isRecord(value)) return false;
   return Object.values(value).every(
     (setup) =>
-      isRecord(setup) &&
-      typeof setup.roleId === "string" &&
-      (setup.duty === "defend" || setup.duty === "support" || setup.duty === "attack"),
+      isRecord(setup) && typeof setup.roleId === "string",
   );
 }
 

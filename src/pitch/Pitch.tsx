@@ -1,6 +1,5 @@
 import { useEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
 import type { PlayerLabel, SquadLabels } from "../tactics/positions";
-import type { Duty } from "../tactics/roles";
 import type { PitchPoint, Player } from "../tactics/types";
 import { BlockGuides } from "./BlockGuides";
 import { Grass } from "./Grass";
@@ -13,7 +12,6 @@ import "./pitch.css";
 export type TokenFace = {
   mark: string;
   roleName: string;
-  duty: Duty;
 };
 
 type PitchProps = {
@@ -119,7 +117,6 @@ export function Pitch({
               label={labels.byId[player.id] as PlayerLabel}
               mark={face.mark}
               roleName={face.roleName}
-              duty={face.duty}
               selected={player.id === selectedId}
               onGrab={(event) => grab(player.id, event)}
               onTap={() => (player.id === selectedId ? onDeselect() : onSelect(player.id))}

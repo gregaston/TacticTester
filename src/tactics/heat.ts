@@ -1,6 +1,6 @@
 import { arrivalPoint } from "./arrival";
 import { applyInstructions, pressNudge, type TeamInstructions } from "./instructions";
-import { effectFor, type Duty, type RoleId } from "./roles";
+import { effectFor, type RoleId } from "./roles";
 import type { Line, PitchPoint } from "./types";
 
 /**
@@ -65,7 +65,6 @@ export type HeatSource = {
   y: number;
   line: Line;
   roleId: RoleId;
-  duty: Duty;
 };
 
 type Kernel = { dx: number; dy: number; sx: number; sy: number; w: number };
@@ -121,13 +120,10 @@ export function heatField(
   const stretch = (lines.engagementY - lines.defensiveY) / STANDARD_GAP;
 
   for (const player of players) {
-    const support = effectFor(player.roleId, "support");
-    const played = effectFor(player.roleId, player.duty);
+    const played = effectFor(player.roleId);
     const outward = player.x < 50 ? -1 : 1;
     const flank = (player.x - 50) / WIDTH_CHANNEL;
     const widthPush = team.width * flank * 0.7;
-    const shiftX = (played.x - support.x) * 0.55;
-    const shiftY = (played.y - support.y) * 0.65;
     const pressLift = press * played.pressing * 0.5;
     const shotLift = (team.shotVolume - 1) * 32 * SHOT_LIFT[player.line];
     for (const kernel of FOOTPRINTS[player.roleId]) {
@@ -136,8 +132,8 @@ export function heatField(
       const wide = Math.abs(player.x - 50) > 18;
       const sxScale = wide ? 1 - team.width * 0.01 : 1 + Math.abs(team.width) * 0.006;
       addKernel(field, {
-        cx: player.x + outward * (kernel.dx + shiftX) + widthPush,
-        cy: player.y + kernel.dy + shiftY + pressLift + shotLift,
+        cx: player.x + outward * kernel.dx + widthPush,
+        cy: player.y + kernel.dy + pressLift + shotLift,
         sx: Math.max(3.2, kernel.sx * size * Math.max(0.75, sxScale)),
         sy: Math.max(2.6, kernel.sy * size * Math.max(0.65, lengthScale)),
         w: kernel.w,

@@ -6,7 +6,7 @@ import { arrivalNote, arrivalPoint, hasArrivalMark } from "./arrival";
 describe("arrivalPoint", () => {
   it("mirrors a negative x so a left winger tucks toward the centre", () => {
     const slot = SLOTS.LW;
-    const effect = effectFor("inside-forward", "attack");
+    const effect = effectFor("inside-forward");
     expect(effect.x).toBeLessThan(0);
     expect(arrivalPoint(slot, effect)).toEqual({ x: slot.x - effect.x, y: slot.y + effect.y });
     const arrival = arrivalPoint({ x: 14, y: 72 }, { x: -8, y: 12 });
@@ -17,7 +17,7 @@ describe("arrivalPoint", () => {
 
   it("keeps a positive x so a right full-back moves toward the right touchline", () => {
     const slot = SLOTS.DR;
-    const effect = effectFor("full-back", "attack");
+    const effect = effectFor("full-back");
     expect(effect.x).toBeGreaterThan(0);
     expect(arrivalPoint(slot, effect)).toEqual({ x: slot.x + effect.x, y: slot.y + effect.y });
     const arrival = arrivalPoint({ x: 86, y: 24 }, { x: 6, y: 8 });

@@ -102,7 +102,7 @@ export function roleShots(players: ProfilePlayer[]): ShotSpot[] {
   const spots = players
     .filter((player) => player.line !== "GK")
     .map((player) => {
-      const effect = effectFor(player.roleId, player.duty);
+      const effect = effectFor(player.roleId);
       const arrival = arrivalPoint({ x: player.x, y: player.y }, effect);
       const pull = 8 + (1 - effect.shooting) * 10;
       return {

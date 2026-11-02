@@ -45,38 +45,12 @@
   touch-action: manipulation;
 }
 
-.role-duties {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.role-duties button {
-  min-width: 0;
-  min-height: var(--target);
-  border: 0;
-  border-radius: var(--radius);
-  background: var(--paper);
-  color: var(--plum);
-  box-shadow: var(--shadow);
-  padding: 0 4px;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  text-transform: uppercase;
-}
-
-.role-duties button[aria-pressed="true"],
 .role-list button[aria-pressed="true"] {
   background: var(--plum);
   color: var(--on-plum);
   box-shadow: var(--shadow-accent);
 }
 
-.role-duties button:active,
 .role-list button:active {
   transform: translateY(2px);
 }

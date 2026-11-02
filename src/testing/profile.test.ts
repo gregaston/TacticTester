@@ -3,7 +3,6 @@ import { loadStyleLibrary } from "../data/style-library";
 import { createBoard, movePlayer } from "../tactics/board";
 import { DEFAULT_INSTRUCTIONS, type TeamInstructions } from "../tactics/instructions";
 import { labelSquad } from "../tactics/positions";
-import type { Duty } from "../tactics/roles";
 import { playersFromBoard, readStyle, shotMapCells, type Assignment } from "./profile";
 import type { StyleFingerprint } from "./types";
 
@@ -100,25 +99,25 @@ describe("readStyle", () => {
     expect(result.lines.join(" ")).not.toMatch(/deeper than .+ the deepest side in this set/);
   });
 
-  it("moves poachers onto the goal and a deep forward away from it", () => {
+  it("moves poachers closer to goal than a deep forward", () => {
     const board = createBoard();
     const labels = labelSquad(board.players);
     const strikers = board.players.filter((player) => labels.byId[player.id].line === "ST");
-    const duty = (roleId: string, next: Duty): Record<string, Assignment> =>
-      Object.fromEntries(strikers.map((player) => [player.id, { roleId, duty: next }]));
+    const roles = (roleId: string): Record<string, Assignment> =>
+      Object.fromEntries(strikers.map((player) => [player.id, { roleId }]));
     const poach = readStyle(
-      playersFromBoard(board.players, labels, duty("poacher", "attack")),
+      playersFromBoard(board.players, labels, roles("poacher")),
       DEFAULT_INSTRUCTIONS,
       library.sides,
     );
     const hold = readStyle(
-      playersFromBoard(board.players, labels, duty("deep-lying-forward", "defend")),
+      playersFromBoard(board.players, labels, roles("deep-lying-forward")),
       DEFAULT_INSTRUCTIONS,
       library.sides,
     );
     expect(poach.profile.shotY).toBeGreaterThan(hold.profile.shotY);
-    expect(poach.lines[0]).toMatch(/inside the six-yard box/);
-    expect(hold.lines[0]).not.toMatch(/six-yard/);
+    expect(poach.lines[0]).toMatch(/inside the box/);
+    expect(hold.lines[0]).not.toMatch(/inside the box/);
     expect(poach.profile.shotsPerMatch).toBeGreaterThan(hold.profile.shotsPerMatch);
   });
 
@@ -127,7 +126,7 @@ describe("readStyle", () => {
     const labels = labelSquad(board.players);
     const centres = board.players.filter((player) => labels.byId[player.id].code === "DC");
     const setups = Object.fromEntries(
-      centres.map((player) => [player.id, { roleId: "ball-playing-defender", duty: "support" as const }]),
+      centres.map((player) => [player.id, { roleId: "ball-playing-defender" }]),
     );
     const plain = reading();
     const builders = reading(DEFAULT_INSTRUCTIONS, setups);
