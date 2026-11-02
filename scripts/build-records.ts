@@ -129,7 +129,7 @@ async function main(): Promise<void> {
   const file = {
     source: "StatsBomb open data",
     sourceUrl: "https://github.com/statsbomb/open-data",
-    note: "Wins, draws, losses, goals, and points are counted from each season's matches. Places follow that league's tie-break. Three Ligue 1 2015/16 fixtures missing from the open data are filled from the published results. Arsenal 2003/04 and Bayer Leverkusen's two Bundesliga seasons contain only that club's matches, so their place is the published final standing. Serie A Women 2023/24 keeps the championship group above the relegation group.",
+    note: "Wins, draws, losses, goals, and points are counted from each season's matches. Places follow that league's tie-break. Three Ligue 1 2015/16 fixtures missing from the open data are filled from the published results. Arsenal 2003/04 and Bayer Leverkusen's two Bundesliga seasons contain only that club's matches, so their place is the published final standing.",
     sides: records.sort((a, b) => a.id.localeCompare(b.id)),
   };
   await mkdir(path.dirname(OUT), { recursive: true });

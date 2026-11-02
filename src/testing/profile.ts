@@ -1,6 +1,6 @@
 import { formatSeason } from "../compare/format";
 import { applyInstructions, DEFAULT_INSTRUCTIONS, type TeamInstructions } from "../tactics/instructions";
-import { ROLES, effectFor, rolesFor, type Duty, type RoleId } from "../tactics/roles";
+import { ROLES, effectFor, rolesFor, type RoleId } from "../tactics/roles";
 import type { SquadLabels } from "../tactics/positions";
 import type { Line, Player, PositionCode } from "../tactics/types";
 import { shotSentence } from "./run";
@@ -12,7 +12,7 @@ import type { StyleFingerprint } from "./types";
  *
  * Pass length starts at the median completed pass in the set. The team
  * passing instruction adds its yards. A role adds the yards it differs by
- * from that position's usual support role, so an untouched side stays in
+ * from the usual role for that position, so an untouched side stays in
  * the middle. Shorter, on its own, lands on the shortest side in the set.
  * More direct, on its own, lands on the longest. Go long or Play out on
  * top of those can step just past the set, and the instruction note says so.
@@ -68,7 +68,7 @@ export function shotMapCells(grid: number[][]): number[] {
 export const STYLE_NOTE =
   "Pass length, shots, and the height of defensive actions use the same scale as these StatsBomb seasons. Where the shots come from is read off the roles, not from a tracked shot map.";
 
-export type Assignment = { roleId: string; duty: Duty };
+export type Assignment = { roleId: string };
 
 export type ProfilePlayer = {
   x: number;
@@ -77,7 +77,6 @@ export type ProfilePlayer = {
   wide: boolean;
   left: boolean;
   roleId: RoleId;
-  duty: Duty;
 };
 
 export type StyleProfile = {
@@ -94,16 +93,15 @@ export type StyleReading = {
   lines: string[];
 };
 
-export function resolveRole(line: Line, wide: boolean, stored?: Assignment): { roleId: RoleId; duty: Duty } {
+export function resolveRole(line: Line, wide: boolean, stored?: Assignment): RoleId {
   const preferred = rolesFor(line, wide);
   const choices = preferred.length > 0 ? preferred : rolesFor(line, !wide);
-  const duty = stored?.duty ?? "support";
   const chosen =
     choices.find((role) => role.id === stored?.roleId) ??
     choices[0] ??
     ROLES.find((role) => role.lines.includes(line)) ??
     ROLES[0];
-  return { roleId: chosen.id, duty };
+  return chosen.id;
 }
 
 export function playersFromBoard(
@@ -113,15 +111,13 @@ export function playersFromBoard(
 ): ProfilePlayer[] {
   return players.map((player) => {
     const label = labels.byId[player.id];
-    const choice = resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]);
     return {
       x: player.x,
       y: player.y,
       line: label.line,
       wide: WIDE_CODES.has(label.code),
       left: player.x < 50,
-      roleId: choice.roleId,
-      duty: choice.duty,
+      roleId: resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]),
     };
   });
 }
@@ -306,8 +302,8 @@ function controlName(field: string, value: string): string | null {
 }
 
 function delta(player: ProfilePlayer, key: "passLength" | "pressing" | "shooting"): number {
-  const chosen = effectFor(player.roleId, player.duty);
-  const base = effectFor(resolveRole(player.line, player.wide).roleId, "support");
+  const chosen = effectFor(player.roleId);
+  const base = effectFor(resolveRole(player.line, player.wide));
   return chosen[key] - base[key];
 }
 
@@ -315,7 +311,7 @@ function shotSpot(players: ProfilePlayer[], width: number): { x: number; y: numb
   let x = 0;
   let y = 0;
   for (const player of players) {
-    const effect = effectFor(player.roleId, player.duty);
+    const effect = effectFor(player.roleId);
     const dx = player.left ? -effect.x : effect.x;
     const away = player.x === 50 ? 0 : player.x > 50 ? 1 : -1;
     x += clamp(player.x + dx + away * width, 0, 100);

@@ -135,25 +135,11 @@
   pointer-events: none;
 }
 
-.token .duty {
-  fill: var(--plum);
-  pointer-events: none;
-}
-
-.token.duty-defend .disc {
-  fill: #e4eef8;
-}
-
-.token.duty-attack .disc {
-  fill: #fff1d6;
-}
-
 .token.selected .disc {
   fill: var(--accent);
   stroke: var(--plum);
 }
 
-.token.selected text,
-.token.selected .duty {
+.token.selected text {
   fill: var(--plum-deep);
 }
