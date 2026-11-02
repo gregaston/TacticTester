@@ -149,6 +149,43 @@ describe("closestMatch", () => {
   });
 });
 
+describe("recorded figures on the card", () => {
+  it("names an in-game shape only when it differs from the start and is common", () => {
+    const user = featuresFromPlayers(createBoard().players);
+    const profile = profileFor();
+    const shape = shapes[0];
+    const style = styles[0];
+    const record = records.find((side) => side.id === shape.id)!;
+    const changed: SideSummary = { ...shape, formationKey: "4-0-4-0-2", shiftKey: "4-0-3-0-3", shiftShare: 0.42 };
+    expect(closestMatch(user, profile, [changed], [style], [record])?.shift).toBe(
+      "After kickoff they most often become 4-3-3, in 42% of matches.",
+    );
+    expect(closestMatch(user, profile, [{ ...changed, shiftKey: "4-0-4-0-2" }], [style], [record])?.shift).toBeNull();
+    expect(closestMatch(user, profile, [{ ...changed, shiftShare: 0.2 }], [style], [record])?.shift).toBeNull();
+  });
+
+  it("mentions loft only when length and height disagree", () => {
+    const base = styles[0];
+    const passes = [16, 17, 18, 19, 20, 21, 22, 23];
+    const highs = [0.1, 0.12, 0.16, 0.2, 0.24, 0.28, 0.32, 0.4];
+    const library = passes.map((passLength, index) => ({ ...base, id: `set-${index}`, passLength, highPassShare: highs[index] }));
+    const ground = { ...base, id: "ground", passLength: 23, highPassShare: 0.1 };
+    const air = { ...base, id: "air", passLength: 16, highPassShare: 0.4 };
+    const plain = { ...base, id: "plain", passLength: 19, highPassShare: 0.2 };
+    const shapeFor = (id: string): SideSummary => ({ ...shapes[0], id });
+    const recordFor = (id: string) => ({ ...records[0], id });
+    const user = featuresFromPlayers(createBoard().players);
+    const profile = profileFor();
+    expect(closestMatch(user, profile, [shapeFor("ground")], [...library, ground], [recordFor("ground")])?.loft).toBe(
+      "Their longer passes stay on the ground.",
+    );
+    expect(closestMatch(user, profile, [shapeFor("air")], [...library, air], [recordFor("air")])?.loft).toBe(
+      "Their shorter passes are played in the air.",
+    );
+    expect(closestMatch(user, profile, [shapeFor("plain")], [...library, plain], [recordFor("plain")])?.loft).toBeNull();
+  });
+});
+
 describe("records join", () => {
   it("gives every comparable side a record the panel can show", () => {
     const match = closestMatch(featuresFromPlayers(createBoard().players), profileFor(), shapes, styles, records);

@@ -54,6 +54,8 @@ export function ClosestSide({ match }: { match: ClosestMatch | null }) {
       {match.lever ? <p className="difference">{match.lever}</p> : null}
       {match.line ? <p className="difference">{match.line}</p> : null}
       <p className="difference">{match.summary}</p>
+      {match.shift ? <p className="difference">{match.shift}</p> : null}
+      {match.loft ? <p className="difference">{match.loft}</p> : null}
     </section>
   );
 }

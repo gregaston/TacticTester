@@ -1,7 +1,7 @@
 {
   "source": "StatsBomb open data",
   "sourceUrl": "https://github.com/statsbomb/open-data",
-  "note": "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here. Long-pass share, progressive passes per match, and field tilt are computed from StatsBomb open data.",
+  "note": "PPDA-style press rate inspired by the public Hudl definition, not a copy of their database. xG values are StatsBomb's open-data shot xG, shots maps are coarse counts, and lineups are not re-derived here. Long-pass share, progressive passes per match, field tilt, crosses, shots within eight seconds of a recovery, goalkeeper pass length, and high-pass share are computed from StatsBomb open data.",
   "sides": [
     {
       "id": "bayer-leverkusen-1-bundesliga-2015-2016",
@@ -50,7 +50,12 @@
       "ppda": 5.49,
       "longPassShare": 0.15,
       "progressivePerMatch": 55.4,
-      "fieldTilt": 0.6
+      "fieldTilt": 0.6,
+      "crossesPerMatch": 11.35,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 4.5,
+      "keeperPassLength": 45.71,
+      "highPassShare": 0.27
     },
     {
       "id": "bayer-leverkusen-1-bundesliga-2023-2024",
@@ -99,7 +104,12 @@
       "ppda": 9.81,
       "longPassShare": 0.09,
       "progressivePerMatch": 77.7,
-      "fieldTilt": 0.7
+      "fieldTilt": 0.7,
+      "crossesPerMatch": 12.88,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 5.15,
+      "keeperPassLength": 31.18,
+      "highPassShare": 0.1
     },
     {
       "id": "arsenal-wfc-fa-women-s-super-league-2023-2024",
@@ -148,7 +158,12 @@
       "ppda": 6.35,
       "longPassShare": 0.12,
       "progressivePerMatch": 92.1,
-      "fieldTilt": 0.75
+      "fieldTilt": 0.75,
+      "crossesPerMatch": 14.5,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 7.86,
+      "keeperPassLength": 27.07,
+      "highPassShare": 0.15
     },
     {
       "id": "aston-villa-w-fa-women-s-super-league-2023-2024",
@@ -197,7 +212,12 @@
       "ppda": 8.28,
       "longPassShare": 0.12,
       "progressivePerMatch": 45.1,
-      "fieldTilt": 0.46
+      "fieldTilt": 0.46,
+      "crossesPerMatch": 10.77,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 4.55,
+      "keeperPassLength": 29.14,
+      "highPassShare": 0.17
     },
     {
       "id": "brighton-hove-albion-wfc-fa-women-s-super-league-2023-2024",
@@ -246,7 +266,12 @@
       "ppda": 8.29,
       "longPassShare": 0.13,
       "progressivePerMatch": 42.1,
-      "fieldTilt": 0.42
+      "fieldTilt": 0.42,
+      "crossesPerMatch": 9.36,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.23,
+      "keeperPassLength": 32.07,
+      "highPassShare": 0.22
     },
     {
       "id": "bristol-city-wfc-fa-women-s-super-league-2023-2024",
@@ -295,7 +320,12 @@
       "ppda": 12.52,
       "longPassShare": 0.15,
       "progressivePerMatch": 26.7,
-      "fieldTilt": 0.25
+      "fieldTilt": 0.25,
+      "crossesPerMatch": 6.5,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 3.32,
+      "keeperPassLength": 33.31,
+      "highPassShare": 0.28
     },
     {
       "id": "chelsea-fcw-fa-women-s-super-league-2023-2024",
@@ -344,7 +374,12 @@
       "ppda": 6.55,
       "longPassShare": 0.12,
       "progressivePerMatch": 73,
-      "fieldTilt": 0.67
+      "fieldTilt": 0.67,
+      "crossesPerMatch": 16,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 6.5,
+      "keeperPassLength": 32.76,
+      "highPassShare": 0.17
     },
     {
       "id": "everton-lfc-fa-women-s-super-league-2023-2024",
@@ -393,7 +428,12 @@
       "ppda": 9.49,
       "longPassShare": 0.09,
       "progressivePerMatch": 35.9,
-      "fieldTilt": 0.36
+      "fieldTilt": 0.36,
+      "crossesPerMatch": 7.36,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 2.86,
+      "keeperPassLength": 25.88,
+      "highPassShare": 0.16
     },
     {
       "id": "leicester-city-wfc-fa-women-s-super-league-2023-2024",
@@ -442,7 +482,12 @@
       "ppda": 6.45,
       "longPassShare": 0.12,
       "progressivePerMatch": 47.6,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 9.68,
+      "crossShotShare": 0.22,
+      "regainShotsPerMatch": 5.05,
+      "keeperPassLength": 27.05,
+      "highPassShare": 0.2
     },
     {
       "id": "liverpool-wfc-fa-women-s-super-league-2023-2024",
@@ -491,7 +536,12 @@
       "ppda": 7.05,
       "longPassShare": 0.17,
       "progressivePerMatch": 42.9,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 11.86,
+      "crossShotShare": 0.17,
+      "regainShotsPerMatch": 4.45,
+      "keeperPassLength": 36.74,
+      "highPassShare": 0.23
     },
     {
       "id": "manchester-city-wfc-fa-women-s-super-league-2023-2024",
@@ -540,7 +590,12 @@
       "ppda": 6.95,
       "longPassShare": 0.1,
       "progressivePerMatch": 74.2,
-      "fieldTilt": 0.69
+      "fieldTilt": 0.69,
+      "crossesPerMatch": 17.05,
+      "crossShotShare": 0.2,
+      "regainShotsPerMatch": 6.45,
+      "keeperPassLength": 33.04,
+      "highPassShare": 0.13
     },
     {
       "id": "manchester-united-w-fa-women-s-super-league-2023-2024",
@@ -589,7 +644,12 @@
       "ppda": 5.92,
       "longPassShare": 0.12,
       "progressivePerMatch": 54,
-      "fieldTilt": 0.6
+      "fieldTilt": 0.6,
+      "crossesPerMatch": 12.82,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 5.86,
+      "keeperPassLength": 26.98,
+      "highPassShare": 0.18
     },
     {
       "id": "tottenham-hotspur-women-fa-women-s-super-league-2023-2024",
@@ -638,7 +698,12 @@
       "ppda": 8.68,
       "longPassShare": 0.12,
       "progressivePerMatch": 47,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 9.59,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 4.73,
+      "keeperPassLength": 25.63,
+      "highPassShare": 0.16
     },
     {
       "id": "west-ham-united-lfc-fa-women-s-super-league-2023-2024",
@@ -687,7 +752,12 @@
       "ppda": 8.98,
       "longPassShare": 0.16,
       "progressivePerMatch": 42,
-      "fieldTilt": 0.4
+      "fieldTilt": 0.4,
+      "crossesPerMatch": 10.14,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 3.86,
+      "keeperPassLength": 31.96,
+      "highPassShare": 0.22
     },
     {
       "id": "bayern-munchen-w-frauen-bundesliga-2023-2024",
@@ -736,7 +806,12 @@
       "ppda": 4.57,
       "longPassShare": 0.13,
       "progressivePerMatch": 70.5,
-      "fieldTilt": 0.67
+      "fieldTilt": 0.67,
+      "crossesPerMatch": 15.14,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 5.77,
+      "keeperPassLength": 27.91,
+      "highPassShare": 0.16
     },
     {
       "id": "duisburg-wfc-frauen-bundesliga-2023-2024",
@@ -785,7 +860,12 @@
       "ppda": 9.18,
       "longPassShare": 0.18,
       "progressivePerMatch": 28.3,
-      "fieldTilt": 0.31
+      "fieldTilt": 0.31,
+      "crossesPerMatch": 9.27,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 3.23,
+      "keeperPassLength": 37.31,
+      "highPassShare": 0.31
     },
     {
       "id": "eintracht-frankfurt-w-frauen-bundesliga-2023-2024",
@@ -834,7 +914,12 @@
       "ppda": 5.61,
       "longPassShare": 0.13,
       "progressivePerMatch": 64,
-      "fieldTilt": 0.64
+      "fieldTilt": 0.64,
+      "crossesPerMatch": 14.95,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 5.27,
+      "keeperPassLength": 26.83,
+      "highPassShare": 0.17
     },
     {
       "id": "hoffenheim-w-frauen-bundesliga-2023-2024",
@@ -883,7 +968,12 @@
       "ppda": 6.25,
       "longPassShare": 0.15,
       "progressivePerMatch": 52.3,
-      "fieldTilt": 0.52
+      "fieldTilt": 0.52,
+      "crossesPerMatch": 12.5,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 5.45,
+      "keeperPassLength": 30.23,
+      "highPassShare": 0.19
     },
     {
       "id": "koln-frauen-bundesliga-2023-2024",
@@ -932,7 +1022,12 @@
       "ppda": 7.56,
       "longPassShare": 0.13,
       "progressivePerMatch": 39.4,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 8.32,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 4.64,
+      "keeperPassLength": 32.41,
+      "highPassShare": 0.23
     },
     {
       "id": "nurnberg-w-frauen-bundesliga-2023-2024",
@@ -981,7 +1076,12 @@
       "ppda": 8.32,
       "longPassShare": 0.14,
       "progressivePerMatch": 24.4,
-      "fieldTilt": 0.25
+      "fieldTilt": 0.25,
+      "crossesPerMatch": 4.68,
+      "crossShotShare": 0.08,
+      "regainShotsPerMatch": 3.95,
+      "keeperPassLength": 26.89,
+      "highPassShare": 0.28
     },
     {
       "id": "rb-leipzig-w-frauen-bundesliga-2023-2024",
@@ -1030,7 +1130,12 @@
       "ppda": 6.72,
       "longPassShare": 0.14,
       "progressivePerMatch": 35.3,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 6.41,
+      "crossShotShare": 0.07,
+      "regainShotsPerMatch": 4.95,
+      "keeperPassLength": 33.24,
+      "highPassShare": 0.28
     },
     {
       "id": "sc-freiburg-frauen-bundesliga-2023-2024",
@@ -1079,7 +1184,12 @@
       "ppda": 6.23,
       "longPassShare": 0.14,
       "progressivePerMatch": 50.6,
-      "fieldTilt": 0.54
+      "fieldTilt": 0.54,
+      "crossesPerMatch": 11.95,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 5.45,
+      "keeperPassLength": 31.34,
+      "highPassShare": 0.23
     },
     {
       "id": "sgs-essen-19-68-frauen-bundesliga-2023-2024",
@@ -1128,7 +1238,12 @@
       "ppda": 7.07,
       "longPassShare": 0.18,
       "progressivePerMatch": 44.5,
-      "fieldTilt": 0.48
+      "fieldTilt": 0.48,
+      "crossesPerMatch": 11.77,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 5.05,
+      "keeperPassLength": 32.27,
+      "highPassShare": 0.26
     },
     {
       "id": "sv-werder-bremen-frauen-bundesliga-2023-2024",
@@ -1177,7 +1292,12 @@
       "ppda": 5.2,
       "longPassShare": 0.16,
       "progressivePerMatch": 47.3,
-      "fieldTilt": 0.56
+      "fieldTilt": 0.56,
+      "crossesPerMatch": 11.95,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 4.82,
+      "keeperPassLength": 34.25,
+      "highPassShare": 0.27
     },
     {
       "id": "tsv-bayer-04-leverkusen-frauen-bundesliga-2023-2024",
@@ -1226,7 +1346,12 @@
       "ppda": 8.84,
       "longPassShare": 0.14,
       "progressivePerMatch": 40.8,
-      "fieldTilt": 0.46
+      "fieldTilt": 0.46,
+      "crossesPerMatch": 10.64,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 4.5,
+      "keeperPassLength": 34.17,
+      "highPassShare": 0.21
     },
     {
       "id": "vfl-wolfsburg-wfc-frauen-bundesliga-2023-2024",
@@ -1275,7 +1400,12 @@
       "ppda": 3.79,
       "longPassShare": 0.13,
       "progressivePerMatch": 65.2,
-      "fieldTilt": 0.69
+      "fieldTilt": 0.69,
+      "crossesPerMatch": 16.73,
+      "crossShotShare": 0.2,
+      "regainShotsPerMatch": 7.86,
+      "keeperPassLength": 22.06,
+      "highPassShare": 0.19
     },
     {
       "id": "athletic-club-la-liga-2015-2016",
@@ -1324,7 +1454,12 @@
       "ppda": 6.54,
       "longPassShare": 0.17,
       "progressivePerMatch": 52.9,
-      "fieldTilt": 0.53
+      "fieldTilt": 0.53,
+      "crossesPerMatch": 14.13,
+      "crossShotShare": 0.17,
+      "regainShotsPerMatch": 4.26,
+      "keeperPassLength": 50.22,
+      "highPassShare": 0.28
     },
     {
       "id": "atletico-madrid-la-liga-2015-2016",
@@ -1373,7 +1508,12 @@
       "ppda": 7.07,
       "longPassShare": 0.12,
       "progressivePerMatch": 56.9,
-      "fieldTilt": 0.56
+      "fieldTilt": 0.56,
+      "crossesPerMatch": 13.13,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 4.18,
+      "keeperPassLength": 52.09,
+      "highPassShare": 0.23
     },
     {
       "id": "barcelona-la-liga-2015-2016",
@@ -1422,7 +1562,12 @@
       "ppda": 5.43,
       "longPassShare": 0.14,
       "progressivePerMatch": 79.3,
-      "fieldTilt": 0.7
+      "fieldTilt": 0.7,
+      "crossesPerMatch": 12,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.58,
+      "keeperPassLength": 31.31,
+      "highPassShare": 0.15
     },
     {
       "id": "celta-vigo-la-liga-2015-2016",
@@ -1471,7 +1616,12 @@
       "ppda": 5.29,
       "longPassShare": 0.14,
       "progressivePerMatch": 61.3,
-      "fieldTilt": 0.54
+      "fieldTilt": 0.54,
+      "crossesPerMatch": 9.47,
+      "crossShotShare": 0.11,
+      "regainShotsPerMatch": 3.34,
+      "keeperPassLength": 46.56,
+      "highPassShare": 0.21
     },
     {
       "id": "eibar-la-liga-2015-2016",
@@ -1520,7 +1670,12 @@
       "ppda": 6.27,
       "longPassShare": 0.2,
       "progressivePerMatch": 49.3,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 13.42,
+      "crossShotShare": 0.2,
+      "regainShotsPerMatch": 4.39,
+      "keeperPassLength": 57.4,
+      "highPassShare": 0.35
     },
     {
       "id": "espanyol-la-liga-2015-2016",
@@ -1569,7 +1724,12 @@
       "ppda": 6.97,
       "longPassShare": 0.17,
       "progressivePerMatch": 44.8,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 11.32,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 3.5,
+      "keeperPassLength": 50.73,
+      "highPassShare": 0.27
     },
     {
       "id": "getafe-la-liga-2015-2016",
@@ -1618,7 +1778,12 @@
       "ppda": 7.34,
       "longPassShare": 0.16,
       "progressivePerMatch": 45.7,
-      "fieldTilt": 0.46
+      "fieldTilt": 0.46,
+      "crossesPerMatch": 11.05,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.63,
+      "keeperPassLength": 51.91,
+      "highPassShare": 0.27
     },
     {
       "id": "granada-la-liga-2015-2016",
@@ -1667,7 +1832,12 @@
       "ppda": 7.27,
       "longPassShare": 0.19,
       "progressivePerMatch": 44.1,
-      "fieldTilt": 0.42
+      "fieldTilt": 0.42,
+      "crossesPerMatch": 10.42,
+      "crossShotShare": 0.1,
+      "regainShotsPerMatch": 3.89,
+      "keeperPassLength": 50.31,
+      "highPassShare": 0.29
     },
     {
       "id": "las-palmas-la-liga-2015-2016",
@@ -1716,7 +1886,12 @@
       "ppda": 7.77,
       "longPassShare": 0.13,
       "progressivePerMatch": 47.4,
-      "fieldTilt": 0.48
+      "fieldTilt": 0.48,
+      "crossesPerMatch": 8.63,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 3.05,
+      "keeperPassLength": 43.43,
+      "highPassShare": 0.2
     },
     {
       "id": "levante-ud-la-liga-2015-2016",
@@ -1765,7 +1940,12 @@
       "ppda": 8.49,
       "longPassShare": 0.19,
       "progressivePerMatch": 46.1,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 12.5,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.47,
+      "keeperPassLength": 46.4,
+      "highPassShare": 0.3
     },
     {
       "id": "malaga-la-liga-2015-2016",
@@ -1814,7 +1994,12 @@
       "ppda": 6.64,
       "longPassShare": 0.16,
       "progressivePerMatch": 52.5,
-      "fieldTilt": 0.5
+      "fieldTilt": 0.5,
+      "crossesPerMatch": 12.79,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 3.45,
+      "keeperPassLength": 47.62,
+      "highPassShare": 0.29
     },
     {
       "id": "rayo-vallecano-la-liga-2015-2016",
@@ -1863,7 +2048,12 @@
       "ppda": 5.49,
       "longPassShare": 0.17,
       "progressivePerMatch": 52.9,
-      "fieldTilt": 0.53
+      "fieldTilt": 0.53,
+      "crossesPerMatch": 15.76,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 4.55,
+      "keeperPassLength": 41.6,
+      "highPassShare": 0.25
     },
     {
       "id": "rc-deportivo-la-coruna-la-liga-2015-2016",
@@ -1912,7 +2102,12 @@
       "ppda": 8.38,
       "longPassShare": 0.19,
       "progressivePerMatch": 51.7,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 12.08,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 4.03,
+      "keeperPassLength": 56.09,
+      "highPassShare": 0.28
     },
     {
       "id": "real-betis-la-liga-2015-2016",
@@ -1961,7 +2156,12 @@
       "ppda": 7.63,
       "longPassShare": 0.14,
       "progressivePerMatch": 43.2,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 10.47,
+      "crossShotShare": 0.17,
+      "regainShotsPerMatch": 3.39,
+      "keeperPassLength": 55.34,
+      "highPassShare": 0.26
     },
     {
       "id": "real-madrid-la-liga-2015-2016",
@@ -2010,7 +2210,12 @@
       "ppda": 7.41,
       "longPassShare": 0.14,
       "progressivePerMatch": 74.3,
-      "fieldTilt": 0.6
+      "fieldTilt": 0.6,
+      "crossesPerMatch": 17.97,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 4.29,
+      "keeperPassLength": 41.68,
+      "highPassShare": 0.16
     },
     {
       "id": "real-sociedad-la-liga-2015-2016",
@@ -2059,7 +2264,12 @@
       "ppda": 6.5,
       "longPassShare": 0.16,
       "progressivePerMatch": 61.3,
-      "fieldTilt": 0.55
+      "fieldTilt": 0.55,
+      "crossesPerMatch": 16.97,
+      "crossShotShare": 0.21,
+      "regainShotsPerMatch": 3.76,
+      "keeperPassLength": 48.11,
+      "highPassShare": 0.26
     },
     {
       "id": "sevilla-la-liga-2015-2016",
@@ -2108,7 +2318,12 @@
       "ppda": 7.1,
       "longPassShare": 0.16,
       "progressivePerMatch": 56.1,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 16.63,
+      "crossShotShare": 0.21,
+      "regainShotsPerMatch": 3.34,
+      "keeperPassLength": 43.09,
+      "highPassShare": 0.25
     },
     {
       "id": "sporting-gijon-la-liga-2015-2016",
@@ -2157,7 +2372,12 @@
       "ppda": 8.15,
       "longPassShare": 0.16,
       "progressivePerMatch": 43.2,
-      "fieldTilt": 0.39
+      "fieldTilt": 0.39,
+      "crossesPerMatch": 12.74,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 3.37,
+      "keeperPassLength": 56.31,
+      "highPassShare": 0.29
     },
     {
       "id": "valencia-la-liga-2015-2016",
@@ -2206,7 +2426,12 @@
       "ppda": 6.71,
       "longPassShare": 0.17,
       "progressivePerMatch": 51.8,
-      "fieldTilt": 0.46
+      "fieldTilt": 0.46,
+      "crossesPerMatch": 12.29,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.66,
+      "keeperPassLength": 47.37,
+      "highPassShare": 0.23
     },
     {
       "id": "villarreal-la-liga-2015-2016",
@@ -2255,7 +2480,12 @@
       "ppda": 8.11,
       "longPassShare": 0.15,
       "progressivePerMatch": 51.2,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 9,
+      "crossShotShare": 0.09,
+      "regainShotsPerMatch": 2.66,
+      "keeperPassLength": 50.19,
+      "highPassShare": 0.23
     },
     {
       "id": "athletic-club-bilbao-liga-f-2023-2024",
@@ -2304,7 +2534,12 @@
       "ppda": 7.21,
       "longPassShare": 0.15,
       "progressivePerMatch": 46.7,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 12.6,
+      "crossShotShare": 0.2,
+      "regainShotsPerMatch": 3.6,
+      "keeperPassLength": 33.9,
+      "highPassShare": 0.2
     },
     {
       "id": "atletico-madrid-w-liga-f-2023-2024",
@@ -2353,7 +2588,12 @@
       "ppda": 6.53,
       "longPassShare": 0.16,
       "progressivePerMatch": 58.3,
-      "fieldTilt": 0.57
+      "fieldTilt": 0.57,
+      "crossesPerMatch": 15.67,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 5.47,
+      "keeperPassLength": 31.07,
+      "highPassShare": 0.18
     },
     {
       "id": "barcelona-wfc-liga-f-2023-2024",
@@ -2402,7 +2642,12 @@
       "ppda": 4.02,
       "longPassShare": 0.08,
       "progressivePerMatch": 117.4,
-      "fieldTilt": 0.86
+      "fieldTilt": 0.86,
+      "crossesPerMatch": 27.2,
+      "crossShotShare": 0.21,
+      "regainShotsPerMatch": 8.03,
+      "keeperPassLength": 22.79,
+      "highPassShare": 0.1
     },
     {
       "id": "cd-sporting-de-huelva-liga-f-2023-2024",
@@ -2451,7 +2696,12 @@
       "ppda": 11.5,
       "longPassShare": 0.16,
       "progressivePerMatch": 34.3,
-      "fieldTilt": 0.33
+      "fieldTilt": 0.33,
+      "crossesPerMatch": 6.97,
+      "crossShotShare": 0.09,
+      "regainShotsPerMatch": 3.4,
+      "keeperPassLength": 46.6,
+      "highPassShare": 0.34
     },
     {
       "id": "costa-adeje-tenerife-liga-f-2023-2024",
@@ -2500,7 +2750,12 @@
       "ppda": 6.92,
       "longPassShare": 0.18,
       "progressivePerMatch": 42.2,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 11.47,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 4.87,
+      "keeperPassLength": 40.49,
+      "highPassShare": 0.31
     },
     {
       "id": "fc-levante-badalona-liga-f-2023-2024",
@@ -2549,7 +2804,12 @@
       "ppda": 8.19,
       "longPassShare": 0.17,
       "progressivePerMatch": 41.2,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 8,
+      "crossShotShare": 0.09,
+      "regainShotsPerMatch": 4.43,
+      "keeperPassLength": 36.35,
+      "highPassShare": 0.27
     },
     {
       "id": "granada-w-liga-f-2023-2024",
@@ -2598,7 +2858,12 @@
       "ppda": 7.91,
       "longPassShare": 0.16,
       "progressivePerMatch": 40.1,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 12.07,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 4.1,
+      "keeperPassLength": 36.16,
+      "highPassShare": 0.24
     },
     {
       "id": "levante-ud-femenino-liga-f-2023-2024",
@@ -2647,7 +2912,12 @@
       "ppda": 5.25,
       "longPassShare": 0.1,
       "progressivePerMatch": 60.5,
-      "fieldTilt": 0.58
+      "fieldTilt": 0.58,
+      "crossesPerMatch": 13.03,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 4.47,
+      "keeperPassLength": 24.92,
+      "highPassShare": 0.16
     },
     {
       "id": "madrid-cff-liga-f-2023-2024",
@@ -2696,7 +2966,12 @@
       "ppda": 6.13,
       "longPassShare": 0.09,
       "progressivePerMatch": 49.7,
-      "fieldTilt": 0.51
+      "fieldTilt": 0.51,
+      "crossesPerMatch": 12.27,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 5.8,
+      "keeperPassLength": 20.89,
+      "highPassShare": 0.16
     },
     {
       "id": "real-betis-balompie-liga-f-2023-2024",
@@ -2745,7 +3020,12 @@
       "ppda": 9.41,
       "longPassShare": 0.13,
       "progressivePerMatch": 36.7,
-      "fieldTilt": 0.35
+      "fieldTilt": 0.35,
+      "crossesPerMatch": 8.7,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.5,
+      "keeperPassLength": 36.07,
+      "highPassShare": 0.24
     },
     {
       "id": "real-madrid-cf-w-liga-f-2023-2024",
@@ -2794,7 +3074,12 @@
       "ppda": 5.89,
       "longPassShare": 0.14,
       "progressivePerMatch": 66.7,
-      "fieldTilt": 0.65
+      "fieldTilt": 0.65,
+      "crossesPerMatch": 15.07,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 6.1,
+      "keeperPassLength": 26.91,
+      "highPassShare": 0.15
     },
     {
       "id": "real-sociedad-de-futbol-liga-f-2023-2024",
@@ -2843,7 +3128,12 @@
       "ppda": 6.9,
       "longPassShare": 0.12,
       "progressivePerMatch": 45.5,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 9.57,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 5.63,
+      "keeperPassLength": 29.66,
+      "highPassShare": 0.19
     },
     {
       "id": "sd-eibar-liga-f-2023-2024",
@@ -2892,7 +3182,12 @@
       "ppda": 9.32,
       "longPassShare": 0.2,
       "progressivePerMatch": 34.3,
-      "fieldTilt": 0.34
+      "fieldTilt": 0.34,
+      "crossesPerMatch": 7.9,
+      "crossShotShare": 0.11,
+      "regainShotsPerMatch": 4.6,
+      "keeperPassLength": 48.57,
+      "highPassShare": 0.41
     },
     {
       "id": "sevilla-fc-liga-f-2023-2024",
@@ -2941,7 +3236,12 @@
       "ppda": 7.87,
       "longPassShare": 0.15,
       "progressivePerMatch": 50.8,
-      "fieldTilt": 0.46
+      "fieldTilt": 0.46,
+      "crossesPerMatch": 12.8,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 4.4,
+      "keeperPassLength": 34.78,
+      "highPassShare": 0.23
     },
     {
       "id": "valencia-cf-liga-f-2023-2024",
@@ -2990,7 +3290,12 @@
       "ppda": 6.82,
       "longPassShare": 0.13,
       "progressivePerMatch": 45.1,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 11,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 5.5,
+      "keeperPassLength": 31.06,
+      "highPassShare": 0.21
     },
     {
       "id": "villarreal-liga-f-2023-2024",
@@ -3039,7 +3344,12 @@
       "ppda": 8.67,
       "longPassShare": 0.14,
       "progressivePerMatch": 34.6,
-      "fieldTilt": 0.38
+      "fieldTilt": 0.38,
+      "crossesPerMatch": 8.73,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3,
+      "keeperPassLength": 37.9,
+      "highPassShare": 0.29
     },
     {
       "id": "angers-ligue-1-2015-2016",
@@ -3088,7 +3398,12 @@
       "ppda": 11.44,
       "longPassShare": 0.15,
       "progressivePerMatch": 42.1,
-      "fieldTilt": 0.4
+      "fieldTilt": 0.4,
+      "crossesPerMatch": 9.11,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.53,
+      "keeperPassLength": 50.49,
+      "highPassShare": 0.27
     },
     {
       "id": "as-monaco-ligue-1-2015-2016",
@@ -3137,7 +3452,12 @@
       "ppda": 7.68,
       "longPassShare": 0.15,
       "progressivePerMatch": 57.8,
-      "fieldTilt": 0.52
+      "fieldTilt": 0.52,
+      "crossesPerMatch": 15,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 3.13,
+      "keeperPassLength": 50.54,
+      "highPassShare": 0.25
     },
     {
       "id": "bastia-ligue-1-2015-2016",
@@ -3186,7 +3506,12 @@
       "ppda": 9.89,
       "longPassShare": 0.17,
       "progressivePerMatch": 40.1,
-      "fieldTilt": 0.4
+      "fieldTilt": 0.4,
+      "crossesPerMatch": 10.35,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 2.76,
+      "keeperPassLength": 52.78,
+      "highPassShare": 0.3
     },
     {
       "id": "bordeaux-ligue-1-2015-2016",
@@ -3235,7 +3560,12 @@
       "ppda": 8.05,
       "longPassShare": 0.15,
       "progressivePerMatch": 50.8,
-      "fieldTilt": 0.52
+      "fieldTilt": 0.52,
+      "crossesPerMatch": 12.49,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.7,
+      "keeperPassLength": 49.81,
+      "highPassShare": 0.25
     },
     {
       "id": "gazelec-ajaccio-ligue-1-2015-2016",
@@ -3284,7 +3614,12 @@
       "ppda": 8.82,
       "longPassShare": 0.19,
       "progressivePerMatch": 53.6,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 13.57,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 4,
+      "keeperPassLength": 50.86,
+      "highPassShare": 0.3
     },
     {
       "id": "guingamp-ligue-1-2015-2016",
@@ -3333,7 +3668,12 @@
       "ppda": 10.32,
       "longPassShare": 0.17,
       "progressivePerMatch": 43.6,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 11.11,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.26,
+      "keeperPassLength": 53.2,
+      "highPassShare": 0.31
     },
     {
       "id": "lille-ligue-1-2015-2016",
@@ -3382,7 +3722,12 @@
       "ppda": 6.61,
       "longPassShare": 0.14,
       "progressivePerMatch": 52.1,
-      "fieldTilt": 0.54
+      "fieldTilt": 0.54,
+      "crossesPerMatch": 11.58,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.63,
+      "keeperPassLength": 45.77,
+      "highPassShare": 0.23
     },
     {
       "id": "lorient-ligue-1-2015-2016",
@@ -3431,7 +3776,12 @@
       "ppda": 10.74,
       "longPassShare": 0.15,
       "progressivePerMatch": 51.2,
-      "fieldTilt": 0.47
+      "fieldTilt": 0.47,
+      "crossesPerMatch": 10.63,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.47,
+      "keeperPassLength": 49.35,
+      "highPassShare": 0.21
     },
     {
       "id": "lyon-ligue-1-2015-2016",
@@ -3480,7 +3830,12 @@
       "ppda": 6.07,
       "longPassShare": 0.14,
       "progressivePerMatch": 72.2,
-      "fieldTilt": 0.65
+      "fieldTilt": 0.65,
+      "crossesPerMatch": 11.53,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 4.03,
+      "keeperPassLength": 39.19,
+      "highPassShare": 0.17
     },
     {
       "id": "montpellier-ligue-1-2015-2016",
@@ -3529,7 +3884,12 @@
       "ppda": 8.68,
       "longPassShare": 0.16,
       "progressivePerMatch": 54.5,
-      "fieldTilt": 0.53
+      "fieldTilt": 0.53,
+      "crossesPerMatch": 13.16,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 3.24,
+      "keeperPassLength": 50.33,
+      "highPassShare": 0.24
     },
     {
       "id": "nantes-ligue-1-2015-2016",
@@ -3578,7 +3938,12 @@
       "ppda": 8.04,
       "longPassShare": 0.18,
       "progressivePerMatch": 53.8,
-      "fieldTilt": 0.52
+      "fieldTilt": 0.52,
+      "crossesPerMatch": 14.29,
+      "crossShotShare": 0.21,
+      "regainShotsPerMatch": 3.87,
+      "keeperPassLength": 47.6,
+      "highPassShare": 0.27
     },
     {
       "id": "ogc-nice-ligue-1-2015-2016",
@@ -3627,7 +3992,12 @@
       "ppda": 8.51,
       "longPassShare": 0.12,
       "progressivePerMatch": 48.2,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 11.29,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 2.82,
+      "keeperPassLength": 42.06,
+      "highPassShare": 0.16
     },
     {
       "id": "olympique-de-marseille-ligue-1-2015-2016",
@@ -3676,7 +4046,12 @@
       "ppda": 6.8,
       "longPassShare": 0.13,
       "progressivePerMatch": 54.4,
-      "fieldTilt": 0.56
+      "fieldTilt": 0.56,
+      "crossesPerMatch": 15.34,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 4.18,
+      "keeperPassLength": 40.6,
+      "highPassShare": 0.19
     },
     {
       "id": "paris-saint-germain-ligue-1-2015-2016",
@@ -3725,7 +4100,12 @@
       "ppda": 6.46,
       "longPassShare": 0.12,
       "progressivePerMatch": 64.2,
-      "fieldTilt": 0.6
+      "fieldTilt": 0.6,
+      "crossesPerMatch": 13.49,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 4.11,
+      "keeperPassLength": 31.01,
+      "highPassShare": 0.11
     },
     {
       "id": "rennes-ligue-1-2015-2016",
@@ -3774,7 +4154,12 @@
       "ppda": 8.51,
       "longPassShare": 0.15,
       "progressivePerMatch": 50.2,
-      "fieldTilt": 0.47
+      "fieldTilt": 0.47,
+      "crossesPerMatch": 10.58,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.21,
+      "keeperPassLength": 48.22,
+      "highPassShare": 0.21
     },
     {
       "id": "saint-etienne-ligue-1-2015-2016",
@@ -3823,7 +4208,12 @@
       "ppda": 6.35,
       "longPassShare": 0.15,
       "progressivePerMatch": 54.6,
-      "fieldTilt": 0.51
+      "fieldTilt": 0.51,
+      "crossesPerMatch": 12.38,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 3.86,
+      "keeperPassLength": 44.69,
+      "highPassShare": 0.24
     },
     {
       "id": "stade-de-reims-ligue-1-2015-2016",
@@ -3872,7 +4262,12 @@
       "ppda": 8.24,
       "longPassShare": 0.16,
       "progressivePerMatch": 48.9,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 10.68,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 3.87,
+      "keeperPassLength": 49.31,
+      "highPassShare": 0.26
     },
     {
       "id": "stade-malherbe-caen-ligue-1-2015-2016",
@@ -3921,7 +4316,12 @@
       "ppda": 9.72,
       "longPassShare": 0.19,
       "progressivePerMatch": 48.8,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 14.92,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 4.39,
+      "keeperPassLength": 56.79,
+      "highPassShare": 0.33
     },
     {
       "id": "toulouse-ligue-1-2015-2016",
@@ -3970,7 +4370,12 @@
       "ppda": 8.35,
       "longPassShare": 0.12,
       "progressivePerMatch": 49.7,
-      "fieldTilt": 0.5
+      "fieldTilt": 0.5,
+      "crossesPerMatch": 13.08,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 3.84,
+      "keeperPassLength": 50.61,
+      "highPassShare": 0.27
     },
     {
       "id": "troyes-ligue-1-2015-2016",
@@ -4019,7 +4424,12 @@
       "ppda": 9.96,
       "longPassShare": 0.16,
       "progressivePerMatch": 50.6,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 10.86,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 3.49,
+      "keeperPassLength": 46.3,
+      "highPassShare": 0.21
     },
     {
       "id": "arsenal-premier-league-2003-2004",
@@ -4068,7 +4478,12 @@
       "ppda": 6.31,
       "longPassShare": 0.14,
       "progressivePerMatch": 55.1,
-      "fieldTilt": 0.53
+      "fieldTilt": 0.53,
+      "crossesPerMatch": 10.05,
+      "crossShotShare": 0.1,
+      "regainShotsPerMatch": 4.26,
+      "keeperPassLength": 49.61,
+      "highPassShare": 0.21
     },
     {
       "id": "afc-bournemouth-premier-league-2015-2016",
@@ -4117,7 +4532,12 @@
       "ppda": 7.98,
       "longPassShare": 0.15,
       "progressivePerMatch": 56.7,
-      "fieldTilt": 0.52
+      "fieldTilt": 0.52,
+      "crossesPerMatch": 12.53,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 3.84,
+      "keeperPassLength": 44.46,
+      "highPassShare": 0.21
     },
     {
       "id": "arsenal-premier-league-2015-2016",
@@ -4166,7 +4586,12 @@
       "ppda": 7.42,
       "longPassShare": 0.13,
       "progressivePerMatch": 71.5,
-      "fieldTilt": 0.6
+      "fieldTilt": 0.6,
+      "crossesPerMatch": 12.53,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 4.08,
+      "keeperPassLength": 50.48,
+      "highPassShare": 0.17
     },
     {
       "id": "aston-villa-premier-league-2015-2016",
@@ -4215,7 +4640,12 @@
       "ppda": 11.34,
       "longPassShare": 0.16,
       "progressivePerMatch": 45.2,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 12.79,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.34,
+      "keeperPassLength": 52.9,
+      "highPassShare": 0.25
     },
     {
       "id": "chelsea-premier-league-2015-2016",
@@ -4264,7 +4694,12 @@
       "ppda": 6.84,
       "longPassShare": 0.13,
       "progressivePerMatch": 64.5,
-      "fieldTilt": 0.59
+      "fieldTilt": 0.59,
+      "crossesPerMatch": 12.08,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.76,
+      "keeperPassLength": 48.68,
+      "highPassShare": 0.18
     },
     {
       "id": "crystal-palace-premier-league-2015-2016",
@@ -4313,7 +4748,12 @@
       "ppda": 7.76,
       "longPassShare": 0.17,
       "progressivePerMatch": 46,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 14.66,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 4.29,
+      "keeperPassLength": 57.89,
+      "highPassShare": 0.3
     },
     {
       "id": "everton-premier-league-2015-2016",
@@ -4362,7 +4802,12 @@
       "ppda": 8.75,
       "longPassShare": 0.15,
       "progressivePerMatch": 57.5,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 12.45,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 3.66,
+      "keeperPassLength": 45.6,
+      "highPassShare": 0.19
     },
     {
       "id": "leicester-city-premier-league-2015-2016",
@@ -4411,7 +4856,12 @@
       "ppda": 8.26,
       "longPassShare": 0.16,
       "progressivePerMatch": 47.5,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 13.58,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 4.71,
+      "keeperPassLength": 63.4,
+      "highPassShare": 0.33
     },
     {
       "id": "liverpool-premier-league-2015-2016",
@@ -4460,7 +4910,12 @@
       "ppda": 5.74,
       "longPassShare": 0.14,
       "progressivePerMatch": 68.4,
-      "fieldTilt": 0.57
+      "fieldTilt": 0.57,
+      "crossesPerMatch": 13.45,
+      "crossShotShare": 0.1,
+      "regainShotsPerMatch": 5.13,
+      "keeperPassLength": 43.44,
+      "highPassShare": 0.2
     },
     {
       "id": "manchester-city-premier-league-2015-2016",
@@ -4509,7 +4964,12 @@
       "ppda": 6.89,
       "longPassShare": 0.12,
       "progressivePerMatch": 72,
-      "fieldTilt": 0.63
+      "fieldTilt": 0.63,
+      "crossesPerMatch": 14.21,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 4.18,
+      "keeperPassLength": 48.28,
+      "highPassShare": 0.16
     },
     {
       "id": "manchester-united-premier-league-2015-2016",
@@ -4558,7 +5018,12 @@
       "ppda": 6.42,
       "longPassShare": 0.15,
       "progressivePerMatch": 69.2,
-      "fieldTilt": 0.64
+      "fieldTilt": 0.64,
+      "crossesPerMatch": 13.71,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 3.32,
+      "keeperPassLength": 47.69,
+      "highPassShare": 0.2
     },
     {
       "id": "newcastle-united-premier-league-2015-2016",
@@ -4607,7 +5072,12 @@
       "ppda": 7.98,
       "longPassShare": 0.17,
       "progressivePerMatch": 48.6,
-      "fieldTilt": 0.41
+      "fieldTilt": 0.41,
+      "crossesPerMatch": 12.5,
+      "crossShotShare": 0.21,
+      "regainShotsPerMatch": 3.03,
+      "keeperPassLength": 53.52,
+      "highPassShare": 0.26
     },
     {
       "id": "norwich-city-premier-league-2015-2016",
@@ -4656,7 +5126,12 @@
       "ppda": 9.14,
       "longPassShare": 0.16,
       "progressivePerMatch": 49.6,
-      "fieldTilt": 0.47
+      "fieldTilt": 0.47,
+      "crossesPerMatch": 13.34,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 3.34,
+      "keeperPassLength": 53.36,
+      "highPassShare": 0.29
     },
     {
       "id": "southampton-premier-league-2015-2016",
@@ -4705,7 +5180,12 @@
       "ppda": 7.48,
       "longPassShare": 0.17,
       "progressivePerMatch": 61.6,
-      "fieldTilt": 0.52
+      "fieldTilt": 0.52,
+      "crossesPerMatch": 15.95,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 4.13,
+      "keeperPassLength": 53.41,
+      "highPassShare": 0.27
     },
     {
       "id": "stoke-city-premier-league-2015-2016",
@@ -4754,7 +5234,12 @@
       "ppda": 8.95,
       "longPassShare": 0.16,
       "progressivePerMatch": 53.5,
-      "fieldTilt": 0.45
+      "fieldTilt": 0.45,
+      "crossesPerMatch": 10.63,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 3.37,
+      "keeperPassLength": 53.77,
+      "highPassShare": 0.23
     },
     {
       "id": "sunderland-premier-league-2015-2016",
@@ -4803,7 +5288,12 @@
       "ppda": 9.36,
       "longPassShare": 0.18,
       "progressivePerMatch": 41.2,
-      "fieldTilt": 0.39
+      "fieldTilt": 0.39,
+      "crossesPerMatch": 8.66,
+      "crossShotShare": 0.1,
+      "regainShotsPerMatch": 3.84,
+      "keeperPassLength": 56.06,
+      "highPassShare": 0.32
     },
     {
       "id": "swansea-city-premier-league-2015-2016",
@@ -4852,7 +5342,12 @@
       "ppda": 7.97,
       "longPassShare": 0.15,
       "progressivePerMatch": 53.4,
-      "fieldTilt": 0.47
+      "fieldTilt": 0.47,
+      "crossesPerMatch": 11.63,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 3.26,
+      "keeperPassLength": 45.66,
+      "highPassShare": 0.2
     },
     {
       "id": "tottenham-hotspur-premier-league-2015-2016",
@@ -4901,7 +5396,12 @@
       "ppda": 5.61,
       "longPassShare": 0.16,
       "progressivePerMatch": 61.5,
-      "fieldTilt": 0.57
+      "fieldTilt": 0.57,
+      "crossesPerMatch": 11.34,
+      "crossShotShare": 0.09,
+      "regainShotsPerMatch": 5.26,
+      "keeperPassLength": 42.02,
+      "highPassShare": 0.22
     },
     {
       "id": "watford-premier-league-2015-2016",
@@ -4950,7 +5450,12 @@
       "ppda": 8.37,
       "longPassShare": 0.16,
       "progressivePerMatch": 43.4,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 10.45,
+      "crossShotShare": 0.09,
+      "regainShotsPerMatch": 4.37,
+      "keeperPassLength": 57.23,
+      "highPassShare": 0.31
     },
     {
       "id": "west-bromwich-albion-premier-league-2015-2016",
@@ -4999,7 +5504,12 @@
       "ppda": 9.79,
       "longPassShare": 0.19,
       "progressivePerMatch": 45.4,
-      "fieldTilt": 0.4
+      "fieldTilt": 0.4,
+      "crossesPerMatch": 12.16,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 3.53,
+      "keeperPassLength": 59.58,
+      "highPassShare": 0.35
     },
     {
       "id": "west-ham-united-premier-league-2015-2016",
@@ -5048,7 +5558,12 @@
       "ppda": 8.03,
       "longPassShare": 0.17,
       "progressivePerMatch": 49.5,
-      "fieldTilt": 0.47
+      "fieldTilt": 0.47,
+      "crossesPerMatch": 12.55,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 4.76,
+      "keeperPassLength": 52.31,
+      "highPassShare": 0.26
     },
     {
       "id": "ac-milan-serie-a-2015-2016",
@@ -5097,7 +5612,12 @@
       "ppda": 6.55,
       "longPassShare": 0.15,
       "progressivePerMatch": 58.6,
-      "fieldTilt": 0.55
+      "fieldTilt": 0.55,
+      "crossesPerMatch": 12.76,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 4.47,
+      "keeperPassLength": 39.24,
+      "highPassShare": 0.22
     },
     {
       "id": "as-roma-serie-a-2015-2016",
@@ -5146,7 +5666,12 @@
       "ppda": 7.34,
       "longPassShare": 0.14,
       "progressivePerMatch": 64.3,
-      "fieldTilt": 0.6
+      "fieldTilt": 0.6,
+      "crossesPerMatch": 13.89,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 4.55,
+      "keeperPassLength": 38.7,
+      "highPassShare": 0.2
     },
     {
       "id": "atalanta-serie-a-2015-2016",
@@ -5195,7 +5720,12 @@
       "ppda": 7.69,
       "longPassShare": 0.16,
       "progressivePerMatch": 51.6,
-      "fieldTilt": 0.48
+      "fieldTilt": 0.48,
+      "crossesPerMatch": 16.34,
+      "crossShotShare": 0.18,
+      "regainShotsPerMatch": 4.21,
+      "keeperPassLength": 49.06,
+      "highPassShare": 0.28
     },
     {
       "id": "bologna-serie-a-2015-2016",
@@ -5244,7 +5774,12 @@
       "ppda": 9.56,
       "longPassShare": 0.15,
       "progressivePerMatch": 49.4,
-      "fieldTilt": 0.47
+      "fieldTilt": 0.47,
+      "crossesPerMatch": 9.58,
+      "crossShotShare": 0.11,
+      "regainShotsPerMatch": 3.32,
+      "keeperPassLength": 46.31,
+      "highPassShare": 0.24
     },
     {
       "id": "carpi-serie-a-2015-2016",
@@ -5293,7 +5828,12 @@
       "ppda": 9.1,
       "longPassShare": 0.17,
       "progressivePerMatch": 43.8,
-      "fieldTilt": 0.4
+      "fieldTilt": 0.4,
+      "crossesPerMatch": 11.29,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 3.87,
+      "keeperPassLength": 52.67,
+      "highPassShare": 0.33
     },
     {
       "id": "chievo-serie-a-2015-2016",
@@ -5342,7 +5882,12 @@
       "ppda": 8.62,
       "longPassShare": 0.16,
       "progressivePerMatch": 47.6,
-      "fieldTilt": 0.42
+      "fieldTilt": 0.42,
+      "crossesPerMatch": 10.92,
+      "crossShotShare": 0.17,
+      "regainShotsPerMatch": 3.76,
+      "keeperPassLength": 49.34,
+      "highPassShare": 0.29
     },
     {
       "id": "empoli-serie-a-2015-2016",
@@ -5391,7 +5936,12 @@
       "ppda": 7.48,
       "longPassShare": 0.1,
       "progressivePerMatch": 48.2,
-      "fieldTilt": 0.48
+      "fieldTilt": 0.48,
+      "crossesPerMatch": 7.63,
+      "crossShotShare": 0.07,
+      "regainShotsPerMatch": 4.18,
+      "keeperPassLength": 36.76,
+      "highPassShare": 0.17
     },
     {
       "id": "fiorentina-serie-a-2015-2016",
@@ -5440,7 +5990,12 @@
       "ppda": 5.99,
       "longPassShare": 0.13,
       "progressivePerMatch": 60.2,
-      "fieldTilt": 0.59
+      "fieldTilt": 0.59,
+      "crossesPerMatch": 11.32,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 4.03,
+      "keeperPassLength": 35.36,
+      "highPassShare": 0.16
     },
     {
       "id": "frosinone-serie-a-2015-2016",
@@ -5489,7 +6044,12 @@
       "ppda": 7.64,
       "longPassShare": 0.19,
       "progressivePerMatch": 41,
-      "fieldTilt": 0.36
+      "fieldTilt": 0.36,
+      "crossesPerMatch": 10.95,
+      "crossShotShare": 0.11,
+      "regainShotsPerMatch": 4.76,
+      "keeperPassLength": 52.97,
+      "highPassShare": 0.34
     },
     {
       "id": "genoa-serie-a-2015-2016",
@@ -5538,7 +6098,12 @@
       "ppda": 7.45,
       "longPassShare": 0.15,
       "progressivePerMatch": 52.3,
-      "fieldTilt": 0.51
+      "fieldTilt": 0.51,
+      "crossesPerMatch": 12.79,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.34,
+      "keeperPassLength": 45.8,
+      "highPassShare": 0.24
     },
     {
       "id": "hellas-verona-serie-a-2015-2016",
@@ -5587,7 +6152,12 @@
       "ppda": 8.72,
       "longPassShare": 0.17,
       "progressivePerMatch": 49.3,
-      "fieldTilt": 0.46
+      "fieldTilt": 0.46,
+      "crossesPerMatch": 15.34,
+      "crossShotShare": 0.19,
+      "regainShotsPerMatch": 3.92,
+      "keeperPassLength": 50.99,
+      "highPassShare": 0.3
     },
     {
       "id": "inter-milan-serie-a-2015-2016",
@@ -5636,7 +6206,12 @@
       "ppda": 7.7,
       "longPassShare": 0.15,
       "progressivePerMatch": 58.3,
-      "fieldTilt": 0.56
+      "fieldTilt": 0.56,
+      "crossesPerMatch": 14.84,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 4.39,
+      "keeperPassLength": 38.44,
+      "highPassShare": 0.2
     },
     {
       "id": "juventus-serie-a-2015-2016",
@@ -5685,7 +6260,12 @@
       "ppda": 7.53,
       "longPassShare": 0.15,
       "progressivePerMatch": 60.8,
-      "fieldTilt": 0.6
+      "fieldTilt": 0.6,
+      "crossesPerMatch": 13.29,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 4.13,
+      "keeperPassLength": 33.49,
+      "highPassShare": 0.18
     },
     {
       "id": "lazio-serie-a-2015-2016",
@@ -5734,7 +6314,12 @@
       "ppda": 6.52,
       "longPassShare": 0.15,
       "progressivePerMatch": 55.5,
-      "fieldTilt": 0.58
+      "fieldTilt": 0.58,
+      "crossesPerMatch": 16.61,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 4.39,
+      "keeperPassLength": 40.5,
+      "highPassShare": 0.23
     },
     {
       "id": "napoli-serie-a-2015-2016",
@@ -5783,7 +6368,12 @@
       "ppda": 6.68,
       "longPassShare": 0.1,
       "progressivePerMatch": 67.2,
-      "fieldTilt": 0.66
+      "fieldTilt": 0.66,
+      "crossesPerMatch": 13.66,
+      "crossShotShare": 0.09,
+      "regainShotsPerMatch": 4.5,
+      "keeperPassLength": 34.78,
+      "highPassShare": 0.15
     },
     {
       "id": "palermo-serie-a-2015-2016",
@@ -5832,7 +6422,12 @@
       "ppda": 10.16,
       "longPassShare": 0.16,
       "progressivePerMatch": 48.2,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 13.29,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.74,
+      "keeperPassLength": 47.63,
+      "highPassShare": 0.28
     },
     {
       "id": "sampdoria-serie-a-2015-2016",
@@ -5881,7 +6476,12 @@
       "ppda": 8.85,
       "longPassShare": 0.15,
       "progressivePerMatch": 47.6,
-      "fieldTilt": 0.46
+      "fieldTilt": 0.46,
+      "crossesPerMatch": 9,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.55,
+      "keeperPassLength": 49.77,
+      "highPassShare": 0.22
     },
     {
       "id": "sassuolo-serie-a-2015-2016",
@@ -5930,7 +6530,12 @@
       "ppda": 6.76,
       "longPassShare": 0.15,
       "progressivePerMatch": 62.4,
-      "fieldTilt": 0.53
+      "fieldTilt": 0.53,
+      "crossesPerMatch": 13.92,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 3.87,
+      "keeperPassLength": 40.15,
+      "highPassShare": 0.24
     },
     {
       "id": "torino-serie-a-2015-2016",
@@ -5979,7 +6584,12 @@
       "ppda": 9.91,
       "longPassShare": 0.19,
       "progressivePerMatch": 45.4,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 12.55,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.24,
+      "keeperPassLength": 38.06,
+      "highPassShare": 0.23
     },
     {
       "id": "udinese-serie-a-2015-2016",
@@ -6028,7 +6638,12 @@
       "ppda": 9.65,
       "longPassShare": 0.16,
       "progressivePerMatch": 50,
-      "fieldTilt": 0.44
+      "fieldTilt": 0.44,
+      "crossesPerMatch": 14.03,
+      "crossShotShare": 0.17,
+      "regainShotsPerMatch": 4.26,
+      "keeperPassLength": 51.45,
+      "highPassShare": 0.3
     },
     {
       "id": "ac-milan-w-serie-a-women-2023-2024",
@@ -6077,7 +6692,12 @@
       "ppda": 5.71,
       "longPassShare": 0.15,
       "progressivePerMatch": 64.5,
-      "fieldTilt": 0.58
+      "fieldTilt": 0.58,
+      "crossesPerMatch": 16.27,
+      "crossShotShare": 0.16,
+      "regainShotsPerMatch": 6.04,
+      "keeperPassLength": 28.84,
+      "highPassShare": 0.23
     },
     {
       "id": "as-roma-w-serie-a-women-2023-2024",
@@ -6126,7 +6746,12 @@
       "ppda": 5.2,
       "longPassShare": 0.14,
       "progressivePerMatch": 72.6,
-      "fieldTilt": 0.69
+      "fieldTilt": 0.69,
+      "crossesPerMatch": 18.31,
+      "crossShotShare": 0.17,
+      "regainShotsPerMatch": 7.62,
+      "keeperPassLength": 25.07,
+      "highPassShare": 0.17
     },
     {
       "id": "como-w-serie-a-women-2023-2024",
@@ -6175,7 +6800,12 @@
       "ppda": 8.14,
       "longPassShare": 0.14,
       "progressivePerMatch": 46.1,
-      "fieldTilt": 0.43
+      "fieldTilt": 0.43,
+      "crossesPerMatch": 9.27,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 3.85,
+      "keeperPassLength": 29.38,
+      "highPassShare": 0.25
     },
     {
       "id": "fc-internazionale-milano-w-serie-a-women-2023-2024",
@@ -6224,7 +6854,12 @@
       "ppda": 5.99,
       "longPassShare": 0.15,
       "progressivePerMatch": 55.8,
-      "fieldTilt": 0.55
+      "fieldTilt": 0.55,
+      "crossesPerMatch": 12.96,
+      "crossShotShare": 0.15,
+      "regainShotsPerMatch": 5.77,
+      "keeperPassLength": 28.14,
+      "highPassShare": 0.21
     },
     {
       "id": "fiorentina-w-serie-a-women-2023-2024",
@@ -6273,7 +6908,12 @@
       "ppda": 7.34,
       "longPassShare": 0.13,
       "progressivePerMatch": 53.3,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 11.92,
+      "crossShotShare": 0.14,
+      "regainShotsPerMatch": 4.38,
+      "keeperPassLength": 27.3,
+      "highPassShare": 0.22
     },
     {
       "id": "juventus-w-serie-a-women-2023-2024",
@@ -6322,7 +6962,12 @@
       "ppda": 6.81,
       "longPassShare": 0.13,
       "progressivePerMatch": 70.1,
-      "fieldTilt": 0.65
+      "fieldTilt": 0.65,
+      "crossesPerMatch": 13.88,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 6.42,
+      "keeperPassLength": 29.15,
+      "highPassShare": 0.18
     },
     {
       "id": "napoli-w-serie-a-women-2023-2024",
@@ -6371,7 +7016,12 @@
       "ppda": 7.66,
       "longPassShare": 0.16,
       "progressivePerMatch": 37.5,
-      "fieldTilt": 0.37
+      "fieldTilt": 0.37,
+      "crossesPerMatch": 8.27,
+      "crossShotShare": 0.13,
+      "regainShotsPerMatch": 4.54,
+      "keeperPassLength": 32.36,
+      "highPassShare": 0.3
     },
     {
       "id": "pomigliano-serie-a-women-2023-2024",
@@ -6420,7 +7070,12 @@
       "ppda": 9.93,
       "longPassShare": 0.13,
       "progressivePerMatch": 36.5,
-      "fieldTilt": 0.35
+      "fieldTilt": 0.35,
+      "crossesPerMatch": 8.88,
+      "crossShotShare": 0.11,
+      "regainShotsPerMatch": 4.38,
+      "keeperPassLength": 32.62,
+      "highPassShare": 0.28
     },
     {
       "id": "sampdoria-w-serie-a-women-2023-2024",
@@ -6469,7 +7124,12 @@
       "ppda": 9.18,
       "longPassShare": 0.14,
       "progressivePerMatch": 41.2,
-      "fieldTilt": 0.41
+      "fieldTilt": 0.41,
+      "crossesPerMatch": 9.69,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 4.88,
+      "keeperPassLength": 40.58,
+      "highPassShare": 0.31
     },
     {
       "id": "sassuolo-w-serie-a-women-2023-2024",
@@ -6518,7 +7178,12 @@
       "ppda": 6.78,
       "longPassShare": 0.12,
       "progressivePerMatch": 44.1,
-      "fieldTilt": 0.49
+      "fieldTilt": 0.49,
+      "crossesPerMatch": 10.81,
+      "crossShotShare": 0.12,
+      "regainShotsPerMatch": 4.42,
+      "keeperPassLength": 31.48,
+      "highPassShare": 0.24
     }
   ]
 }

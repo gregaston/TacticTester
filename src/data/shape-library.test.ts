@@ -14,7 +14,17 @@ describe("shape library", () => {
     for (const side of library.sides) {
       expect(side.matches).toBeGreaterThanOrEqual(15);
       expect(side.formationKey.split("-")).toHaveLength(5);
+      expect(side.shiftShare ?? 0).toBeGreaterThanOrEqual(0);
+      expect(side.shiftShare ?? 0).toBeLessThanOrEqual(1);
+      if (side.shiftKey) expect(side.shiftKey.split("-")).toHaveLength(5);
     }
+  });
+
+  it("keeps an in-game shape when that shape is common and different from the start", () => {
+    const changed = library.sides.filter(
+      (side) => side.shiftKey && side.shiftKey !== side.formationKey && (side.shiftShare ?? 0) >= 0.3,
+    );
+    expect(changed.length).toBeGreaterThan(0);
   });
 
   it("includes Arsenal's unbeaten league season and Leicester's title season", () => {

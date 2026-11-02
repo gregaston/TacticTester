@@ -1,7 +1,7 @@
 {
   "source": "StatsBomb open data",
   "sourceUrl": "https://github.com/statsbomb/open-data",
-  "note": "Starting-lineup shapes. Counts use TacticTester position bands. Line height is the named position, not a measured defensive line.",
+  "note": "Starting-lineup shapes, plus the in-game shape named most often after kickoff. Counts use TacticTester position bands. Line height is the named position, not a measured defensive line.",
   "sides": [
     {
       "id": "bayer-leverkusen-1-bundesliga-2015-2016",
@@ -11,6 +11,8 @@
       "matches": 34,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.53,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -30,6 +32,8 @@
       "matches": 34,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.97,
+      "shiftKey": "5-2-0-2-1",
+      "shiftShare": 0.5,
       "features": {
         "backLine": 25.6,
         "forwardLine": 86,
@@ -49,6 +53,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.86,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.68,
       "features": {
         "backLine": 24.15,
         "forwardLine": 86,
@@ -68,6 +74,8 @@
       "matches": 22,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.32,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.23,
       "features": {
         "backLine": 24.29,
         "forwardLine": 86,
@@ -87,6 +95,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.45,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.36,
       "features": {
         "backLine": 24.58,
         "forwardLine": 86,
@@ -106,6 +116,8 @@
       "matches": 22,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.5,
+      "shiftKey": "5-2-0-2-1",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 25.24,
         "forwardLine": 86,
@@ -125,6 +137,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.36,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24.29,
         "forwardLine": 86,
@@ -144,6 +158,8 @@
       "matches": 22,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.5,
+      "shiftKey": "5-2-0-2-1",
+      "shiftShare": 0.55,
       "features": {
         "backLine": 25.16,
         "forwardLine": 86,
@@ -163,6 +179,8 @@
       "matches": 22,
       "formationKey": "4-1-4-0-1",
       "formationShare": 0.41,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.27,
       "features": {
         "backLine": 24.36,
         "forwardLine": 86,
@@ -182,6 +200,8 @@
       "matches": 22,
       "formationKey": "5-1-2-0-2",
       "formationShare": 0.77,
+      "shiftKey": "5-1-2-0-2",
+      "shiftShare": 0.41,
       "features": {
         "backLine": 25.38,
         "forwardLine": 86,
@@ -201,6 +221,8 @@
       "matches": 22,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.91,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.73,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -220,6 +242,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.64,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -239,6 +263,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.55,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.59,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -258,6 +284,8 @@
       "matches": 22,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.64,
+      "shiftKey": "5-2-0-2-1",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 25.16,
         "forwardLine": 86,
@@ -277,6 +305,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.91,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.68,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -296,6 +326,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.23,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.27,
       "features": {
         "backLine": 24.36,
         "forwardLine": 86,
@@ -315,6 +347,8 @@
       "matches": 22,
       "formationKey": "4-1-2-1-2",
       "formationShare": 1,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.64,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -334,6 +368,8 @@
       "matches": 22,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.45,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.5,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -353,6 +389,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.77,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.68,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -372,6 +410,8 @@
       "matches": 22,
       "formationKey": "5-2-0-1-2",
       "formationShare": 0.55,
+      "shiftKey": "5-1-2-0-2",
+      "shiftShare": 0.36,
       "features": {
         "backLine": 25.6,
         "forwardLine": 86,
@@ -391,6 +431,8 @@
       "matches": 22,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.59,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 24.15,
         "forwardLine": 86,
@@ -410,6 +452,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.82,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.68,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -429,6 +473,8 @@
       "matches": 22,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.64,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 24.22,
         "forwardLine": 86,
@@ -448,6 +494,8 @@
       "matches": 22,
       "formationKey": "5-1-2-0-2",
       "formationShare": 0.59,
+      "shiftKey": "5-1-2-0-2",
+      "shiftShare": 0.36,
       "features": {
         "backLine": 25.02,
         "forwardLine": 86,
@@ -467,6 +515,8 @@
       "matches": 22,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.27,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.18,
       "features": {
         "backLine": 24.58,
         "forwardLine": 86,
@@ -486,6 +536,8 @@
       "matches": 22,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.55,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.55,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -505,6 +557,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.95,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.63,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -524,6 +578,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.66,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -543,6 +599,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.97,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.39,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -562,6 +620,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.55,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -581,6 +641,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.47,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.18,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -600,6 +662,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.53,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -619,6 +683,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.63,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.34,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -638,6 +704,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.53,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24.08,
         "forwardLine": 86,
@@ -657,6 +725,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.34,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.26,
       "features": {
         "backLine": 24.25,
         "forwardLine": 86,
@@ -676,6 +746,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.37,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.24,
       "features": {
         "backLine": 24.38,
         "forwardLine": 86,
@@ -695,6 +767,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.76,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.34,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -714,6 +788,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.66,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.53,
       "features": {
         "backLine": 24.08,
         "forwardLine": 86,
@@ -733,6 +809,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.47,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.26,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -752,6 +830,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.47,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -771,6 +851,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.76,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -790,6 +872,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.58,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -809,6 +893,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.79,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.42,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -828,6 +914,8 @@
       "matches": 37,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.59,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -847,6 +935,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.61,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.29,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -866,6 +956,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.87,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.39,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -885,6 +977,8 @@
       "matches": 30,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.4,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.4,
       "features": {
         "backLine": 24.27,
         "forwardLine": 86,
@@ -904,6 +998,8 @@
       "matches": 30,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.5,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24.05,
         "forwardLine": 86,
@@ -923,6 +1019,8 @@
       "matches": 30,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.9,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.9,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -942,6 +1040,8 @@
       "matches": 30,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.4,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.2,
       "features": {
         "backLine": 25.01,
         "forwardLine": 86,
@@ -961,6 +1061,8 @@
       "matches": 30,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.3,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.27,
       "features": {
         "backLine": 24.48,
         "forwardLine": 86,
@@ -980,6 +1082,8 @@
       "matches": 30,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.27,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.23,
       "features": {
         "backLine": 24.53,
         "forwardLine": 86,
@@ -999,6 +1103,8 @@
       "matches": 30,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.4,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24.16,
         "forwardLine": 86,
@@ -1018,6 +1124,8 @@
       "matches": 30,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.3,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.27,
       "features": {
         "backLine": 24.53,
         "forwardLine": 86,
@@ -1037,6 +1145,8 @@
       "matches": 30,
       "formationKey": "5-2-0-1-2",
       "formationShare": 0.77,
+      "shiftKey": "5-2-0-1-2",
+      "shiftShare": 0.7,
       "features": {
         "backLine": 25.6,
         "forwardLine": 86,
@@ -1056,6 +1166,8 @@
       "matches": 30,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.57,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.43,
       "features": {
         "backLine": 24.32,
         "forwardLine": 86,
@@ -1075,6 +1187,8 @@
       "matches": 30,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.7,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.63,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1094,6 +1208,8 @@
       "matches": 30,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.7,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24.05,
         "forwardLine": 86,
@@ -1113,6 +1229,8 @@
       "matches": 30,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.47,
+      "shiftKey": "5-2-0-2-1",
+      "shiftShare": 0.43,
       "features": {
         "backLine": 25.44,
         "forwardLine": 86,
@@ -1132,6 +1250,8 @@
       "matches": 30,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.43,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1151,6 +1271,8 @@
       "matches": 30,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.37,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.3,
       "features": {
         "backLine": 24.16,
         "forwardLine": 86,
@@ -1170,6 +1292,8 @@
       "matches": 30,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.43,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24.32,
         "forwardLine": 86,
@@ -1189,6 +1313,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.61,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.45,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1208,6 +1334,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.63,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -1227,6 +1355,8 @@
       "matches": 37,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.38,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.27,
       "features": {
         "backLine": 24.22,
         "forwardLine": 86,
@@ -1246,6 +1376,8 @@
       "matches": 37,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.38,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.24,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -1265,6 +1397,8 @@
       "matches": 37,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.46,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.3,
       "features": {
         "backLine": 24.09,
         "forwardLine": 86,
@@ -1284,6 +1418,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.92,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1303,6 +1439,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.68,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.53,
       "features": {
         "backLine": 24.29,
         "forwardLine": 86,
@@ -1322,6 +1460,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.68,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.29,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1341,6 +1481,8 @@
       "matches": 38,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.45,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.29,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -1360,6 +1502,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.5,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1379,6 +1523,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.58,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1398,6 +1544,8 @@
       "matches": 38,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.82,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.58,
       "features": {
         "backLine": 24.21,
         "forwardLine": 86,
@@ -1417,6 +1565,8 @@
       "matches": 27,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.81,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.63,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1436,6 +1586,8 @@
       "matches": 37,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.97,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.59,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1455,6 +1607,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.32,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24.46,
         "forwardLine": 86,
@@ -1474,6 +1628,8 @@
       "matches": 37,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.57,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.54,
       "features": {
         "backLine": 24.13,
         "forwardLine": 86,
@@ -1493,6 +1649,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.24,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.21,
       "features": {
         "backLine": 24.55,
         "forwardLine": 86,
@@ -1512,6 +1670,8 @@
       "matches": 29,
       "formationKey": "4-1-4-0-1",
       "formationShare": 0.55,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.31,
       "features": {
         "backLine": 24.11,
         "forwardLine": 86,
@@ -1531,6 +1691,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.32,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.21,
       "features": {
         "backLine": 24.08,
         "forwardLine": 86,
@@ -1550,6 +1712,8 @@
       "matches": 37,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.46,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.35,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1569,6 +1733,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.76,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.34,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -1588,6 +1754,8 @@
       "matches": 38,
       "formationKey": "4-1-4-0-1",
       "formationShare": 0.37,
+      "shiftKey": "4-0-4-0-2",
+      "shiftShare": 0.08,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1607,6 +1775,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.76,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.55,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1626,6 +1796,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.45,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.21,
       "features": {
         "backLine": 24.25,
         "forwardLine": 86,
@@ -1645,6 +1817,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.68,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.26,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1664,6 +1838,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.45,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.16,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1683,6 +1859,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.47,
+      "shiftKey": "4-0-2-3-1",
+      "shiftShare": 0.13,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -1702,6 +1880,8 @@
       "matches": 38,
       "formationKey": "4-0-4-0-2",
       "formationShare": 0.45,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.18,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1721,6 +1901,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.34,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.21,
       "features": {
         "backLine": 24.13,
         "forwardLine": 86,
@@ -1740,6 +1922,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.45,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1759,6 +1943,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.39,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.29,
       "features": {
         "backLine": 24.08,
         "forwardLine": 86,
@@ -1778,6 +1964,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.37,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.18,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -1797,6 +1985,8 @@
       "matches": 38,
       "formationKey": "4-2-2-1-1",
       "formationShare": 0.39,
+      "shiftKey": "4-2-2-1-1",
+      "shiftShare": 0.13,
       "features": {
         "backLine": 24.13,
         "forwardLine": 86,
@@ -1816,6 +2006,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.39,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.21,
       "features": {
         "backLine": 24.34,
         "forwardLine": 86,
@@ -1835,6 +2027,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.74,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.42,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1854,6 +2048,8 @@
       "matches": 38,
       "formationKey": "4-1-4-0-1",
       "formationShare": 0.47,
+      "shiftKey": "4-1-4-0-1",
+      "shiftShare": 0.24,
       "features": {
         "backLine": 24.25,
         "forwardLine": 86,
@@ -1873,6 +2069,8 @@
       "matches": 37,
       "formationKey": "4-0-2-3-1",
       "formationShare": 0.32,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.24,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1892,6 +2090,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.68,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.26,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -1911,6 +2111,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.39,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1930,6 +2132,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.24,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.16,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1949,6 +2153,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.34,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.18,
       "features": {
         "backLine": 24.13,
         "forwardLine": 86,
@@ -1968,6 +2174,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.47,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.26,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -1987,6 +2195,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.47,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24.08,
         "forwardLine": 86,
@@ -2006,6 +2216,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.68,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24.21,
         "forwardLine": 86,
@@ -2025,6 +2237,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.71,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.5,
       "features": {
         "backLine": 24.04,
         "forwardLine": 86,
@@ -2044,6 +2258,8 @@
       "matches": 38,
       "formationKey": "4-2-2-1-1",
       "formationShare": 0.32,
+      "shiftKey": "4-2-2-1-1",
+      "shiftShare": 0.24,
       "features": {
         "backLine": 24.72,
         "forwardLine": 86,
@@ -2063,6 +2279,8 @@
       "matches": 38,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.84,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.47,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2082,6 +2300,8 @@
       "matches": 38,
       "formationKey": "4-1-2-1-2",
       "formationShare": 1,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.53,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2101,6 +2321,8 @@
       "matches": 38,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.45,
+      "shiftKey": "5-2-0-2-1",
+      "shiftShare": 0.42,
       "features": {
         "backLine": 24.88,
         "forwardLine": 86,
@@ -2120,6 +2342,8 @@
       "matches": 38,
       "formationKey": "4-2-2-0-2",
       "formationShare": 0.5,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.34,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2139,6 +2363,8 @@
       "matches": 38,
       "formationKey": "5-2-0-2-1",
       "formationShare": 0.5,
+      "shiftKey": "5-2-0-2-1",
+      "shiftShare": 0.29,
       "features": {
         "backLine": 25.6,
         "forwardLine": 86,
@@ -2158,6 +2384,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.29,
+      "shiftKey": "4-2-2-0-2",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 24.17,
         "forwardLine": 86,
@@ -2177,6 +2405,8 @@
       "matches": 38,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.29,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.34,
       "features": {
         "backLine": 24.13,
         "forwardLine": 86,
@@ -2196,6 +2426,8 @@
       "matches": 38,
       "formationKey": "5-1-2-0-2",
       "formationShare": 0.63,
+      "shiftKey": "5-1-2-0-2",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 25.05,
         "forwardLine": 86,
@@ -2215,6 +2447,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.63,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.37,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2234,6 +2468,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.92,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.24,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2253,6 +2489,8 @@
       "matches": 38,
       "formationKey": "5-1-2-1-1",
       "formationShare": 0.26,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.16,
       "features": {
         "backLine": 24.84,
         "forwardLine": 86,
@@ -2272,6 +2510,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.29,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.18,
       "features": {
         "backLine": 24.72,
         "forwardLine": 86,
@@ -2291,6 +2531,8 @@
       "matches": 38,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.97,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.53,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2310,6 +2552,8 @@
       "matches": 38,
       "formationKey": "5-1-2-0-2",
       "formationShare": 1,
+      "shiftKey": "5-1-2-0-2",
+      "shiftShare": 0.42,
       "features": {
         "backLine": 25.6,
         "forwardLine": 86,
@@ -2329,6 +2573,8 @@
       "matches": 38,
       "formationKey": "5-1-2-0-2",
       "formationShare": 0.76,
+      "shiftKey": "5-1-2-0-2",
+      "shiftShare": 0.32,
       "features": {
         "backLine": 25.43,
         "forwardLine": 86,
@@ -2348,6 +2594,8 @@
       "matches": 26,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.42,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.42,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2367,6 +2615,8 @@
       "matches": 26,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.65,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.58,
       "features": {
         "backLine": 24.25,
         "forwardLine": 86,
@@ -2386,6 +2636,8 @@
       "matches": 26,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.42,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.42,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2405,6 +2657,8 @@
       "matches": 26,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.5,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.35,
       "features": {
         "backLine": 24.37,
         "forwardLine": 86,
@@ -2424,6 +2678,8 @@
       "matches": 26,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.73,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.5,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2443,6 +2699,8 @@
       "matches": 26,
       "formationKey": "4-2-0-3-1",
       "formationShare": 0.38,
+      "shiftKey": "4-2-0-3-1",
+      "shiftShare": 0.38,
       "features": {
         "backLine": 24.18,
         "forwardLine": 86,
@@ -2462,6 +2720,8 @@
       "matches": 26,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.35,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.27,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2481,6 +2741,8 @@
       "matches": 26,
       "formationKey": "4-1-2-2-1",
       "formationShare": 0.38,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.23,
       "features": {
         "backLine": 24.18,
         "forwardLine": 86,
@@ -2500,6 +2762,8 @@
       "matches": 26,
       "formationKey": "4-1-4-0-1",
       "formationShare": 0.42,
+      "shiftKey": "4-1-2-2-1",
+      "shiftShare": 0.35,
       "features": {
         "backLine": 24,
         "forwardLine": 86,
@@ -2519,6 +2783,8 @@
       "matches": 26,
       "formationKey": "4-1-2-1-2",
       "formationShare": 0.85,
+      "shiftKey": "4-1-2-1-2",
+      "shiftShare": 0.46,
       "features": {
         "backLine": 24.18,
         "forwardLine": 86,

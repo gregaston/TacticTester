@@ -162,6 +162,7 @@ function Result({ run, earlier, titleId }: { run: CampaignRun; earlier: number |
       <p className="test-count">
         {run.tested} sides, {run.situations} situations. xG is TacticTester's zone sketch.
       </p>
+      {run.chanceNote ? <p className="test-note">{run.chanceNote}</p> : null}
       <Finding title="Strengths" lines={run.strengths} empty="No strength stands out in this run." />
       <Finding title="Weaknesses" lines={run.weaknesses} empty="No weakness stands out in this run." />
       {run.comparison ? (

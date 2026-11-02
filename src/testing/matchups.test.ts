@@ -70,6 +70,54 @@ describe("readMatchups", () => {
     expect(new Set(read.harder.map((row) => row.note.split(". ")[0])).size).toBe(1);
   });
 
+  it("names shots soon after a recovery without calling that a counter", () => {
+    const sides = Array.from({ length: 8 }, (_, index) => {
+      const soon = index >= 6;
+      return {
+        ...side(soon ? `Soon ${index}` : `Wait ${index}`, 12, "central"),
+        regainShotsPerMatch: soon ? 8 : 3,
+        modelXgAgainst: 1.2 + (soon ? 0.5 : 0),
+      };
+    });
+    const read = readMatchups(sides, "regain");
+    expect(read.weakness).toMatch(/Sides who shoot soon after a recovery/);
+    expect(read.strength).toMatch(/Sides who wait after a recovery/);
+    expect(`${read.comparison} ${read.harder[0].note}`).not.toMatch(/counter/i);
+  });
+
+  it("names frequent crosses and the share of shots they set up", () => {
+    const sides = Array.from({ length: 8 }, (_, index) => {
+      const often = index >= 6;
+      return {
+        ...side(often ? `Cross ${index}` : `Quiet ${index}`, 12, "central"),
+        crossesPerMatch: often ? 24 : 6,
+        crossShotShare: often ? 0.28 : 0.08,
+        modelXgAgainst: 1.2 + (often ? 0.5 : 0),
+      };
+    });
+    const read = readMatchups(sides, "crosses");
+    expect(read.weakness).toMatch(/Sides who shoot more often from crosses/);
+    expect(read.comparison).toMatch(/24 crosses a match/);
+    expect(read.comparison).toMatch(/6 crosses a match/);
+    expect(read.comparison).not.toMatch(/counter/i);
+  });
+
+  it("puts the progressive count beside the final-third sentence", () => {
+    const sides = Array.from({ length: 8 }, (_, index) => {
+      const direct = index >= 6;
+      return {
+        ...side(direct ? `Direct ${index}` : `Keep ${index}`, 12, "central"),
+        longPassShare: direct ? 0.25 : 0.08,
+        fieldTilt: direct ? 0.3 : 0.75,
+        progressivePerMatch: direct ? 30 : 90,
+        modelXgAgainst: 1.2 + (direct ? 0.5 : 0),
+      };
+    });
+    const read = readMatchups(sides, "direct");
+    expect(read.comparison).toMatch(/Direct sides average 30 progressive passes a match/);
+    expect(read.comparison).toMatch(/Sides who keep the ball in the final third average 90/);
+  });
+
   it("does not invent a style when every opponent plays the same way", () => {
     const sides = Array.from({ length: 8 }, (_, index) => side(`Side ${index}`, 10 + index, "central")).map((row, index) => ({
       ...row,
@@ -169,9 +217,10 @@ describe("a full test names one pattern", () => {
     expect(new Set(run.best.map((row) => row.note.split(".")[0])).size).toBe(1);
     expect(run.worst[0].note.split(".")[0]).not.toBe(run.best[0].note.split(".")[0]);
     expect(run.worst[0].note).not.toMatch(/score/i);
+    expect(run.chanceNote ?? null).toBeNull();
   });
 
-  it("says a wide attack meets wide starting shapes, and a high line meets direct sides", () => {
+  it("says a wide attack meets shots from crosses, and a high line meets direct sides", () => {
     const styles = loadStyleLibrary().sides;
     const widths = new Map(loadShapeLibrary().sides.map((side) => [side.id, side.features.width]));
     const opponents = styles.map((side) => ({ ...side, shapeWidth: widths.get(side.id) }));
@@ -196,17 +245,32 @@ describe("a full test names one pattern", () => {
       seed: 1,
       now: 3,
     });
-    expect(wide.weaknesses[0]).toMatch(/Wide starting shapes/);
-    expect(wide.strengths[0]).toMatch(/Narrow starting shapes/);
-    expect(wide.comparison).toMatch(/starting shapes/);
+    expect(wide.weaknesses[0]).toMatch(/Sides who shoot more often from crosses/);
+    expect(wide.strengths[0]).toMatch(/Sides who rarely shoot from a cross/);
+    expect(wide.comparison).toMatch(/crosses a match/);
+    expect(wide.comparison).not.toMatch(/counter/i);
     expect(wide.worst.every((row) => busiest.includes(row.team))).toBe(false);
     expect(new Set(wide.worst.map((row) => row.note.split(". ")[0])).size).toBe(1);
     expect(high.weaknesses[0]).toMatch(/Direct sides who see less of the final third/);
     expect(high.strengths[0]).toMatch(/keep the ball in the final third/);
     expect(high.comparison).toMatch(/Direct sides/);
+    expect(high.comparison).toMatch(/progressive passes a match/);
+    expect(high.chanceNote).toMatch(/Recorded chances average \d\.\d\d xG a shot/);
+    expect(high.chanceNote).toMatch(/This model prices those maps at \d\.\d\d a shot/);
     expect(new Set(high.worst.map((row) => row.note.split(". ")[0])).size).toBe(1);
     expect(wide.worst[0].note).not.toMatch(/score|counter/i);
     expect(high.worst[0].note).not.toMatch(/score|counter/i);
+    const press = runCampaign({
+      players,
+      instructions: { ...DEFAULT_INSTRUCTIONS, transition: "counter-press" },
+      opponents,
+      label: "press",
+      tacticKey: "press",
+      seed: 1,
+      now: 4,
+    });
+    const pressText = [press.comparison, ...press.strengths, ...press.weaknesses, ...press.worst.map((row) => row.note)].join(" ");
+    expect(pressText).not.toMatch(/counter/i);
   });
 });
 

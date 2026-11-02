@@ -38,6 +38,11 @@ export type CampaignOpponent = TestOpponent & {
   longPassShare?: number;
   fieldTilt?: number;
   shapeWidth?: number;
+  crossesPerMatch?: number;
+  crossShotShare?: number;
+  regainShotsPerMatch?: number;
+  keeperPassLength?: number;
+  progressivePerMatch?: number;
 };
 
 export type { SideNote } from "./matchups";
@@ -55,6 +60,8 @@ export type CampaignRun = {
   strengths: string[];
   weaknesses: string[];
   comparison: string | null;
+  /** Recorded xG per shot beside the model's price. Absent when the two agree, and never an input to the grade. */
+  chanceNote?: string | null;
   worst: SideNote[];
   best: SideNote[];
 };
@@ -112,6 +119,10 @@ export function runCampaign(input: {
       longPassShare: row.opponent.longPassShare,
       fieldTilt: row.opponent.fieldTilt,
       shapeWidth: row.opponent.shapeWidth,
+      crossesPerMatch: row.opponent.crossesPerMatch,
+      crossShotShare: row.opponent.crossShotShare,
+      regainShotsPerMatch: row.opponent.regainShotsPerMatch,
+      progressivePerMatch: row.opponent.progressivePerMatch,
     })),
     preferredAxis(input.instructions),
   );
@@ -142,6 +153,7 @@ export function runCampaign(input: {
     strengths: notes.strengths,
     weaknesses: notes.weaknesses,
     comparison: pattern.comparison,
+    chanceNote: recordedChanceNote(rows),
     worst: pattern.harder,
     best: concedingLess(pattern.easier, meanAgainst),
   };
@@ -149,8 +161,20 @@ export function runCampaign(input: {
 
 function preferredAxis(instructions: TeamInstructions): string | null {
   if (instructions.defensiveLine === "higher" && instructions.engagement !== "lower") return "direct";
-  if (instructions.width === "wider" || instructions.widthIntention === "overlap") return "shape";
+  if (instructions.transition === "counter-press") return "regain";
+  if (instructions.width === "wider" || instructions.widthIntention === "overlap") return "crosses";
   return null;
+}
+
+/** The model's xG against per opponent shot, beside the recorded figure. The grade does not read this. */
+function recordedChanceNote(rows: Row[]): string | null {
+  if (rows.length === 0) return null;
+  const recorded = mean(rows.map((row) => row.opponent.xgPerShot));
+  const priced = mean(
+    rows.map((row) => (row.opponent.shotsPerMatch > 0 ? row.modelXgAgainst / row.opponent.shotsPerMatch : 0)),
+  );
+  if (Math.abs(recorded - priced) < 0.02) return null;
+  return `Recorded chances average ${recorded.toFixed(2)} xG a shot. This model prices those maps at ${priced.toFixed(2)} a shot.`;
 }
 
 function averageRow(

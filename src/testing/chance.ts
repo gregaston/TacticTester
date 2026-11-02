@@ -22,7 +22,9 @@ import { shotXg } from "./xg";
  * direct sides who see less of the final third. The gap between the
  * engagement line and the defensive line marks up chances in the space
  * behind the press. Pass length, risk, and width move the cloud before it
- * is priced. Every player is assumed good enough to carry the role.
+ * is priced. A goalkeeper's pass length moves opponent xG only when the
+ * ball starts from a goal kick, and an average keeper leaves that price
+ * where it was. Every player is assumed good enough to carry the role.
  */
 
 const CONNECTED_GAP = 46;
@@ -31,6 +33,15 @@ const WIDE_Y = 70;
 const NORMAL_FULL_BACK = 36;
 const TUCKED = 14;
 const NORMAL_PASS = 19;
+
+/**
+ * Median goalkeeper pass length in the shipped open-data set, in yards.
+ * The span is the further extreme from that median, so an average keeper
+ * stays at 1 and either extreme moves opponent xG by 15% on goal kicks only.
+ * Both numbers are filled from the rebuilt library.
+ */
+export const KEEPER_PASS_MEDIAN = 42.06;
+export const KEEPER_PASS_SPAN = 21.34;
 
 export type ShotSpot = { x: number; y: number; weight: number };
 
@@ -50,6 +61,7 @@ export function priceChances(input: {
     longPassShare?: number;
     fieldTilt?: number;
     shapeWidth?: number;
+    keeperPassLength?: number;
   };
   situation: Situation;
   passLength: number;
@@ -189,7 +201,7 @@ function opponentFactor(
   input: {
     situation: Situation;
     instructions: TeamInstructions;
-    opponent: { longPassShare?: number; fieldTilt?: number };
+    opponent: { longPassShare?: number; fieldTilt?: number; keeperPassLength?: number };
   },
   lineGap: number,
   rest: number,
@@ -204,7 +216,14 @@ function opponentFactor(
   if (input.situation === "protect-lead") factor *= space > 12 ? 1.22 : 0.94;
   if (input.situation === "they-have-ten") factor *= 0.95;
   factor *= directMark(input.opponent, lineY, rest);
+  factor *= keeperMark(input.opponent.keeperPassLength, input.situation);
   return factor;
+}
+
+function keeperMark(length: number | undefined, situation: Situation): number {
+  if (situation !== "goal-kicks" || length == null || !Number.isFinite(length) || KEEPER_PASS_SPAN <= 0) return 1;
+  const tilt = clamp((length - KEEPER_PASS_MEDIAN) / KEEPER_PASS_SPAN, -1, 1);
+  return 1 + tilt * 0.15;
 }
 
 /** A typical starting width in this set, mean distance from the centre. */

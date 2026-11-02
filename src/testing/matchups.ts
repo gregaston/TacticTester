@@ -37,6 +37,10 @@ export type MatchupSide = {
   longPassShare?: number;
   fieldTilt?: number;
   shapeWidth?: number;
+  crossesPerMatch?: number;
+  crossShotShare?: number;
+  regainShotsPerMatch?: number;
+  progressivePerMatch?: number;
 };
 
 type Scored = MatchupSide & { edge: number };
@@ -72,6 +76,18 @@ const AXES: Axis[] = [
     high: "Direct sides who see less of the final third",
     low: "Sides who keep the ball in the final third",
     value: (side) => directness(side.longPassShare, side.fieldTilt),
+  },
+  {
+    id: "crosses",
+    high: "Sides who shoot more often from crosses",
+    low: "Sides who rarely shoot from a cross",
+    value: (side) => side.crossShotShare ?? null,
+  },
+  {
+    id: "regain",
+    high: "Sides who shoot soon after a recovery",
+    low: "Sides who wait after a recovery",
+    value: (side) => side.regainShotsPerMatch ?? null,
   },
 ];
 
@@ -119,10 +135,32 @@ export function readMatchups(sides: MatchupSide[], prefer: string | null = null)
   const easierName = costlyIsHigh ? pattern.axis.low : pattern.axis.high;
   const gap = Math.abs(pattern.gap);
   const value = (side: Scored) => pattern.axis.value(side) ?? 0;
+  const aside =
+    pattern.axis.id === "direct"
+      ? countAside(
+          grouped.high,
+          grouped.low,
+          (side) => side.progressivePerMatch,
+          "Direct sides average",
+          "Sides who keep the ball in the final third average",
+          "progressive passes a match",
+          1,
+        )
+      : pattern.axis.id === "crosses"
+        ? countAside(
+            grouped.high,
+            grouped.low,
+            (side) => side.crossesPerMatch,
+            "Sides who shoot more often from crosses average",
+            "Sides who rarely shoot from a cross average",
+            "crosses a match",
+            1,
+          )
+        : "";
   return {
     weakness: `${costlyName} cost more than their shot count.`,
     strength: `${easierName} cost less than their shot count.`,
-    comparison: `${costlyName} cost ${gap.toFixed(2)} more than ${lowerFirst(easierName)}, after shot count.`,
+    comparison: `${costlyName} cost ${gap.toFixed(2)} more than ${lowerFirst(easierName)}, after shot count.${aside}`,
     harder: examples(costly, value, costlyIsHigh, "worse").map((side) => note(side, costlyName)),
     easier: examples(easierGroup, value, !costlyIsHigh, "better").map((side) => note(side, easierName)),
   };
@@ -139,6 +177,32 @@ function examples(group: Scored[], value: (side: Scored) => number, highEnd: boo
 
 function lowerFirst(value: string): string {
   return value.length === 0 ? value : value[0].toLowerCase() + value.slice(1);
+}
+
+/** A stored count beside the sentence, only when the two ends of the split actually differ. */
+function countAside(
+  high: Scored[],
+  low: Scored[],
+  pick: (side: Scored) => number | undefined,
+  highLead: string,
+  lowLead: string,
+  unit: string,
+  minimumGap: number,
+): string {
+  const highMean = knownMean(high, pick);
+  const lowMean = knownMean(low, pick);
+  if (highMean == null || lowMean == null || Math.abs(highMean - lowMean) < minimumGap) return "";
+  return ` ${highLead} ${formatCount(highMean, unit)}. ${lowLead} ${formatCount(lowMean, unit)}.`;
+}
+
+function knownMean(sides: Scored[], pick: (side: Scored) => number | undefined): number | null {
+  const values = sides.map(pick).filter((value): value is number => value != null && Number.isFinite(value));
+  if (values.length === 0 || values.length < sides.length) return null;
+  return mean(values);
+}
+
+function formatCount(value: number, unit: string): string {
+  return `${Math.round(value)} ${unit}`;
 }
 
 function bestAxis(sides: Scored[], prefer: string | null): { axis: Axis; gap: number } | null {

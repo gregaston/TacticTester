@@ -27,6 +27,16 @@ describe("style library", () => {
       expect(side.progressivePerMatch).toBeGreaterThanOrEqual(0);
       expect(side.fieldTilt).toBeGreaterThanOrEqual(0);
       expect(side.fieldTilt).toBeLessThanOrEqual(1);
+      expect(side.crossesPerMatch).toBeGreaterThan(0);
+      expect(side.crossesPerMatch).toBeLessThan(40);
+      expect(side.crossShotShare).toBeGreaterThanOrEqual(0);
+      expect(side.crossShotShare).toBeLessThanOrEqual(1);
+      expect(side.regainShotsPerMatch).toBeGreaterThan(0);
+      expect(side.regainShotsPerMatch).toBeLessThan(15);
+      expect(side.keeperPassLength).toBeGreaterThan(8);
+      expect(side.keeperPassLength).toBeLessThan(70);
+      expect(side.highPassShare).toBeGreaterThan(0);
+      expect(side.highPassShare).toBeLessThan(0.6);
       expect(side.passLength).toBeGreaterThanOrEqual(8);
       expect(side.passLength).toBeLessThanOrEqual(40);
       expect(side.xgPerShot).toBeGreaterThanOrEqual(0.02);
