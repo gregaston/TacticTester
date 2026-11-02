@@ -4,7 +4,6 @@
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  scroll-margin-top: calc(var(--target) + env(safe-area-inset-top));
 }
 
 .role-sheet .kicker {

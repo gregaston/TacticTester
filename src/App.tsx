@@ -271,11 +271,6 @@ export function App() {
     }
   }, [persistKey]);
 
-  useEffect(() => {
-    if (!board.selectedId) return;
-    document.querySelector(".role-sheet")?.scrollIntoView({ block: "nearest" });
-  }, [board.selectedId]);
-
   function save() {
     saveTactic(window.localStorage, currentTactic());
     setStatus("Saved on this device");
@@ -332,15 +327,6 @@ export function App() {
             ) : null}
           </span>
         </section>
-        {selected && roleId ? (
-          <RoleSheet
-            positionName={selected.name}
-            roles={roleChoices}
-            roleId={roleId}
-            arrival={arrival}
-            onRole={assign}
-          />
-        ) : null}
         <div className="pitch-frame">
           <div className="pitch-rail">
             <LineSlider
@@ -385,6 +371,15 @@ export function App() {
             onCommit={commit}
           />
         </div>
+        {selected && roleId ? (
+          <RoleSheet
+            positionName={selected.name}
+            roles={roleChoices}
+            roleId={roleId}
+            arrival={arrival}
+            onRole={assign}
+          />
+        ) : null}
         <InstructionSheet
           passing={PASSING}
           tempo={TEMPO}
