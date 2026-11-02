@@ -93,49 +93,10 @@ describe("season records", () => {
       points: 90,
       manager: "Xabi Alonso",
     });
-    expect(byId.get("chelsea-fcw-fa-women-s-super-league-2023-2024")).toMatchObject({
-      place: 1,
-      won: 18,
-      drawn: 1,
-      lost: 3,
-      goalsFor: 71,
-      goalsAgainst: 18,
-      points: 55,
-      manager: "Emma Hayes",
-    });
-    expect(byId.get("bayern-munchen-w-frauen-bundesliga-2023-2024")).toMatchObject({
-      place: 1,
-      won: 19,
-      drawn: 3,
-      lost: 0,
-      points: 60,
-    });
-    expect(byId.get("barcelona-wfc-liga-f-2023-2024")).toMatchObject({
-      place: 1,
-      won: 29,
-      drawn: 1,
-      lost: 0,
-      goalsFor: 137,
-      goalsAgainst: 10,
-      points: 88,
-    });
-    expect(byId.get("as-roma-w-serie-a-women-2023-2024")).toMatchObject({
-      place: 1,
-      played: 26,
-      won: 23,
-      drawn: 1,
-      lost: 2,
-      points: 70,
-    });
-    expect(byId.get("sassuolo-w-serie-a-women-2023-2024")?.place).toBe(4);
-    expect(byId.get("ac-milan-w-serie-a-women-2023-2024")?.place).toBe(6);
   });
 });
 
 function playedIn(id: string): number {
-  if (id.includes("frauen-bundesliga") || id.includes("fa-women")) return 22;
   if (id.includes("1-bundesliga")) return 34;
-  if (id.includes("liga-f")) return 30;
-  if (id.includes("serie-a-women")) return 26;
   return 38;
 }

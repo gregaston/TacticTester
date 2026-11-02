@@ -40,8 +40,8 @@ const NORMAL_PASS = 19;
  * stays at 1 and either extreme moves opponent xG by 15% on goal kicks only.
  * Both numbers are filled from the rebuilt library.
  */
-export const KEEPER_PASS_MEDIAN = 42.06;
-export const KEEPER_PASS_SPAN = 21.34;
+export const KEEPER_PASS_MEDIAN = 48.68;
+export const KEEPER_PASS_SPAN = 17.67;
 
 export type ShotSpot = { x: number; y: number; weight: number };
 
@@ -102,7 +102,7 @@ export function roleShots(players: ProfilePlayer[]): ShotSpot[] {
   const spots = players
     .filter((player) => player.line !== "GK")
     .map((player) => {
-      const effect = effectFor(player.roleId, player.duty);
+      const effect = effectFor(player.roleId);
       const arrival = arrivalPoint({ x: player.x, y: player.y }, effect);
       const pull = 8 + (1 - effect.shooting) * 10;
       return {

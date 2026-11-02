@@ -28,7 +28,6 @@ function player(patch: Partial<ProfilePlayer> & Pick<ProfilePlayer, "line" | "y"
     wide: false,
     left: false,
     roleId: patch.line === "GK" ? "goalkeeper" : patch.line === "ST" ? "advanced-forward" : "centre-back",
-    duty: "support",
     ...patch,
   };
 }

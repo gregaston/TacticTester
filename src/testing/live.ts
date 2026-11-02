@@ -51,8 +51,8 @@ export function liveSample(input: {
     0.5 +
       mean(
         input.players.map((player) => {
-          const chosen = effectFor(player.roleId, player.duty).passRisk;
-          const base = effectFor(resolveRole(player.line, player.wide).roleId, "support").passRisk;
+          const chosen = effectFor(player.roleId).passRisk;
+          const base = effectFor(resolveRole(player.line, player.wide)).passRisk;
           return chosen - base;
         }),
       ),
@@ -151,7 +151,7 @@ export function styleShiftNote(roleChanged: boolean, before: string | null, afte
 }
 
 function arrivedY(player: ProfilePlayer): number {
-  return arrivalPoint({ x: player.x, y: player.y }, effectFor(player.roleId, player.duty)).y;
+  return arrivalPoint({ x: player.x, y: player.y }, effectFor(player.roleId)).y;
 }
 
 function mean(values: number[]): number {
