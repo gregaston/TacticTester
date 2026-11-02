@@ -67,6 +67,13 @@
   transform: translateY(2px);
 }
 
+.keep-drop button.keep-clear {
+  background: var(--paper);
+  color: var(--plum);
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+
 .keep-status {
   margin: 8px 4px 4px;
   color: var(--muted);
