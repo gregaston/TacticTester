@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { closestMatch } from "./compare/closest";
-import { featuresFromPlayers } from "./compare/features";
+import { closestShape, featuresFromPlayers } from "./compare/features";
 import { shapeSummary } from "./compare/format";
 import { loadSeasonRecords } from "./data/records";
 import { loadShapeLibrary } from "./data/shape-library";
@@ -20,7 +20,6 @@ import {
 import { chooseTemplate, createBoard, movePlayer, selectPlayer, type BoardState } from "./tactics/board";
 import {
   DEFAULT_INSTRUCTIONS,
-  dutyNudge,
   instructionNotes,
   readInstructions,
   type Engagement,
@@ -172,22 +171,20 @@ export function App() {
       y: player.y,
       line: label.line,
       roleId: choice.roleId,
-      duty: dutyNudge(choice.duty, instructions.mentality),
+      duty: choice.duty,
     });
   }
   const heat = heatField(heatPlayers, instructions, { defensiveY, engagementY });
   const summary = shapeSummary(featuresFromPlayers(storedDisplay));
-  const profilePlayers = playersFromBoard(board.players, placed, setups).map((player) => ({
-    ...player,
-    duty: dutyNudge(player.duty, instructions.mentality),
-  }));
+  const profilePlayers = playersFromBoard(board.players, placed, setups);
   const reading = readStyle(profilePlayers, instructions, styles.sides);
   const match = closestMatch(
-    featuresFromPlayers(visualPlayers),
+    closestShape(storedDisplay),
     reading.profile,
     library.sides,
     styles.sides,
     records.sides,
+    { players: profilePlayers, instructions, styles: styles.sides },
   );
   const tacticKey = JSON.stringify({
     players: board.players.map((player) => [player.id, player.x, player.y]),
@@ -236,22 +233,14 @@ export function App() {
   const roleId: RoleId | null =
     roleChoices.find((role) => role.id === stored?.roleId)?.id ?? roleChoices[0]?.id ?? null;
   const duty = stored?.duty ?? "support";
-  const nudgedDuty = dutyNudge(duty, instructions.mentality);
   const selectedPlayer = visualPlayers.find((player) => player.id === board.selectedId) ?? null;
-  const arrivalLine =
+  const arrival =
     selectedPlayer && roleId && selected
       ? arrivalNote(
           selectedPlayer,
-          influencedPoint(selectedPlayer, selected.line, effectFor(roleId, nudgedDuty), instructions),
+          influencedPoint(selectedPlayer, selected.line, effectFor(roleId, duty), instructions),
         )
       : null;
-  const mentalityNote =
-    nudgedDuty === duty
-      ? null
-      : instructions.mentality === "attacking"
-        ? "Attacking mentality pushes this duty on."
-        : "Defensive mentality holds this duty back.";
-  const arrival = [arrivalLine, mentalityNote].filter((line) => line).join(" ") || null;
 
   function assign(nextRole: string, nextDuty: Duty) {
     if (!board.selectedId) return;

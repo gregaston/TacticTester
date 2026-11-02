@@ -234,6 +234,40 @@
   letter-spacing: 0.03em;
 }
 
+.style-figures {
+  margin: 12px 0 0;
+}
+
+.style-figures div {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  gap: 4px 8px;
+  align-items: baseline;
+  margin-top: 4px;
+}
+
+.style-figures dt {
+  margin: 0;
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--kicker-size);
+  letter-spacing: var(--kicker-tracking);
+  text-transform: uppercase;
+}
+
+.style-figures dd {
+  margin: 0;
+  color: var(--plum);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.style-figures dd span {
+  color: var(--muted);
+  font-weight: 600;
+}
+
 .closest .difference {
   margin: 8px 0 0;
   color: var(--muted);

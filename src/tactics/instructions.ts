@@ -133,14 +133,13 @@ const SHOOTING_VOLUME: Record<Shooting, number> = {
   "shoot on sight": 0.1,
 };
 
-const DUTY_ORDER = ["defend", "support", "attack"] as const;
-
-export function dutyNudge(duty: Duty, mentality: Mentality): Duty {
-  if (mentality === "balanced") return duty;
-  const index = DUTY_ORDER.indexOf(duty);
-  const step = mentality === "attacking" ? 1 : -1;
-  const next = Math.min(DUTY_ORDER.length - 1, Math.max(0, index + step));
-  return DUTY_ORDER[next];
+/**
+ * The duty the user tapped is the duty the model prices.
+ * Mentality still moves the team's pass length, press, and shot volume.
+ * It does not promote a holder off Defend or drop a pressing forward off Support.
+ */
+export function dutyNudge(duty: Duty, _mentality: Mentality): Duty {
+  return duty;
 }
 
 /** Press, mentality, and transition only. The two pitch lines move players themselves. */
@@ -184,6 +183,8 @@ const LONG_THROUGH_A_CROWD =
   "The side is trying to play long through a crowded middle.";
 const ATTACK_THEN_DROP = "The side attacks, then drops off when the ball is lost.";
 const DEEP_SIDE_LONG = "A deep side is trying to play long.";
+const GO_LONG_ON_DIRECT = "Go long is added on top of more direct.";
+const PLAY_OUT_ON_SHORT = "Play out is added on top of shorter passing.";
 
 export function instructionNotes(instructions: TeamInstructions): string[] {
   const notes: string[] = [];
@@ -202,7 +203,37 @@ export function instructionNotes(instructions: TeamInstructions): string[] {
   if (instructions.mentality === "defensive" && instructions.passing === "more direct") {
     notes.push(DEEP_SIDE_LONG);
   }
+  if (instructions.passing === "more direct" && instructions.distribution === "go long") {
+    notes.push(GO_LONG_ON_DIRECT);
+  }
+  if (instructions.passing === "shorter" && instructions.distribution === "play out") {
+    notes.push(PLAY_OUT_ON_SHORT);
+  }
   return notes;
+}
+
+/** The line sliders, described on their own so they do not rewrite the formation. */
+export function lineNote(instructions: TeamInstructions): string | null {
+  const line =
+    instructions.defensiveLine === "higher"
+      ? "The defensive line is on the higher stop"
+      : instructions.defensiveLine === "deeper"
+        ? "The defensive line is on the deeper stop"
+        : null;
+  const engage =
+    instructions.engagement === "higher"
+      ? "Engagement is on the higher stop"
+      : instructions.engagement === "lower"
+        ? "Engagement is on the lower stop"
+        : null;
+  if (line && engage) return `${line}, and ${lowerFirst(engage)}.`;
+  if (line) return `${line}.`;
+  if (engage) return `${engage}.`;
+  return null;
+}
+
+function lowerFirst(value: string): string {
+  return value.charAt(0).toLowerCase() + value.slice(1);
 }
 
 const PASSING_VALUES = ["shorter", "standard", "more direct"] as const;

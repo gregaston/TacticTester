@@ -170,8 +170,8 @@ function Result({ run, earlier, titleId }: { run: CampaignRun; earlier: number |
           <p>{run.comparison}</p>
         </section>
       ) : null}
-      <SideList title="Harder than their shots" rows={run.worst} />
-      <SideList title="Easier than their shots" rows={run.best} />
+      <SideList title="Worse than the shot count" rows={run.worst} />
+      <SideList title="Better than the shot count" rows={run.best} />
     </div>
   );
 }

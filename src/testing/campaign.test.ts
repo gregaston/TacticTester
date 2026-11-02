@@ -152,4 +152,40 @@ describe("runCampaign", () => {
     expect(run.weaknesses.join(" ")).toMatch(/full-backs sit inside/);
     expect(run.weaknesses.join(" ")).toMatch(/wide areas/);
   });
+
+  it("leads with the empty block, and states what a low-event deep block concedes", () => {
+    const board = createBoard();
+    const players = playersOf(board);
+    const empty = runCampaign({
+      players,
+      instructions: {
+        ...DEFAULT_INSTRUCTIONS,
+        defensiveLine: "higher",
+        engagement: "lower",
+        pressing: "less",
+        passing: "more direct",
+        distribution: "go long",
+        shooting: "shoot on sight",
+      },
+      opponents: styles,
+      label: "empty",
+      tacticKey: "empty",
+      seed: 1,
+      now: 5,
+    });
+    const deep = runCampaign({
+      players,
+      instructions: { ...DEFAULT_INSTRUCTIONS, defensiveLine: "deeper", tempo: "lower", shooting: "work the ball" },
+      opponents: styles,
+      label: "deep-block",
+      tacticKey: "deep-block",
+      seed: 1,
+      now: 6,
+    });
+    expect(empty.weaknesses[0]).toMatch(/balls over the top/);
+    expect(empty.strengths.join(" ")).not.toMatch(/shot count is among the higher/);
+    expect(empty.place).toBeGreaterThanOrEqual(18);
+    expect(deep.weaknesses.join(" ")).toMatch(/deeper block leaves xG against at/);
+    expect(deep.best.every((side) => side.modelXgAgainst < deep.meanAgainst)).toBe(true);
+  });
 });

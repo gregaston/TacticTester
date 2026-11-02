@@ -177,8 +177,8 @@ function userFactor(
   let factor = 1;
   const pressGap = input.opponent.pressHeight - input.pressHeight;
   const gap = input.situation === "protect-lead" ? pressGap + 8 : input.situation === "chase" ? pressGap - 4 : pressGap;
-  if (gap >= 8 && input.passLength <= 17 && input.passRisk <= 0.4) factor *= 0.8;
-  else if (gap >= 8 && input.passLength >= 24) factor *= 0.94;
+  if (gap >= 8 && input.passLength <= 17.2 && input.passRisk <= 0.4) factor *= 0.8;
+  else if (gap >= 8 && input.passLength >= 21.2) factor *= 0.94;
   else if (gap >= 8) factor *= 0.9;
   if (input.situation === "goal-kicks" && input.instructions.distribution === "play out" && gap >= 6) factor *= 0.7;
   if (input.situation === "settled-attack" && lineGap > CONNECTED_GAP + 12) factor *= 0.95;
@@ -199,7 +199,7 @@ function opponentFactor(
   const space = Math.max(0, lineGap - CONNECTED_GAP);
   let factor = 1 + space / 60;
   factor *= clamp(1 + (4 - rest) * 0.1, 0.8, 1.6);
-  if (lineY >= 38 && engagementY <= 56) factor *= 1.18;
+  if (lineY >= 38 && engagementY <= 56) factor *= 1.45;
   if (input.instructions.engagement === "higher" && space <= 8 && rest >= 3) factor *= 0.92;
   if (input.situation === "protect-lead") factor *= space > 12 ? 1.22 : 0.94;
   if (input.situation === "they-have-ten") factor *= 0.95;
