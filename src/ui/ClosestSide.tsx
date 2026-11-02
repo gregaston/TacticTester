@@ -33,6 +33,11 @@ export function ClosestSide({ match }: { match: ClosestMatch | null }) {
           <strong>{match.shapePercent}%</strong>
         </div>
       </div>
+      {match.closerStyle ? (
+        <p className="difference">
+          {match.closerStyle.team} is closer in style, {match.closerStyle.stylePercent}%.
+        </p>
+      ) : null}
       <dl className="style-figures">
         {match.figures.map((figure) => (
           <div key={figure.label}>

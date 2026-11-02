@@ -121,9 +121,11 @@
 }
 
 .test-panel {
+  display: flex;
+  flex-direction: column;
   width: min(100%, calc(var(--page) + 32px));
-  max-height: min(92vh, 44rem);
-  overflow: auto;
+  max-height: min(78vh, 36rem);
+  overflow: hidden;
   background: var(--card);
   color: var(--plum);
   border-radius: 16px 16px 0 0;
@@ -131,9 +133,14 @@
   box-shadow: var(--shadow);
 }
 
+.test-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+
 .test-pager {
-  position: sticky;
-  bottom: 0;
+  flex: none;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: 8px;
@@ -195,6 +202,7 @@
 
 .test-close {
   display: block;
+  flex: none;
   min-height: var(--target);
   margin-left: auto;
   border: 0;
@@ -340,7 +348,6 @@
   dominant-baseline: central;
 }
 
-.report-pitch-note,
 .report-key {
   margin: 8px 0 0;
 }
@@ -388,6 +395,12 @@
 
 .report-side-delta .delta {
   margin: 0;
+}
+
+.test-running {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
 }
 
 .test-running h2,

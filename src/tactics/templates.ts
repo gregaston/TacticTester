@@ -61,6 +61,12 @@ export const TEMPLATES: TacticTemplate[] = [
     players: players(["GK", "DL", "LCB", "RCB", "DR", "LDM", "RDM", "LAM", "RAM", "LCF", "RCF"]),
   },
   {
+    id: "4-2-2-0-2",
+    name: "4-2-2-0-2",
+    // Central mids, not the attacking pair in 4-2-2-2. The zero stays on the button.
+    players: players(["GK", "DL", "LCB", "RCB", "DR", "LDM", "RDM", "LCM", "RCM", "LCF", "RCF"]),
+  },
+  {
     id: "4-5-1",
     name: "4-5-1",
     players: players(["GK", "DL", "LCB", "RCB", "DR", "LM", "LCM", "CM", "RCM", "RM", "CF"]),
@@ -105,6 +111,12 @@ export const TEMPLATES: TacticTemplate[] = [
     id: "5-2-3",
     name: "5-2-3",
     players: players(["GK", "LWB", "LCB", "CB", "RCB", "RWB", "LCM", "RCM", "LWF", "CF", "RWF"]),
+  },
+  {
+    id: "5-2-0-2-1",
+    name: "5-2-0-2-1",
+    // Wing-backs stay on the defensive line. Attacking mids, not central mids.
+    players: players(["GK", "LWB", "LCB", "CB", "RCB", "RWB", "LDM", "RDM", "LAM", "RAM", "CF"]),
   },
 ];
 

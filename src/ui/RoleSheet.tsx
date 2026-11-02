@@ -7,14 +7,16 @@ export type RoleSheetProps = {
   roles: RoleChoice[];
   roleId: string | null;
   arrival: string | null;
+  refused?: string | null;
   onRole: (id: string) => void;
 };
 
-export function RoleSheet({ positionName, roles, roleId, arrival, onRole }: RoleSheetProps) {
+export function RoleSheet({ positionName, roles, roleId, arrival, refused, onRole }: RoleSheetProps) {
   return (
     <section className="role-sheet" aria-label="Player role">
       <p className="kicker">Player role</p>
       <h2>{positionName}</h2>
+      {refused ? <p className="role-arrival">{refused}</p> : null}
       {arrival ? <p className="role-arrival">{arrival}</p> : null}
       {roles.length === 0 ? (
         <p className="role-empty">Place a player, then choose a role.</p>

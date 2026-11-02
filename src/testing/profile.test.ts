@@ -3,7 +3,7 @@ import { loadStyleLibrary } from "../data/style-library";
 import { createBoard, movePlayer } from "../tactics/board";
 import { DEFAULT_INSTRUCTIONS, type TeamInstructions } from "../tactics/instructions";
 import { labelSquad } from "../tactics/positions";
-import { playersFromBoard, readStyle, shotMapCells, type Assignment } from "./profile";
+import { instructionImpacts, playersFromBoard, readStyle, roleRefusal, shotMapCells, type Assignment } from "./profile";
 import type { StyleFingerprint } from "./types";
 
 const library = loadStyleLibrary();
@@ -17,6 +17,55 @@ function reading(instructions: TeamInstructions = DEFAULT_INSTRUCTIONS, setups: 
 function text(instructions?: TeamInstructions, setups?: Record<string, Assignment>) {
   return reading(instructions, setups).lines.join(" ");
 }
+
+describe("instructionImpacts", () => {
+  const spread = [
+    { passLength: 16, shotsPerMatch: 8, pressHeight: 30 },
+    { passLength: 19, shotsPerMatch: 12, pressHeight: 40 },
+    { passLength: 22, shotsPerMatch: 16, pressHeight: 50 },
+  ];
+
+  it("uses a plural verb for roles and names more direct in yards", () => {
+    const board = createBoard();
+    const labels = labelSquad(board.players);
+    const direct = instructionImpacts(
+      playersFromBoard(board.players, labels, {}),
+      { ...DEFAULT_INSTRUCTIONS, passing: "more direct" },
+      spread,
+    );
+    expect(direct.join(" ")).toMatch(/More direct lengthens the pass by \d+(\.\d)? yards\./);
+    expect(direct.join(" ")).not.toMatch(/The roles lengthens/);
+
+    const centre = board.players.find((player) => labels.byId[player.id].code === "DC");
+    const mid = board.players.find((player) => labels.byId[player.id].code === "MC");
+    const striker = board.players.find((player) => labels.byId[player.id].line === "ST");
+    const setups: Record<string, Assignment> = {};
+    if (centre) setups[centre.id] = { roleId: "ball-playing-defender" };
+    if (mid) setups[mid.id] = { roleId: "central-midfielder" };
+    if (striker) setups[striker.id] = { roleId: "false-nine" };
+    const roles = instructionImpacts(playersFromBoard(board.players, labels, setups), DEFAULT_INSTRUCTIONS, spread);
+    expect(roles.some((line) => /^Roles lengthen the pass by \d+(\.\d)? yards\.$/.test(line))).toBe(true);
+    expect(roles.join(" ")).not.toMatch(/The roles lengthens/);
+
+    const named = instructionImpacts(
+      playersFromBoard(board.players, labels, centre ? { [centre.id]: { roleId: "ball-playing-defender" } } : {}),
+      DEFAULT_INSTRUCTIONS,
+      spread,
+    );
+    expect(named.some((line) => /^The ball-playing defender lengthens the pass by \d+(\.\d)? yards\.$/.test(line))).toBe(true);
+  });
+});
+
+describe("roleRefusal", () => {
+  it("sends a regista out of a central midfield seat and leaves an untouched player alone", () => {
+    expect(roleRefusal("CM", false, { roleId: "regista" })).toEqual({
+      asked: "regista",
+      used: "ball-winning-midfielder",
+    });
+    expect(roleRefusal("CM", false)).toBeNull();
+    expect(roleRefusal("DM", false, { roleId: "regista" })).toBeNull();
+  });
+});
 
 describe("shotMapCells", () => {
   it("puts the attacking column on the top row", () => {
