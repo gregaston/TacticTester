@@ -123,6 +123,68 @@
   box-shadow: var(--shadow);
 }
 
+.test-pager {
+  position: sticky;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  margin: 16px calc(var(--gutter) * -1) calc(-20px - env(safe-area-inset-bottom));
+  padding: 10px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+  background: var(--card);
+  border-top: 1px solid var(--line);
+}
+
+.test-pager button {
+  min-height: var(--target);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--plum);
+  color: var(--on-plum);
+  box-shadow: var(--shadow);
+  padding: 0 12px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.test-pager button:disabled {
+  background: var(--paper);
+  color: var(--muted);
+  box-shadow: none;
+}
+
+.test-pager button:focus-visible {
+  outline: 2px solid var(--plum);
+  outline-offset: 2px;
+}
+
+.test-pager p {
+  margin: 0;
+  color: var(--plum);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.test-pager p span {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.8rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
 .test-close {
   display: block;
   min-height: var(--target);
