@@ -10,6 +10,7 @@ import {
   type StyleProfile,
 } from "../testing/profile";
 import type { ShapeFeatures } from "./features";
+import { compactShape } from "./format";
 import { blockGap, comparableSides, formationGap, shapeDifference } from "./nearest";
 import type { SideSummary } from "./types";
 
@@ -36,6 +37,10 @@ export type ClosestMatch = {
   lever: string | null;
   /** Line height, kept off the formation counts. */
   line: string | null;
+  /** In-game shape, only when it differs from the start and shows up often. */
+  shift: string | null;
+  /** Loft against length, only when the two disagree. */
+  loft: string | null;
 };
 
 export type StyleFigure = {
@@ -162,7 +167,39 @@ export function closestMatch(
     figures: styleFigures(profile, best.style, styles),
     lever: context ? leverLine(context.players, context.instructions, context.styles, profile, best.style) : null,
     line: context ? lineNote(context.instructions) : null,
+    shift: shiftSentence(best.shape),
+    loft: loftSentence(best.style, styles),
   };
+}
+
+function shiftSentence(side: SideSummary): string | null {
+  if (!side.shiftKey || side.shiftShare == null) return null;
+  if (side.shiftKey === side.formationKey || side.shiftShare < 0.3) return null;
+  const percent = Math.round(side.shiftShare * 100);
+  return `After kickoff they most often become ${compactShape(side.shiftKey)}, in ${percent}% of matches.`;
+}
+
+function loftSentence(side: StyleSide, styles: StyleSide[]): string | null {
+  if (typeof side.highPassShare !== "number" || !Number.isFinite(side.highPassShare)) return null;
+  const passes = styles.map((item) => item.passLength).filter((value) => Number.isFinite(value));
+  const highs = styles
+    .map((item) => item.highPassShare)
+    .filter((value): value is number => typeof value === "number" && Number.isFinite(value));
+  if (passes.length < 8 || highs.length < 8) return null;
+  const passLow = quartile(passes, 0.25);
+  const passHigh = quartile(passes, 0.75);
+  const loftLow = quartile(highs, 0.25);
+  const loftHigh = quartile(highs, 0.75);
+  if (passHigh <= passLow || loftHigh <= loftLow) return null;
+  if (side.passLength >= passHigh && side.highPassShare <= loftLow) return "Their longer passes stay on the ground.";
+  if (side.passLength <= passLow && side.highPassShare >= loftHigh) return "Their shorter passes are played in the air.";
+  return null;
+}
+
+function quartile(values: number[], fraction: number): number {
+  const sorted = [...values].sort((a, b) => a - b);
+  const index = Math.min(sorted.length - 1, Math.floor((sorted.length - 1) * fraction));
+  return sorted[index];
 }
 
 function styleFigures(profile: StyleProfile, side: StyleSide, styles: StyleSide[]): StyleFigure[] {

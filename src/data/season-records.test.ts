@@ -15,8 +15,9 @@ describe("season records", () => {
     expect(new Set(records.sides.map((side) => side.id))).toEqual(new Set(shapes));
     expect(new Set(styles)).toEqual(new Set(shapes));
     for (const side of records.sides) {
-      expect(side.played).toBe(38);
-      expect(side.won + side.drawn + side.lost).toBe(38);
+      const played = playedIn(side.id);
+      expect(side.played).toBe(played);
+      expect(side.won + side.drawn + side.lost).toBe(played);
       expect(side.points).toBe(side.won * 3 + side.drawn);
       expect(side.place).toBeGreaterThanOrEqual(1);
       expect(side.place).toBeLessThanOrEqual(20);
@@ -70,5 +71,71 @@ describe("season records", () => {
     expect(byId.get("genoa-serie-a-2015-2016")?.place).toBe(11);
     expect(byId.get("espanyol-la-liga-2015-2016")?.place).toBe(13);
     expect(byId.get("eibar-la-liga-2015-2016")?.place).toBe(14);
+    expect(byId.get("bayer-leverkusen-1-bundesliga-2015-2016")).toMatchObject({
+      place: 3,
+      played: 34,
+      won: 18,
+      drawn: 6,
+      lost: 10,
+      goalsFor: 56,
+      goalsAgainst: 40,
+      points: 60,
+      manager: "Roger Schmidt",
+    });
+    expect(byId.get("bayer-leverkusen-1-bundesliga-2023-2024")).toMatchObject({
+      place: 1,
+      played: 34,
+      won: 28,
+      drawn: 6,
+      lost: 0,
+      goalsFor: 89,
+      goalsAgainst: 24,
+      points: 90,
+      manager: "Xabi Alonso",
+    });
+    expect(byId.get("chelsea-fcw-fa-women-s-super-league-2023-2024")).toMatchObject({
+      place: 1,
+      won: 18,
+      drawn: 1,
+      lost: 3,
+      goalsFor: 71,
+      goalsAgainst: 18,
+      points: 55,
+      manager: "Emma Hayes",
+    });
+    expect(byId.get("bayern-munchen-w-frauen-bundesliga-2023-2024")).toMatchObject({
+      place: 1,
+      won: 19,
+      drawn: 3,
+      lost: 0,
+      points: 60,
+    });
+    expect(byId.get("barcelona-wfc-liga-f-2023-2024")).toMatchObject({
+      place: 1,
+      won: 29,
+      drawn: 1,
+      lost: 0,
+      goalsFor: 137,
+      goalsAgainst: 10,
+      points: 88,
+    });
+    expect(byId.get("as-roma-w-serie-a-women-2023-2024")).toMatchObject({
+      place: 1,
+      played: 26,
+      won: 23,
+      drawn: 1,
+      lost: 2,
+      points: 70,
+    });
+    expect(byId.get("sassuolo-w-serie-a-women-2023-2024")?.place).toBe(4);
+    expect(byId.get("ac-milan-w-serie-a-women-2023-2024")?.place).toBe(6);
   });
 });
+
+function playedIn(id: string): number {
+  if (id.includes("frauen-bundesliga") || id.includes("fa-women")) return 22;
+  if (id.includes("1-bundesliga")) return 34;
+  if (id.includes("liga-f")) return 30;
+  if (id.includes("serie-a-women")) return 26;
+  return 38;
+}

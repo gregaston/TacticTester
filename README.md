@@ -33,7 +33,11 @@ Raw StatsBomb files are cached under `.cache/` and are not committed.
 
 ## Data
 
-Starting shapes come from [StatsBomb open data](https://github.com/statsbomb/open-data): the full 2015/16 Premier League, La Liga, Serie A, and Ligue 1, plus Arsenal's 38 Premier League matches in 2003/04. A side is included only when that file has at least 15 of their matches.
+Starting shapes come from [StatsBomb open data](https://github.com/statsbomb/open-data). The complete league seasons are the 2015/16 Premier League, La Liga, Serie A, and Ligue 1, plus the 2023/24 FA Women's Super League, Frauen-Bundesliga, Liga F, and Serie A Women. Arsenal's 2003/04 Premier League season and Bayer Leverkusen's 2015/16 and 2023/24 Bundesliga seasons are included because those files contain every league match that club played. A side is included only when the file has at least 15 of their matches.
+
+The open data has no 2024/25 or 2025/26 season, and no full men's league after 2015/16 except those two Leverkusen seasons. Later La Liga and Ligue 1 files are one club and short of a season, so the missing results are not filled in.
+
+The same matches also count crosses, shots within eight seconds of a recovery, goalkeeper pass length, the share of passes in the air, and the shape named most often after kickoff. A comparison names one of those splits only when it clears the same bar as the other opponent styles. Goalkeeper pass length changes the price of a goal kick, and an average keeper leaves that price where it was. Recorded xG per shot is a label, not part of the grade.
 
 Line height in this slice is the named starting position. It is not a measured defensive line. Rebuild with `npm run library`.
 

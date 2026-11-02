@@ -4,7 +4,7 @@ import { DEFAULT_INSTRUCTIONS } from "../tactics/instructions";
 import { labelSquad } from "../tactics/positions";
 import { loadStyleLibrary } from "../data/style-library";
 import { playersFromBoard, type ProfilePlayer } from "./profile";
-import { priceChances } from "./chance";
+import { KEEPER_PASS_MEDIAN, KEEPER_PASS_SPAN, priceChances } from "./chance";
 import { runCampaign } from "./campaign";
 import type { StyleFingerprint } from "./types";
 
@@ -12,7 +12,9 @@ function playersOf(board = createBoard()): ProfilePlayer[] {
   return playersFromBoard(board.players, labelSquad(board.players), {});
 }
 
-function opponent(patch: Partial<StyleFingerprint> & { shotGrid?: number[][] } = {}): StyleFingerprint & { shotGrid?: number[][] } {
+function opponent(
+  patch: Partial<StyleFingerprint> & { shotGrid?: number[][]; keeperPassLength?: number } = {},
+): StyleFingerprint & { shotGrid?: number[][]; keeperPassLength?: number } {
   return {
     id: "side",
     team: "Side",
@@ -135,6 +137,41 @@ describe("priceChances", () => {
       instructions: { ...DEFAULT_INSTRUCTIONS, distribution: "go long" },
     }).modelXgFor;
     expect(goLong).toBeGreaterThan(playOut);
+  });
+
+  it("keeps an average goalkeeper neutral and prices a longer kick only from a goal kick", () => {
+    const plain = price({ situation: "goal-kicks" }).modelXgAgainst;
+    const average = price({
+      situation: "goal-kicks",
+      opponent: opponent({ keeperPassLength: KEEPER_PASS_MEDIAN }),
+    }).modelXgAgainst;
+    const longer = price({
+      situation: "goal-kicks",
+      opponent: opponent({ keeperPassLength: KEEPER_PASS_MEDIAN + KEEPER_PASS_SPAN }),
+    }).modelXgAgainst;
+    const shorter = price({
+      situation: "goal-kicks",
+      opponent: opponent({ keeperPassLength: KEEPER_PASS_MEDIAN - KEEPER_PASS_SPAN }),
+    }).modelXgAgainst;
+    const openLong = price({
+      situation: "level",
+      opponent: opponent({ keeperPassLength: KEEPER_PASS_MEDIAN + KEEPER_PASS_SPAN }),
+    }).modelXgAgainst;
+    const openPlain = price({ situation: "level" }).modelXgAgainst;
+    expect(average).toBeCloseTo(plain, 4);
+    expect(longer).toBeGreaterThan(plain);
+    expect(shorter).toBeLessThan(plain);
+    expect(longer / plain).toBeCloseTo(1.15, 2);
+    expect(shorter / plain).toBeCloseTo(0.85, 2);
+    expect(openLong).toBeCloseTo(openPlain, 4);
+  });
+
+  it("centers that goal kick on the median keeper in this set", () => {
+    const values = loadStyleLibrary().sides.map((side) => side.keeperPassLength).sort((a, b) => a - b);
+    const median = values[(values.length - 1) / 2];
+    const span = Math.max(values[values.length - 1] - median, median - values[0]);
+    expect(median).toBe(KEEPER_PASS_MEDIAN);
+    expect(Math.round(span * 100) / 100).toBe(KEEPER_PASS_SPAN);
   });
 
   it("gives a side that already shoots more a larger reward for chasing", () => {
