@@ -33,8 +33,8 @@ button {
   position: sticky;
   top: 0;
   z-index: 2;
-  background: var(--plum);
-  color: var(--on-plum);
+  background: var(--bar);
+  color: var(--on-bar);
   box-shadow: var(--shadow-accent);
   padding: calc(2px + env(safe-area-inset-top)) 8px 2px var(--gutter);
 }
@@ -51,6 +51,35 @@ button {
   justify-content: space-between;
   gap: 12px;
   min-height: var(--target);
+}
+
+.masthead-tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.theme-switch {
+  min-height: var(--target);
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: inherit;
+  padding: 0 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.theme-switch[aria-pressed="true"] {
+  background: var(--plum);
+  color: var(--on-plum);
+}
+
+.theme-switch:active {
+  transform: translateY(2px);
 }
 
 .sheet {

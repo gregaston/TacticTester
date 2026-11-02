@@ -37,6 +37,7 @@ import { clearTestHistory } from "./testing/history";
 import { playersFromBoard, readStyle, resolveRole, WIDE_CODES } from "./testing/profile";
 import { InstructionSheet, type InstructionChoice } from "./ui/InstructionSheet";
 import { KeepBar } from "./ui/KeepBar";
+import { applyTheme, loadTheme, saveTheme, type ThemeName } from "./ui/theme";
 import { ClosestSide } from "./ui/ClosestSide";
 import { RoleSheet } from "./ui/RoleSheet";
 import { TemplateBar } from "./ui/TemplateBar";
@@ -126,6 +127,7 @@ export function App() {
     () => opening?.instructions ?? DEFAULT_INSTRUCTIONS,
   );
   const [status, setStatus] = useState<string | null>(null);
+  const [theme, setTheme] = useState<ThemeName>(() => loadTheme(window.localStorage));
   const defensiveY =
     lineLive?.kind === "defensive" ? lineLive.y : defensiveAnchor(instructions.defensiveLine);
   const engagementY =
@@ -271,6 +273,16 @@ export function App() {
     }
   }, [persistKey]);
 
+  function chooseTheme(next: ThemeName) {
+    setTheme(next);
+    applyTheme(next);
+    try {
+      saveTheme(next, window.localStorage);
+    } catch {
+      // The colours still change for this visit.
+    }
+  }
+
   function save() {
     saveTactic(window.localStorage, currentTactic());
     setStatus("Saved on this device");
@@ -298,12 +310,23 @@ export function App() {
       <header className="masthead">
         <div className="masthead-inner">
           <h1>TacticTester</h1>
-          <KeepBar
-            status={status}
-            onSave={save}
-            onShare={() => void share()}
-            onClearHistory={clearHistory}
-          />
+          <div className="masthead-tools">
+            <button
+              type="button"
+              className="theme-switch"
+              aria-pressed={theme === "night"}
+              aria-label="Night mode"
+              onClick={() => chooseTheme(theme === "night" ? "day" : "night")}
+            >
+              Night
+            </button>
+            <KeepBar
+              status={status}
+              onSave={save}
+              onShare={() => void share()}
+              onClearHistory={clearHistory}
+            />
+          </div>
         </div>
       </header>
       <main className="sheet">

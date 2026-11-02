@@ -1,15 +1,15 @@
 .test-sheet {
   margin: 16px var(--gutter) 0;
   padding: 16px 12px;
-  background: var(--plum);
+  background: var(--bar);
   border-radius: var(--radius);
   box-shadow: var(--shadow-accent);
-  color: var(--on-plum);
+  color: var(--on-bar);
 }
 
 .test-sheet .kicker,
 .test-intro {
-  color: var(--on-plum);
+  color: var(--on-bar);
 }
 
 .test-intro {
@@ -37,6 +37,14 @@
 
 .test-run:active {
   transform: translateY(2px);
+}
+
+[data-theme="night"] .test-run {
+  box-shadow: var(--shadow-accent);
+}
+
+[data-theme="night"] .test-overlay {
+  background: rgba(0, 0, 0, 0.72);
 }
 
 .test-run:focus-visible {
@@ -140,8 +148,8 @@
   min-height: var(--target);
   border: 0;
   border-radius: var(--radius);
-  background: var(--plum);
-  color: var(--on-plum);
+  background: var(--bar);
+  color: var(--on-bar);
   box-shadow: var(--shadow);
   padding: 0 12px;
   font-family: var(--font-display);
