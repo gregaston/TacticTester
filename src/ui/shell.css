@@ -283,6 +283,71 @@
   margin: 14px var(--gutter) 0;
 }
 
+/* The bench disappears on a phone, so the pitch, role, and instructions stay in that order. */
+.bench {
+  display: contents;
+}
+
+.role-wait {
+  display: none;
+}
+
+@media (min-width: 1180px) {
+  .masthead-inner,
+  .sheet {
+    max-width: 1180px;
+  }
+
+  .bench {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) auto minmax(280px, 1fr);
+    grid-template-areas: "role pitch instructions";
+    column-gap: 16px;
+    align-items: start;
+  }
+
+  .bench .pitch-frame {
+    grid-area: pitch;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .bench .role-sheet,
+  .bench .role-wait {
+    grid-area: role;
+    margin-right: 0;
+  }
+
+  .bench .instruction-sheet {
+    grid-area: instructions;
+    margin-left: 0;
+  }
+
+  .bench .role-sheet,
+  .bench .role-wait,
+  .bench .instruction-sheet {
+    max-height: min(50vh, 680px);
+    overflow: auto;
+  }
+
+  .role-wait {
+    display: block;
+    margin: 12px 0 0 var(--gutter);
+    padding: 12px;
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .role-wait .kicker {
+    color: var(--accent-ink);
+  }
+
+  .role-wait p:last-child {
+    margin: 8px 0 0;
+  }
+}
+
 .credit a {
   color: var(--accent-ink);
 }
