@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   DEFAULT_INSTRUCTIONS,
   applyInstructions,
-  dutyNudge,
   instructionNotes,
   lineNote,
   readInstructions,
@@ -141,16 +140,6 @@ describe("applyInstructions", () => {
         instructions({ tempo: "higher", mentality: "attacking", shooting: "shoot on sight" }),
       ).shotVolume,
     ).toBeCloseTo(1.26);
-  });
-});
-
-describe("dutyNudge", () => {
-  it("keeps the tapped duty when mentality changes", () => {
-    for (const duty of ["defend", "support", "attack"] as const) {
-      expect(dutyNudge(duty, "balanced")).toBe(duty);
-      expect(dutyNudge(duty, "defensive")).toBe(duty);
-      expect(dutyNudge(duty, "attacking")).toBe(duty);
-    }
   });
 });
 

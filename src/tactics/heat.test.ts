@@ -10,7 +10,7 @@ function instructions(patch: Partial<TeamInstructions>): TeamInstructions {
 }
 
 describe("influencedPoint", () => {
-  const fullBack = effectFor("full-back", "support");
+  const fullBack = effectFor("full-back");
 
   it("matches the role arrival when every instruction is standard", () => {
     const slot = { x: 14, y: 24 };
@@ -53,7 +53,7 @@ describe("influencedPoint", () => {
 
   it("sends shoot-on-sight forwards higher than a side that works the ball", () => {
     const slot = { x: 50, y: 86 };
-    const role = effectFor("advanced-forward", "support");
+    const role = effectFor("advanced-forward");
     const sight = influencedPoint(slot, "ST", role, instructions({ shooting: "shoot on sight" }));
     const worked = influencedPoint(slot, "ST", role, instructions({ shooting: "work the ball" }));
     expect(sight.y).toBeGreaterThan(worked.y);
@@ -81,7 +81,7 @@ function source(
   point: { x: number; y: number },
   line: Parameters<typeof heatField>[0][number]["line"] = "DEF",
 ) {
-  return { ...point, line, roleId, duty: "support" as const };
+  return { ...point, line, roleId };
 }
 
 describe("heatField", () => {

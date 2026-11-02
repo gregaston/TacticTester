@@ -1,5 +1,3 @@
-import type { Duty } from "./roles";
-
 export type PassingDirectness = "shorter" | "standard" | "more direct";
 export type Tempo = "lower" | "standard" | "higher";
 export type WidthSetting = "narrower" | "standard" | "wider";
@@ -132,15 +130,6 @@ const SHOOTING_VOLUME: Record<Shooting, number> = {
   standard: 0,
   "shoot on sight": 0.1,
 };
-
-/**
- * The duty the user tapped is the duty the model prices.
- * Mentality still moves the team's pass length, press, and shot volume.
- * It does not promote a holder off Defend or drop a pressing forward off Support.
- */
-export function dutyNudge(duty: Duty, _mentality: Mentality): Duty {
-  return duty;
-}
 
 /** Press, mentality, and transition only. The two pitch lines move players themselves. */
 export function pressNudge(instructions: TeamInstructions): number {

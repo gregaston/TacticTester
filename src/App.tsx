@@ -30,7 +30,7 @@ import { labelSquad } from "./tactics/positions";
 import { arrivalNote } from "./tactics/arrival";
 import { heatField, influencedPoint } from "./tactics/heat";
 import { decodeTactic, encodeTactic, loadTactic, saveTactic, type SavedTactic } from "./tactics/persist";
-import { effectFor, roleMark, roleName, rolesFor, type Duty, type RoleId } from "./tactics/roles";
+import { effectFor, roleMark, roleName, rolesFor, type RoleId } from "./tactics/roles";
 import { TEMPLATES } from "./tactics/templates";
 import type { PitchPoint, Player } from "./tactics/types";
 import { clearTestHistory } from "./testing/history";
@@ -95,7 +95,7 @@ const SHOOTING: InstructionChoice<TeamInstructions["shooting"]>[] = [
   { value: "shoot on sight", label: "Shoot on sight" },
 ];
 
-type PlayerSetup = { roleId: string; duty: Duty };
+type PlayerSetup = { roleId: string };
 
 function openingFromLocation(): {
   board: BoardState;
@@ -162,17 +162,15 @@ export function App() {
     const label = labels.byId[player.id];
     const choice = resolveRole(label.line, WIDE_CODES.has(label.code), setups[player.id]);
     faces[player.id] = {
-      mark: roleMark(choice.roleId),
-      roleName: roleName(choice.roleId),
-      duty: choice.duty,
+      mark: roleMark(choice),
+      roleName: roleName(choice),
     };
     if (board.selectedId && player.id !== board.selectedId) continue;
     heatPlayers.push({
       x: player.x,
       y: player.y,
       line: label.line,
-      roleId: choice.roleId,
-      duty: choice.duty,
+      roleId: choice,
     });
   }
   const heat = heatField(heatPlayers, instructions, { defensiveY, engagementY });
@@ -233,20 +231,19 @@ export function App() {
   const stored = board.selectedId ? setups[board.selectedId] : undefined;
   const roleId: RoleId | null =
     roleChoices.find((role) => role.id === stored?.roleId)?.id ?? roleChoices[0]?.id ?? null;
-  const duty = stored?.duty ?? "support";
   const selectedPlayer = visualPlayers.find((player) => player.id === board.selectedId) ?? null;
   const arrival =
     selectedPlayer && roleId && selected
       ? arrivalNote(
           selectedPlayer,
-          influencedPoint(selectedPlayer, selected.line, effectFor(roleId, duty), instructions),
+          influencedPoint(selectedPlayer, selected.line, effectFor(roleId), instructions),
         )
       : null;
 
-  function assign(nextRole: string, nextDuty: Duty) {
+  function assign(nextRole: string) {
     if (!board.selectedId) return;
     const id = board.selectedId;
-    setSetups((current) => ({ ...current, [id]: { roleId: nextRole, duty: nextDuty } }));
+    setSetups((current) => ({ ...current, [id]: { roleId: nextRole } }));
   }
 
   function currentTactic(): SavedTactic {
@@ -385,10 +382,8 @@ export function App() {
             positionName={selected.name}
             roles={roleChoices}
             roleId={roleId}
-            duty={duty}
             arrival={arrival}
-            onRole={(id) => assign(id, duty)}
-            onDuty={(next) => assign(roleId, next)}
+            onRole={assign}
           />
         ) : null}
         <InstructionSheet

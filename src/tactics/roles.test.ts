@@ -5,12 +5,10 @@ import {
   roleMark,
   roleName,
   rolesFor,
-  type Duty,
   type RoleId,
 } from "./roles";
 import type { Line } from "./types";
 
-const DUTIES: Duty[] = ["defend", "support", "attack"];
 const LINES: Line[] = ["GK", "DEF", "DM", "CM", "AM", "ST"];
 const RATES = ["passRisk", "shooting", "pressing", "tackling"] as const;
 
@@ -51,152 +49,106 @@ const EXPECTED_IDS: RoleId[] = [
 ];
 
 describe("effectFor", () => {
-  it("puts a poacher on attack higher and shooting more than a deep-lying forward on defend", () => {
-    const poacher = effectFor("poacher", "attack");
-    const forward = effectFor("deep-lying-forward", "defend");
+  it("puts a poacher higher and shooting more than a deep-lying forward", () => {
+    const poacher = effectFor("poacher");
+    const forward = effectFor("deep-lying-forward");
     expect(poacher.shooting).toBeGreaterThan(forward.shooting);
     expect(poacher.y).toBeGreaterThan(forward.y);
   });
 
   it("has a ball-winning midfielder pressing more and passing safer than a deep-lying playmaker", () => {
-    for (const duty of DUTIES) {
-      const winner = effectFor("ball-winning-midfielder", duty);
-      const playmaker = effectFor("deep-lying-playmaker", duty);
-      expect(winner.pressing).toBeGreaterThan(playmaker.pressing);
-      expect(winner.passRisk).toBeLessThan(playmaker.passRisk);
-    }
+    const winner = effectFor("ball-winning-midfielder");
+    const playmaker = effectFor("deep-lying-playmaker");
+    expect(winner.pressing).toBeGreaterThan(playmaker.pressing);
+    expect(winner.passRisk).toBeLessThan(playmaker.passRisk);
   });
 
-  it("puts an inside forward on attack narrower and shooting more than a winger on support", () => {
-    const inside = effectFor("inside-forward", "attack");
-    const winger = effectFor("winger", "support");
+  it("puts an inside forward narrower and shooting more than a winger", () => {
+    const inside = effectFor("inside-forward");
+    const winger = effectFor("winger");
     expect(inside.x).toBeLessThan(winger.x);
     expect(inside.shooting).toBeGreaterThan(winger.shooting);
   });
 
-  it("puts a wing-back on attack higher and wider than a full-back on defend", () => {
-    const wingBack = effectFor("wing-back", "attack");
-    const fullBack = effectFor("full-back", "defend");
+  it("puts a wing-back higher and wider than a full-back", () => {
+    const wingBack = effectFor("wing-back");
+    const fullBack = effectFor("full-back");
     expect(wingBack.y).toBeGreaterThan(fullBack.y);
     expect(wingBack.x).toBeGreaterThan(fullBack.x);
   });
 
-  it("accepts defend, support, and attack on every role", () => {
+  it("gives every role one finite effect", () => {
     expect(ROLES.map((role) => role.id)).toEqual(EXPECTED_IDS);
     for (const role of ROLES) {
       expect(role.summary.endsWith(".")).toBe(true);
       expect(role.summary.slice(0, -1).includes(".")).toBe(false);
-      expect(role.summary.includes("With the ball") && role.summary.includes("without it")).toBe(
-        true,
-      );
-      for (const duty of DUTIES) {
-        const effect = effectFor(role.id, duty);
-        expect(Number.isFinite(effect.x)).toBe(true);
-        expect(Number.isFinite(effect.y)).toBe(true);
-        expect(Number.isFinite(effect.passLength)).toBe(true);
-        for (const rate of RATES) {
-          expect(effect[rate]).toBeGreaterThanOrEqual(0);
-          expect(effect[rate]).toBeLessThanOrEqual(1);
-        }
-      }
-      expect(effectFor(role.id, "support")).toEqual(role.effect);
-    }
-  });
-
-  it("drops defend deeper and eases the tackle on attack, with a smaller goalkeeper shift", () => {
-    for (const role of ROLES) {
-      const support = effectFor(role.id, "support");
-      const defend = effectFor(role.id, "defend");
-      const attack = effectFor(role.id, "attack");
-      expect(defend.y).toBeLessThan(support.y);
-      expect(attack.y).toBeGreaterThan(support.y);
-      expect(defend.shooting).toBeLessThan(support.shooting);
-      expect(defend.passRisk).toBeLessThan(support.passRisk);
-      expect(defend.tackling).toBeGreaterThan(support.tackling);
-      expect(attack.tackling).toBeLessThan(support.tackling);
-      expect(attack.shooting > support.shooting || attack.passRisk > support.passRisk).toBe(true);
-
-      const drop = support.y - defend.y;
-      if (role.id === "goalkeeper" || role.id === "sweeper-keeper") {
-        expect(drop).toBeLessThanOrEqual(4);
-        expect(attack.y - support.y).toBeLessThanOrEqual(4);
-      } else {
-        expect(drop).toBeGreaterThanOrEqual(4);
-        expect(drop).toBeLessThanOrEqual(8);
+      expect(role.summary.includes("With the ball") && role.summary.includes("without it")).toBe(true);
+      const effect = effectFor(role.id);
+      expect(effect).toEqual(role.effect);
+      expect(Number.isFinite(effect.x)).toBe(true);
+      expect(Number.isFinite(effect.y)).toBe(true);
+      expect(Number.isFinite(effect.passLength)).toBe(true);
+      for (const rate of RATES) {
+        expect(effect[rate]).toBeGreaterThanOrEqual(0);
+        expect(effect[rate]).toBeLessThanOrEqual(1);
       }
     }
-
-    expect(effectFor("centre-back", "attack").y).toBeLessThan(6);
-    expect(effectFor("ball-playing-defender", "attack").y).toBe(6);
   });
 
   it("clears first with a no-nonsense centre-back: shorter, safer, and a harder tackle", () => {
-    for (const duty of DUTIES) {
-      const plain = effectFor("centre-back", duty);
-      const none = effectFor("no-nonsense-centre-back", duty);
-      expect(none.passLength).toBeLessThan(plain.passLength);
-      expect(none.passRisk).toBeLessThan(plain.passRisk);
-      expect(none.tackling).toBeGreaterThan(plain.tackling);
-    }
-    expect(effectFor("no-nonsense-centre-back", "attack").y).toBeLessThan(6);
+    const plain = effectFor("centre-back");
+    const none = effectFor("no-nonsense-centre-back");
+    expect(none.passLength).toBeLessThan(plain.passLength);
+    expect(none.passRisk).toBeLessThan(plain.passRisk);
+    expect(none.tackling).toBeGreaterThan(plain.tackling);
+    expect(none.y).toBeLessThan(6);
   });
 
-  it("sits a covering centre-back off the line on support", () => {
-    expect(effectFor("covering-centre-back", "support").y).toBeLessThan(0);
+  it("sits a covering centre-back off the line", () => {
+    expect(effectFor("covering-centre-back").y).toBeLessThan(0);
   });
 
-  it("steps a stopper onto the striker while a centre-back still stays at the line", () => {
-    expect(effectFor("stopper", "support").y).toBeGreaterThan(3);
-    expect(effectFor("stopper", "attack").y).toBeGreaterThan(6);
-    expect(effectFor("centre-back", "attack").y).toBeLessThan(6);
-    expect(effectFor("ball-playing-defender", "attack").y).toBe(6);
+  it("steps a stopper onto the striker while a centre-back stays at the line", () => {
+    expect(effectFor("stopper").y).toBeGreaterThan(effectFor("centre-back").y);
+    expect(effectFor("stopper").y).toBeGreaterThan(3);
+    expect(effectFor("centre-back").y).toBeLessThan(6);
+    expect(effectFor("ball-playing-defender").y).toBeLessThan(6);
   });
 
   it("makes a regista longer and riskier than a deep-lying playmaker", () => {
-    const regista = effectFor("regista", "support");
-    const playmaker = effectFor("deep-lying-playmaker", "support");
+    const regista = effectFor("regista");
+    const playmaker = effectFor("deep-lying-playmaker");
     expect(regista.passLength).toBeGreaterThan(playmaker.passLength);
     expect(regista.passRisk).toBeGreaterThan(playmaker.passRisk);
-    for (const duty of DUTIES) {
-      expect(effectFor("regista", duty).passLength).toBeGreaterThan(
-        effectFor("deep-lying-playmaker", duty).passLength,
-      );
-      expect(effectFor("regista", duty).passRisk).toBeGreaterThan(
-        effectFor("deep-lying-playmaker", duty).passRisk,
-      );
-    }
   });
 
-  it("starts a segundo volante deep and sends the late run in to shoot", () => {
-    const support = effectFor("segundo-volante", "support");
-    const attack = effectFor("segundo-volante", "attack");
-    expect(support.y).toBeLessThan(0);
-    expect(attack.y).toBeGreaterThan(10);
-    expect(attack.shooting).toBeGreaterThan(0.65);
+  it("sends a segundo volante on from a deep slot to shoot", () => {
+    const run = effectFor("segundo-volante");
+    expect(rolesFor("DM", false).map((role) => role.id)).toContain("segundo-volante");
+    expect(run.y).toBeGreaterThan(10);
+    expect(run.shooting).toBeGreaterThan(0.65);
   });
 
-  it("gives a raumdeuter few passes and a high shot on support", () => {
-    const raum = effectFor("raumdeuter", "support");
-    expect(raum.passLength).toBeLessThan(effectFor("winger", "support").passLength);
-    expect(raum.passLength).toBeLessThan(effectFor("inside-forward", "support").passLength);
+  it("gives a raumdeuter few passes and a high shot", () => {
+    const raum = effectFor("raumdeuter");
+    expect(raum.passLength).toBeLessThan(effectFor("winger").passLength);
+    expect(raum.passLength).toBeLessThan(effectFor("inside-forward").passLength);
     expect(raum.shooting).toBeGreaterThan(0.7);
   });
 
   it("drops a false nine in, passing more and shooting less than an advanced forward", () => {
-    expect(effectFor("false-nine", "support").y).toBeLessThan(0);
-    for (const duty of DUTIES) {
-      const nine = effectFor("false-nine", duty);
-      const advanced = effectFor("advanced-forward", duty);
-      expect(nine.passLength).toBeGreaterThan(advanced.passLength);
-      expect(nine.shooting).toBeLessThan(advanced.shooting);
-    }
+    const nine = effectFor("false-nine");
+    const advanced = effectFor("advanced-forward");
+    expect(nine.y).toBeLessThan(0);
+    expect(nine.passLength).toBeGreaterThan(advanced.passLength);
+    expect(nine.shooting).toBeLessThan(advanced.shooting);
   });
 
   it("keeps an enganche in the pocket, risky in possession and quiet out of it", () => {
-    const support = effectFor("enganche", "support");
-    expect(Math.abs(support.y)).toBeLessThanOrEqual(1);
-    expect(support.passRisk).toBeGreaterThan(0.7);
-    expect(support.pressing).toBeLessThan(0.2);
+    const pocket = effectFor("enganche");
+    expect(Math.abs(pocket.y)).toBeLessThanOrEqual(1);
+    expect(pocket.passRisk).toBeGreaterThan(0.7);
+    expect(pocket.pressing).toBeLessThan(0.2);
   });
 });
 
